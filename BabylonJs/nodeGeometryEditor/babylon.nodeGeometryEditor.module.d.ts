@@ -47,7 +47,7 @@ import { MapRangeBlock } from "babylonjs/Meshes/Node/Blocks/mapRangeBlock";
 import { GeometryOptimizeBlock } from "babylonjs/Meshes/Node/Blocks/geometryOptimizeBlock";
 import { IntFloatConverterBlock } from "babylonjs/Meshes/Node/Blocks/intFloatConverterBlock";
 import { ConditionBlock } from "babylonjs/Meshes/Node/Blocks/conditionBlock";
-import { InstantiateLinearBlock } from "babylonjs/Meshes/Node/Blocks//Instances/instantiateLinearBlock";
+import { InstantiateLinearBlock } from "babylonjs/Meshes/Node/Blocks/Instances/instantiateLinearBlock";
 import { InstantiateRadialBlock } from "babylonjs/Meshes/Node/Blocks/Instances/instantiateRadialBlock";
 import { GeometryCollectionBlock } from "babylonjs/Meshes/Node/Blocks/geometryCollectionBlock";
 import { GeometryInfoBlock } from "babylonjs/Meshes/Node/Blocks/geometryInfoBlock";
@@ -57,11 +57,28 @@ import { GeometryTextureBlock } from "babylonjs/Meshes/Node/Blocks/Textures/geom
 import { GeometryTextureFetchBlock } from "babylonjs/Meshes/Node/Blocks/Textures/geometryTextureFetchBlock";
 import { BoundingBlock } from "babylonjs/Meshes/Node/Blocks/boundingBlock";
 import { BooleanGeometryBlock } from "babylonjs/Meshes/Node/Blocks/booleanGeometryBlock";
+import { GeometryArcTan2Block } from "babylonjs/Meshes/Node/Blocks/geometryArcTan2Block";
+import { GeometryLerpBlock } from "babylonjs/Meshes/Node/Blocks/geometryLerpBlock";
+import { GeometryNLerpBlock } from "babylonjs/Meshes/Node/Blocks/geometryNLerpBlock";
+import { GeometrySmoothStepBlock } from "babylonjs/Meshes/Node/Blocks/geometrySmoothStepBlock";
+import { GeometryStepBlock } from "babylonjs/Meshes/Node/Blocks/geometryStepBlock";
+import { GeometryModBlock } from "babylonjs/Meshes/Node/Blocks/geometryModBlock";
+import { GeometryPowBlock } from "babylonjs/Meshes/Node/Blocks/geometryPowBlock";
+import { GeometryClampBlock } from "babylonjs/Meshes/Node/Blocks/geometryClampBlock";
+import { GeometryCrossBlock } from "babylonjs/Meshes/Node/Blocks/geometryCrossBlock";
+import { GeometryCurveBlock } from "babylonjs/Meshes/Node/Blocks/geometryCurveBlock";
+import { GeometryDesaturateBlock } from "babylonjs/Meshes/Node/Blocks/geometryDesaturateBlock";
+import { GeometryPosterizeBlock } from "babylonjs/Meshes/Node/Blocks/geometryPosterizeBlock";
+import { GeometryDistanceBlock } from "babylonjs/Meshes/Node/Blocks/geometryDistanceBlock";
+import { GeometryDotBlock } from "babylonjs/Meshes/Node/Blocks/geometryDotBlock";
+import { GeometryReplaceColorBlock } from "babylonjs/Meshes/Node/Blocks/geometryReplaceColorBlock";
+import { GeometryRotate2dBlock } from "babylonjs/Meshes/Node/Blocks/geometryRotate2dBlock";
+import { GeometryLengthBlock } from "babylonjs/Meshes/Node/Blocks/geometryLengthBlock";
 /**
  * Static class for BlockTools
  */
 export class BlockTools {
-    static GetBlockFromString(data: string): BooleanGeometryBlock | GeometryTextureFetchBlock | GeometryTextureBlock | BoundingBlock | MatrixComposeBlock | GeometryInfoBlock | GeometryCollectionBlock | GeometryOptimizeBlock | NullBlock | TeleportInBlock | TeleportOutBlock | DebugBlock | IntFloatConverterBlock | ConditionBlock | MappingBlock | SetMaterialIDBlock | InstantiateOnVolumeBlock | InstantiateOnFacesBlock | InstantiateOnVerticesBlock | InstantiateBlock | MapRangeBlock | NormalizeVectorBlock | MeshBlock | VectorConverterBlock | TranslationBlock | ScalingBlock | AlignBlock | RotationXBlock | RotationYBlock | RotationZBlock | ComputeNormalsBlock | SetPositionsBlock | SetNormalsBlock | SetColorsBlock | SetTangentsBlock | SetUVsBlock | NoiseBlock | RandomBlock | GeometryOutputBlock | GridBlock | DiscBlock | IcoSphereBlock | BoxBlock | TorusBlock | SphereBlock | CylinderBlock | CapsuleBlock | PlaneBlock | GeometryElbowBlock | MergeGeometryBlock | GeometryTransformBlock | GeometryInputBlock | MathBlock | GeometryTrigonometryBlock | InstantiateLinearBlock | InstantiateRadialBlock | null;
+    static GetBlockFromString(data: string): GeometryRotate2dBlock | GeometryLengthBlock | GeometryDistanceBlock | GeometryDotBlock | GeometryPosterizeBlock | GeometryReplaceColorBlock | GeometryDesaturateBlock | GeometryCurveBlock | GeometryCrossBlock | GeometryClampBlock | BooleanGeometryBlock | GeometryTextureFetchBlock | GeometryTextureBlock | BoundingBlock | MatrixComposeBlock | GeometryInfoBlock | GeometryCollectionBlock | GeometryOptimizeBlock | NullBlock | TeleportInBlock | TeleportOutBlock | DebugBlock | IntFloatConverterBlock | ConditionBlock | GeometryLerpBlock | GeometryNLerpBlock | GeometrySmoothStepBlock | GeometryStepBlock | MappingBlock | SetMaterialIDBlock | InstantiateOnVolumeBlock | InstantiateOnFacesBlock | InstantiateOnVerticesBlock | InstantiateBlock | MapRangeBlock | NormalizeVectorBlock | MeshBlock | VectorConverterBlock | TranslationBlock | ScalingBlock | AlignBlock | RotationXBlock | RotationYBlock | RotationZBlock | ComputeNormalsBlock | SetPositionsBlock | SetNormalsBlock | SetColorsBlock | SetTangentsBlock | SetUVsBlock | NoiseBlock | RandomBlock | GeometryOutputBlock | GridBlock | DiscBlock | IcoSphereBlock | BoxBlock | TorusBlock | SphereBlock | CylinderBlock | CapsuleBlock | PlaneBlock | GeometryElbowBlock | MergeGeometryBlock | GeometryTransformBlock | GeometryModBlock | GeometryPowBlock | GeometryInputBlock | MathBlock | GeometryTrigonometryBlock | GeometryArcTan2Block | InstantiateLinearBlock | InstantiateRadialBlock | null;
     static GetColorFromConnectionNodeType(type: NodeGeometryBlockConnectionPointTypes): string;
     static GetConnectionNodeTypeFromString(type: string): NodeGeometryBlockConnectionPointTypes.Int | NodeGeometryBlockConnectionPointTypes.Float | NodeGeometryBlockConnectionPointTypes.Vector2 | NodeGeometryBlockConnectionPointTypes.Vector3 | NodeGeometryBlockConnectionPointTypes.Vector4 | NodeGeometryBlockConnectionPointTypes.Matrix | NodeGeometryBlockConnectionPointTypes.AutoDetect;
     static GetStringFromConnectionNodeType(type: NodeGeometryBlockConnectionPointTypes): "" | "Int" | "Float" | "Vector2" | "Vector3" | "Vector4" | "Matrix";
@@ -88,7 +105,7 @@ export class LogComponent extends React.Component<ILogComponentProps, {
     constructor(props: ILogComponentProps);
     componentDidMount(): void;
     componentDidUpdate(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -111,7 +128,7 @@ export class NodeListComponent extends React.Component<INodeListComponentProps, 
     filterContent(filter: string): void;
     loadCustomFrame(file: File): void;
     removeItem(value: string): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -136,7 +153,7 @@ export class PreviewAreaComponent extends React.Component<IPreviewAreaComponentP
     changeVertexColor(): void;
     changeMatCap(): void;
     changeTexture(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -194,7 +211,7 @@ export class PreviewMeshControlComponent extends React.Component<IPreviewMeshCon
     changeBackground(value: string): void;
     changeBackgroundClick(): void;
     frame(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -223,8 +240,8 @@ interface IInputsPropertyTabComponentProps {
 export class InputsPropertyTabComponent extends React.Component<IInputsPropertyTabComponentProps> {
     constructor(props: IInputsPropertyTabComponentProps);
     processInputBlockUpdate(): void;
-    renderInputBlock(block: GeometryInputBlock): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -238,7 +255,7 @@ interface IFloatPropertyTabComponentProps {
     inputBlock: GeometryInputBlock;
 }
 export class FloatPropertyTabComponent extends React.Component<IFloatPropertyTabComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -254,7 +271,7 @@ interface IVector2PropertyTabComponentProps {
     lockObject: LockObject;
 }
 export class Vector2PropertyTabComponent extends React.Component<IVector2PropertyTabComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -270,7 +287,7 @@ interface IVector3PropertyTabComponentProps {
     lockObject: LockObject;
 }
 export class Vector3PropertyTabComponent extends React.Component<IVector3PropertyTabComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -286,7 +303,7 @@ interface IVector4PropertyTabComponentProps {
     lockObject: LockObject;
 }
 export class Vector4PropertyTabComponent extends React.Component<IVector4PropertyTabComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -319,7 +336,7 @@ export class PropertyTabComponent extends React.Component<IPropertyTabComponentP
     componentDidMount(): void;
     componentWillUnmount(): void;
     processInputBlockUpdate(): void;
-    renderInputBlock(block: GeometryInputBlock): JSX.Element | null;
+
     load(file: File): void;
     loadFrame(file: File): void;
     save(): void;
@@ -327,7 +344,7 @@ export class PropertyTabComponent extends React.Component<IPropertyTabComponentP
     saveToSnippetServer(): void;
     loadFromSnippet(): void;
     exportAsGLB(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -450,7 +467,7 @@ export class GraphEditor extends React.Component<IGraphEditorProps, IGraphEditor
     createPreviewMeshControlHost: (options: IInternalPreviewAreaOptions, parentControl: Nullable<HTMLElement>) => void;
     createPreviewHost: (options: IInternalPreviewAreaOptions, parentControl: Nullable<HTMLElement>) => void;
     fixPopUpStyles: (document: Document) => void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -460,6 +477,7 @@ import { INodeContainer } from "babylonjs-node-geometry-editor/nodeGraphSystem/i
 import { INodeData } from "babylonjs-node-geometry-editor/nodeGraphSystem/interfaces/nodeData";
 import { IPortData } from "babylonjs-node-geometry-editor/nodeGraphSystem/interfaces/portData";
 import { NodeGeometryBlock } from "babylonjs/Meshes/Node/nodeGeometryBlock";
+import { TeleportOutBlock } from "babylonjs/Meshes/Node/Blocks/Teleport/teleportOutBlock";
 export class BlockNodeData implements INodeData {
     data: NodeGeometryBlock;
     private _inputs;
@@ -482,7 +500,7 @@ export class BlockNodeData implements INodeData {
     isConnectedToOutput(): boolean;
     dispose(): void;
     prepareHeaderIcon(iconDiv: HTMLDivElement, img: HTMLImageElement): void;
-    get invisibleEndpoints(): import("babylonjs/Meshes/Node/Blocks/Teleport/teleportOutBlock").TeleportOutBlock[] | null;
+    get invisibleEndpoints(): TeleportOutBlock[] | null;
     constructor(data: NodeGeometryBlock, nodeContainer: INodeContainer);
 }
 
@@ -648,7 +666,7 @@ export class DebugPropertyTabComponent extends React.Component<IPropertyComponen
     constructor(props: IPropertyComponentProps);
     componentDidMount(): void;
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -671,7 +689,7 @@ export class FrameNodePortPropertyTabComponent extends React.Component<IFrameNod
     private _onSelectionChangedObserver;
     constructor(props: IFrameNodePortPropertyTabComponentProps);
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -688,7 +706,7 @@ export class FramePropertyTabComponent extends React.Component<IFramePropertyTab
     constructor(props: IFramePropertyTabComponentProps);
     componentDidMount(): void;
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -699,18 +717,18 @@ import { NodeGeometryConnectionPoint } from "babylonjs/Meshes/Node/nodeGeometryB
 import { type IEditablePropertyOption } from "babylonjs/Decorators/nodeDecorator";
 export class GenericPropertyComponent extends React.Component<IPropertyComponentProps> {
     constructor(props: IPropertyComponentProps);
-    render(): JSX.Element;
+
 }
 export class GeneralPropertyTabComponent extends React.Component<IPropertyComponentProps> {
     constructor(props: IPropertyComponentProps);
     processUpdate(): void;
-    renderConnectionPoint(point: NodeGeometryConnectionPoint): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 export class GenericPropertyTabComponent extends React.Component<IPropertyComponentProps> {
     constructor(props: IPropertyComponentProps);
     forceRebuild(propertyName: string, notifiers?: IEditablePropertyOption["notifiers"]): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -723,9 +741,9 @@ export class InputPropertyTabComponent extends React.Component<IPropertyComponen
     constructor(props: IPropertyComponentProps);
     componentDidMount(): void;
     componentWillUnmount(): void;
-    renderValue(globalState: GlobalState): JSX.Element | null;
+
     setDefaultValue(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -738,7 +756,7 @@ export class MeshPropertyTabComponent extends React.Component<IPropertyComponent
     constructor(props: IPropertyComponentProps);
     loadMesh(file: File): Promise<void>;
     removeData(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -753,7 +771,7 @@ export interface IFrameNodePortPropertyTabComponentProps {
 export class NodePortPropertyTabComponent extends React.Component<IFrameNodePortPropertyTabComponentProps> {
     constructor(props: IFrameNodePortPropertyTabComponentProps);
     toggleExposeOnFrame(value: boolean): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -765,7 +783,7 @@ export class OutputPropertyTabComponent extends React.Component<IPropertyCompone
     constructor(props: IPropertyComponentProps);
     componentDidMount(): void;
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -777,7 +795,7 @@ export class TeleportOutPropertyTabComponent extends React.Component<IPropertyCo
     constructor(props: IPropertyComponentProps);
     componentDidMount(): void;
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -788,7 +806,7 @@ export class TexturePropertyTabComponent extends React.Component<IPropertyCompon
     constructor(props: IPropertyComponentProps);
     loadTextureData(file: File): Promise<void>;
     removeData(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -923,7 +941,7 @@ export class CheckBoxLineComponent extends React.Component<ICheckBoxLineComponen
         isDisabled: boolean;
     }): boolean;
     onChange(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -935,7 +953,7 @@ export interface IButtonLineComponentProps {
 }
 export class DraggableLineComponent extends React.Component<IButtonLineComponentProps> {
     constructor(props: IButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -951,7 +969,7 @@ export interface IDraggableLineWithButtonComponent {
 }
 export class DraggableLineWithButtonComponent extends React.Component<IDraggableLineWithButtonComponent> {
     constructor(props: IDraggableLineWithButtonComponent);
-    render(): JSX.Element;
+
 }
 
 }
@@ -967,7 +985,7 @@ export class FileButtonLineComponent extends React.Component<IFileButtonLineComp
     private _uploadRef;
     constructor(props: IFileButtonLineComponentProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -984,8 +1002,8 @@ export class LineContainerComponent extends React.Component<ILineContainerCompon
 }> {
     constructor(props: ILineContainerComponentProps);
     switchExpandedState(): void;
-    renderHeader(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1008,7 +1026,7 @@ export class LineWithFileButtonComponent extends React.Component<ILineWithFileBu
     constructor(props: ILineWithFileButtonComponentProps);
     onChange(evt: any): void;
     switchExpandedState(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1045,7 +1063,7 @@ export class TextureLineComponent extends React.Component<ITextureLineComponentP
     componentDidUpdate(): void;
     updatePreview(): void;
     static UpdatePreview(previewCanvas: HTMLCanvasElement, texture: BaseTexture, width: number, options: ITextureLineComponentState, onReady?: () => void, globalState?: any): Promise<void>;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1067,7 +1085,7 @@ export class ColorComponentEntry extends React.Component<IColorComponentEntryPro
     updateValue(valueString: string): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1113,7 +1131,7 @@ export class ColorPicker extends React.Component<IColorPickerProps, IColorPicker
     private _evaluateHue;
     componentDidUpdate(): void;
     raiseOnColorChanged(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1136,7 +1154,7 @@ export class HexColor extends React.Component<IHexColorProps, {
     lock(): void;
     unlock(): void;
     updateHexValue(valueString: string): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1197,7 +1215,7 @@ export class CommandDropdownComponent extends React.Component<ICommandDropdownCo
     activeState: string;
 }> {
     constructor(props: ICommandDropdownComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1233,12 +1251,12 @@ export interface IColorComponentEntryProps {
     disabled?: boolean;
     lockObject: LockObject;
 }
-export class ColorComponentEntry extends React.Component<IColorComponentEntryProps> {
+export class ColorComponentComponentEntry extends React.Component<IColorComponentEntryProps> {
     constructor(props: IColorComponentEntryProps);
     updateValue(valueString: string): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1249,7 +1267,7 @@ import { LockObject } from "babylonjs-node-geometry-editor/tabs/propertyGrids/lo
 /**
  * Interface used to specify creation options for color picker
  */
-export interface IColorPickerProps {
+export interface IColorPickerComponentProps {
     color: Color3 | Color4;
     linearhint?: boolean;
     debugMode?: boolean;
@@ -1267,13 +1285,13 @@ export interface IColorPickerState {
 /**
  * Class used to create a color picker
  */
-export class ColorPicker extends React.Component<IColorPickerProps, IColorPickerState> {
+export class ColorPickerComponent extends React.Component<IColorPickerComponentProps, IColorPickerState> {
     private _saturationRef;
     private _hueRef;
     private _isSaturationPointerDown;
     private _isHuePointerDown;
-    constructor(props: IColorPickerProps);
-    shouldComponentUpdate(nextProps: IColorPickerProps, nextState: IColorPickerState): boolean;
+    constructor(props: IColorPickerComponentProps);
+    shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerState): boolean;
     onSaturationPointerDown(evt: React.PointerEvent<HTMLDivElement>): void;
     onSaturationPointerUp(evt: React.PointerEvent<HTMLDivElement>): void;
     onSaturationPointerMove(evt: React.PointerEvent<HTMLDivElement>): void;
@@ -1284,7 +1302,7 @@ export class ColorPicker extends React.Component<IColorPickerProps, IColorPicker
     private _evaluateHue;
     componentDidUpdate(): void;
     raiseOnColorChanged(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1297,7 +1315,7 @@ export interface IHexColorProps {
     onChange: (value: string) => void;
     lockObject: LockObject;
 }
-export class HexColor extends React.Component<IHexColorProps, {
+export class HexColorComponent extends React.Component<IHexColorProps, {
     hex: string;
 }> {
     constructor(props: IHexColorProps);
@@ -1307,7 +1325,7 @@ export class HexColor extends React.Component<IHexColorProps, {
     lock(): void;
     unlock(): void;
     updateHexValue(valueString: string): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1352,6 +1370,8 @@ export interface IDraggableIconProps {
 }
 /**
  * An icon that can be dragged by the user
+ * @param props properties
+ * @returns draggable icon element
  */
 export const DraggableIcon: FC<IDraggableIconProps>;
 
@@ -1393,6 +1413,8 @@ export interface IFlexibleDragHandlerProps {
 }
 /**
  * This component receives the drop events and updates the layout accordingly
+ * @param props properties
+ * @returns DragHandler element
  */
 export const FlexibleDragHandler: FC<IFlexibleDragHandlerProps>;
 
@@ -1415,6 +1437,8 @@ export interface IFlexibleDropZoneProps {
 /**
  * This component contains the drag and drop zone for the resize bars that
  * allow redefining width and height of layout elements
+ * @param props properties
+ * @returns drop zone element
  */
 export const FlexibleDropZone: FC<IFlexibleDropZoneProps>;
 
@@ -1428,6 +1452,7 @@ export interface IFlexibleGridContainerProps {
 }
 /**
  * Component responsible for mapping the layout to the actual components
+ * @returns GridContainer element
  */
 export const FlexibleGridContainer: FC<IFlexibleGridContainerProps>;
 
@@ -1447,6 +1472,8 @@ export interface IFlexibleGridLayoutProps {
 /**
  * This component represents a grid layout that can be resized and rearranged
  * by the user.
+ * @param props properties
+ * @returns layout element
  */
 export const FlexibleGridLayout: FC<IFlexibleGridLayoutProps>;
 
@@ -1490,6 +1517,8 @@ export type ResizeItem = {
 };
 /**
  * A component that renders a bar that the user can drag to resize.
+ * @param props properties
+ * @returns resize bar element
  */
 export const FlexibleResizeBar: FC<IFlexibleRowResizerProps>;
 
@@ -1527,6 +1556,8 @@ export interface IFlexibleTabProps {
  * to activate or drag to reorder. It also listens for
  * drop events if the user wants to drop another tab
  * after it.
+ * @param props properties
+ * @returns FlexibleTab element
  */
 export const FlexibleTab: FC<IFlexibleTabProps>;
 
@@ -1558,6 +1589,8 @@ export interface IFlexibleTabsContainerProps {
 /**
  * This component contains a set of tabs of which only one is visible at a time.
  * The tabs can also be dragged from and to different containers.
+ * @param props properties
+ * @returns tabs container element
  */
 export const FlexibleTabsContainer: FC<IFlexibleTabsContainerProps>;
 
@@ -1681,11 +1714,15 @@ export const getPosInLayout: (layout: Layout, column: number, row?: number) => L
 export const removeLayoutRowAndRedistributePercentages: (layout: Layout, column: number, row: number) => void;
 /**
  * Add a percentage string to a number
+ * @param p1 the percentage string
+ * @param p2 the number
+ * @returns the sum of the percentage string and the number
  */
 export const addPercentageStringToNumber: (p1: string, p2: number) => number;
 /**
  * Parses a percentage string into a number
  * @param p the percentage string
+ * @returns the parsed number
  */
 export const parsePercentage: (p: string) => number;
 
@@ -1728,7 +1765,7 @@ export class ColorLineComponent extends React.Component<IColorLineComponentProps
     copyToClipboard(): void;
     private _convertToColor;
     private _toColor3;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1737,7 +1774,7 @@ declare module "babylonjs-node-geometry-editor/components/lines/ColorPickerLineC
 import * as React from "react";
 import { Color4, Color3 } from "babylonjs/Maths/math.color";
 import { LockObject } from "babylonjs-node-geometry-editor/tabs/propertyGrids/lockObject";
-export interface IColorPickerComponentProps {
+export interface IColorPickerLineComponentProps {
     value: Color4 | Color3;
     linearHint?: boolean;
     onColorChanged: (newOne: string) => void;
@@ -1752,19 +1789,19 @@ interface IColorPickerComponentState {
     color: Color3 | Color4;
     hex: string;
 }
-export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+export class ColorPickerLineComponent extends React.Component<IColorPickerLineComponentProps, IColorPickerComponentState> {
     private _floatRef;
     private _floatHostRef;
     private _coverRef;
-    constructor(props: IColorPickerComponentProps);
+    constructor(props: IColorPickerLineComponentProps);
     syncPositions(): void;
-    shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-    getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+    shouldComponentUpdate(nextProps: IColorPickerLineComponentProps, nextState: IColorPickerComponentState): boolean;
+    getHexString(props?: Readonly<IColorPickerLineComponentProps> & Readonly<{
         children?: React.ReactNode;
     }>): string;
     componentDidUpdate(): void;
     componentDidMount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1784,7 +1821,7 @@ export class FileButtonLineComponent extends React.Component<IFileButtonLineComp
     private _uploadInputRef;
     constructor(props: IFileButtonLineComponentProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -1817,13 +1854,12 @@ export class NumericInputComponent extends React.Component<INumericInputComponen
     onBlur(): void;
     incrementValue(amount: number): void;
     onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
+
 }
 export {};
 
 }
 declare module "babylonjs-node-geometry-editor/components/lines/OptionsLineComponent" {
-/// <reference types="react" />
 /**
  * This components represents an options menu with optional
  * customizable properties. Option IDs should be unique.
@@ -1842,7 +1878,7 @@ export interface IOptionsLineComponentProps {
     validateNewOptionValue?: (newOptionValue: string) => boolean;
     addOptionText?: string;
 }
-export const OptionsLineComponent: (props: IOptionsLineComponentProps) => JSX.Element;
+
 
 }
 declare module "babylonjs-node-geometry-editor/components/MessageDialog" {
@@ -1897,6 +1933,7 @@ export interface IGraphConnectorHandlerProps {
 /**
  * This component is used to initiate a connection between two nodes. Simply
  * drag the handle in a node and drop it in another node to create a connection.
+ * @returns connector element
  */
 export const GraphConnectorHandler: FC<IGraphConnectorHandlerProps>;
 
@@ -1966,6 +2003,8 @@ export const MarkerArrowId = "arrow";
 /**
  * This component draws a SVG line between two points, with an optional marker
  * indicating direction
+ * @param props properties
+ * @returns graph line element
  */
 export const GraphLine: FC<IGraphLineProps>;
 
@@ -2002,7 +2041,7 @@ export interface IGraphNodeProps {
     highlighted?: boolean;
     parentContainerId: string;
 }
-export const GraphNode: FC<IGraphNodeProps>;
+export const SingleGraphNode: FC<IGraphNodeProps>;
 
 }
 declare module "babylonjs-node-geometry-editor/components/reactGraphSystem/GraphNodesContainer" {
@@ -2013,6 +2052,8 @@ export interface IGraphContainerProps {
 }
 /**
  * This component contains all the nodes and handles their dragging
+ * @param props properties
+ * @returns graph node container element
  */
 export const GraphNodesContainer: FC<IGraphContainerProps>;
 
@@ -2086,7 +2127,7 @@ export interface INodeRendererProps {
  * @param props
  * @returns
  */
-export const NodeRenderer: (props: INodeRendererProps) => JSX.Element;
+
 
 }
 declare module "babylonjs-node-geometry-editor/components/reactGraphSystem/useGraphContext" {
@@ -2098,7 +2139,6 @@ export const useGraphContext: () => import("babylonjs-node-geometry-editor/compo
 
 }
 declare module "babylonjs-node-geometry-editor/components/TextInputWithSubmit" {
-/// <reference types="react" />
 export interface ITextInputProps {
     label?: string;
     placeholder?: string;
@@ -2108,8 +2148,10 @@ export interface ITextInputProps {
 }
 /**
  * This component represents a text input that can be submitted or cancelled on buttons
+ * @param props properties
+ * @returns TextInputWithSubmit element
  */
-export const TextInputWithSubmit: (props: ITextInputProps) => JSX.Element;
+
 
 }
 declare module "babylonjs-node-geometry-editor/components/Toggle" {
@@ -2123,6 +2165,14 @@ export type ToggleProps = {
 export const Toggle: React.FC<ToggleProps>;
 
 }
+declare module "babylonjs-node-geometry-editor/copyCommandToClipboard" {
+export function copyCommandToClipboard(strCommand: string): void;
+export function getClassNameWithNamespace(obj: any): {
+    className: string;
+    babylonNamespace: string;
+};
+
+}
 declare module "babylonjs-node-geometry-editor/lines/booleanLineComponent" {
 import * as React from "react";
 export interface IBooleanLineComponentProps {
@@ -2133,7 +2183,7 @@ export interface IBooleanLineComponentProps {
 }
 export class BooleanLineComponent extends React.Component<IBooleanLineComponentProps> {
     constructor(props: IBooleanLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -2148,7 +2198,7 @@ export interface IButtonLineComponentProps {
 }
 export class ButtonLineComponent extends React.Component<IButtonLineComponentProps> {
     constructor(props: IButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -2187,7 +2237,8 @@ export class CheckBoxLineComponent extends React.Component<ICheckBoxLineComponen
         isConflict: boolean;
     }): boolean;
     onChange(): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 
 }
@@ -2208,7 +2259,7 @@ export interface IColor3LineComponentProps {
     onChange?: () => void;
 }
 export class Color3LineComponent extends React.Component<IColor3LineComponentProps> {
-    render(): JSX.Element;
+
 }
 
 }
@@ -2229,7 +2280,7 @@ export interface IColor4LineComponentProps {
     lockObject: LockObject;
 }
 export class Color4LineComponent extends React.Component<IColor4LineComponentProps> {
-    render(): JSX.Element;
+
 }
 
 }
@@ -2239,7 +2290,7 @@ import { Observable } from "babylonjs/Misc/observable";
 import { Color4 } from "babylonjs/Maths/math.color";
 import { PropertyChangedEvent } from "babylonjs-node-geometry-editor/propertyChangedEvent";
 import { LockObject } from "babylonjs-node-geometry-editor/tabs/propertyGrids/lockObject";
-export interface IColorLineComponentProps {
+export interface IColorLineProps {
     label: string;
     target?: any;
     propertyName: string;
@@ -2255,10 +2306,10 @@ interface IColorLineComponentState {
     isExpanded: boolean;
     color: Color4;
 }
-export class ColorLineComponent extends React.Component<IColorLineComponentProps, IColorLineComponentState> {
-    constructor(props: IColorLineComponentProps);
-    shouldComponentUpdate(nextProps: IColorLineComponentProps, nextState: IColorLineComponentState): boolean;
-    getValue(props?: Readonly<IColorLineComponentProps> & Readonly<{
+export class ColorLine extends React.Component<IColorLineProps, IColorLineComponentState> {
+    constructor(props: IColorLineProps);
+    shouldComponentUpdate(nextProps: IColorLineProps, nextState: IColorLineComponentState): boolean;
+    getValue(props?: Readonly<IColorLineProps> & Readonly<{
         children?: React.ReactNode;
     }>): Color4;
     setColorFromString(colorString: string): void;
@@ -2268,10 +2319,10 @@ export class ColorLineComponent extends React.Component<IColorLineComponentProps
     updateStateG(value: number): void;
     updateStateB(value: number): void;
     updateStateA(value: number): void;
-    copyToClipboard(): void;
     private _convertToColor;
     private _toColor3;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -2280,7 +2331,7 @@ declare module "babylonjs-node-geometry-editor/lines/colorPickerComponent" {
 import * as React from "react";
 import { Color4, Color3 } from "babylonjs/Maths/math.color";
 import { LockObject } from "babylonjs-node-geometry-editor/tabs/propertyGrids/lockObject";
-export interface IColorPickerComponentProps {
+export interface IColorPickerLineProps {
     value: Color4 | Color3;
     linearHint?: boolean;
     onColorChanged: (newOne: string) => void;
@@ -2294,18 +2345,18 @@ interface IColorPickerComponentState {
     color: Color3 | Color4;
     hex: string;
 }
-export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+export class ColorPickerLine extends React.Component<IColorPickerLineProps, IColorPickerComponentState> {
     private _floatRef;
     private _floatHostRef;
-    constructor(props: IColorPickerComponentProps);
+    constructor(props: IColorPickerLineProps);
     syncPositions(): void;
-    shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-    getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+    shouldComponentUpdate(nextProps: IColorPickerLineProps, nextState: IColorPickerComponentState): boolean;
+    getHexString(props?: Readonly<IColorPickerLineProps> & Readonly<{
         children?: React.ReactNode;
     }>): string;
     componentDidUpdate(): void;
     componentDidMount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2318,26 +2369,26 @@ export interface IButtonLineComponentProps {
 }
 export class DraggableLineComponent extends React.Component<IButtonLineComponentProps> {
     constructor(props: IButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
 declare module "babylonjs-node-geometry-editor/lines/fileButtonLineComponent" {
 import * as React from "react";
-interface IFileButtonLineComponentProps {
+interface IFileButtonLineProps {
     label: string;
     onClick: (file: File) => void;
     accept: string;
     icon?: string;
     iconLabel?: string;
 }
-export class FileButtonLineComponent extends React.Component<IFileButtonLineComponentProps> {
+export class FileButtonLine extends React.Component<IFileButtonLineProps> {
     private static _IDGenerator;
     private _id;
     private _uploadInputRef;
-    constructor(props: IFileButtonLineComponentProps);
+    constructor(props: IFileButtonLineProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2357,7 +2408,7 @@ export class FileMultipleButtonLineComponent extends React.Component<IFileMultip
     private _uploadInputRef;
     constructor(props: IFileMultipleButtonLineComponentProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2390,6 +2441,7 @@ interface IFloatLineComponentProps {
     unit?: React.ReactNode;
     onDragStart?: (newValue: number) => void;
     onDragStop?: (newValue: number) => void;
+    disabled?: boolean;
 }
 export class FloatLineComponent extends React.Component<IFloatLineComponentProps, {
     value: string;
@@ -2410,7 +2462,8 @@ export class FloatLineComponent extends React.Component<IFloatLineComponentProps
     unlock(): void;
     incrementValue(amount: number, processStep?: boolean): void;
     onKeyDown(event: React.KeyboardEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -2453,7 +2506,7 @@ export class HexLineComponent extends React.Component<IHexLineComponentProps, {
     updateValue(valueString: string, raisePropertyChanged: boolean): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2468,7 +2521,7 @@ export interface IIconButtonLineComponentProps {
 }
 export class IconButtonLineComponent extends React.Component<IIconButtonLineComponentProps> {
     constructor(props: IIconButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -2479,7 +2532,7 @@ interface IIconComponentProps {
     label?: string;
 }
 export class IconComponent extends React.Component<IIconComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2497,8 +2550,8 @@ interface IIndentedTextLineComponentProps {
 export class IndentedTextLineComponent extends React.Component<IIndentedTextLineComponentProps> {
     constructor(props: IIndentedTextLineComponentProps);
     onLink(): void;
-    renderContent(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -2514,7 +2567,7 @@ export class InputArrowsComponent extends React.Component<IInputArrowsComponentP
     private _drag;
     private _releaseListener;
     private _lockChangeListener;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2541,9 +2594,9 @@ export class LineContainerComponent extends React.Component<ILineContainerCompon
 }> {
     constructor(props: ILineContainerComponentProps);
     switchExpandedState(): void;
-    renderHeader(): JSX.Element;
+
     componentDidMount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2562,7 +2615,7 @@ interface ILinkButtonComponentProps {
 export class LinkButtonComponent extends React.Component<ILinkButtonComponentProps> {
     constructor(props: ILinkButtonComponentProps);
     onLink(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2601,7 +2654,7 @@ export class MatrixLineComponent extends React.Component<IMatrixLineComponentPro
     updateMatrix(): void;
     updateRow(value: Vector4, row: number): void;
     updateBasedOnMode(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2616,7 +2669,7 @@ interface IMessageLineComponentProps {
 }
 export class MessageLineComponent extends React.Component<IMessageLineComponentProps> {
     constructor(props: IMessageLineComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2624,7 +2677,7 @@ export {};
 declare module "babylonjs-node-geometry-editor/lines/numericInputComponent" {
 import * as React from "react";
 import { LockObject } from "babylonjs-node-geometry-editor/tabs/propertyGrids/lockObject";
-interface INumericInputComponentProps {
+interface INumericInputProps {
     label: string;
     value: number;
     step?: number;
@@ -2634,23 +2687,23 @@ interface INumericInputComponentProps {
     iconLabel?: string;
     lockObject: LockObject;
 }
-export class NumericInputComponent extends React.Component<INumericInputComponentProps, {
+export class NumericInput extends React.Component<INumericInputProps, {
     value: string;
 }> {
     static defaultProps: {
         step: number;
     };
     private _localChange;
-    constructor(props: INumericInputComponentProps);
+    constructor(props: INumericInputProps);
     componentWillUnmount(): void;
-    shouldComponentUpdate(nextProps: INumericInputComponentProps, nextState: {
+    shouldComponentUpdate(nextProps: INumericInputProps, nextState: {
         value: string;
     }): boolean;
     updateValue(valueString: string): void;
     onBlur(): void;
     incrementValue(amount: number): void;
     onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2661,7 +2714,7 @@ import { Observable } from "babylonjs/Misc/observable";
 import { PropertyChangedEvent } from "babylonjs-node-geometry-editor/propertyChangedEvent";
 import { IInspectableOptions } from "babylonjs/Misc/iInspectable";
 export const Null_Value: number;
-export interface IOptionsLineComponentProps {
+export interface IOptionsLineProps {
     label: string;
     target: any;
     propertyName: string;
@@ -2677,21 +2730,22 @@ export interface IOptionsLineComponentProps {
     valuesAreStrings?: boolean;
     defaultIfNull?: number;
 }
-export class OptionsLineComponent extends React.Component<IOptionsLineComponentProps, {
+export class OptionsLine extends React.Component<IOptionsLineProps, {
     value: number | string;
 }> {
     private _localChange;
     private _remapValueIn;
     private _remapValueOut;
     private _getValue;
-    constructor(props: IOptionsLineComponentProps);
-    shouldComponentUpdate(nextProps: IOptionsLineComponentProps, nextState: {
+    constructor(props: IOptionsLineProps);
+    shouldComponentUpdate(nextProps: IOptionsLineProps, nextState: {
         value: number;
     }): boolean;
     raiseOnPropertyChanged(newValue: number, previousValue: number): void;
     setValue(value: string | number): void;
     updateValue(valueString: string): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 
 }
@@ -2721,7 +2775,7 @@ export class RadioButtonLineComponent extends React.Component<IRadioButtonLineCo
     componentDidMount(): void;
     componentWillUnmount(): void;
     onChange(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2761,7 +2815,8 @@ export class SliderLineComponent extends React.Component<ISliderLineComponentPro
     onChange(newValueString: any): void;
     onInput(newValueString: any): void;
     prepareDataToRead(value: number): number;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -2829,7 +2884,7 @@ export class TextInputLineComponent extends React.Component<ITextInputLineCompon
     updateValue(value: string, valueToValidate?: string): void;
     incrementValue(amount: number): void;
     onKeyDown(event: React.KeyboardEvent): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -2851,20 +2906,19 @@ interface ITextLineComponentProps {
 export class TextLineComponent extends React.Component<ITextLineComponentProps> {
     constructor(props: ITextLineComponentProps);
     onLink(): void;
-    renderContent(): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 export {};
 
 }
 declare module "babylonjs-node-geometry-editor/lines/unitButton" {
-/// <reference types="react" />
 interface IUnitButtonProps {
     unit: string;
     locked?: boolean;
     onClick?: (unit: string) => void;
 }
-export function UnitButton(props: IUnitButtonProps): JSX.Element;
+
 export {};
 
 }
@@ -2881,7 +2935,7 @@ interface IValueLineComponentProps {
 }
 export class ValueLineComponent extends React.Component<IValueLineComponentProps> {
     constructor(props: IValueLineComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2920,7 +2974,7 @@ export class Vector2LineComponent extends React.Component<IVector2LineComponentP
     raiseOnPropertyChanged(previousValue: Vector2): void;
     updateStateX(value: number): void;
     updateStateY(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2964,7 +3018,8 @@ export class Vector3LineComponent extends React.Component<IVector3LineComponentP
     updateStateX(value: number): void;
     updateStateY(value: number): void;
     updateStateZ(value: number): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -3009,7 +3064,7 @@ export class Vector4LineComponent extends React.Component<IVector4LineComponentP
     updateStateY(value: number): void;
     updateStateZ(value: number): void;
     updateStateW(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3169,7 +3224,7 @@ export class GraphCanvasComponent extends React.Component<IGraphCanvasComponentP
     processEditorData(editorData: IEditorData): void;
     reOrganize(editorData?: Nullable<IEditorData>, isImportingAFrame?: boolean): void;
     addFrame(frameData: IFrameData): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -3664,7 +3719,7 @@ export class SearchBoxComponent extends React.Component<ISearchBoxComponentProps
     onFilterChange(evt: React.ChangeEvent<HTMLInputElement>): void;
     onNewNodeRequested(name: string): void;
     onKeyDown(evt: React.KeyboardEvent): void;
-    render(): JSX.Element | null;
+
 }
 
 }
@@ -3793,7 +3848,7 @@ interface ICheckboxPropertyGridComponentProps {
 }
 export class CheckboxPropertyGridComponent extends React.Component<ICheckboxPropertyGridComponentProps> {
     constructor(props: ICheckboxPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3811,7 +3866,7 @@ interface IColorPickerPropertyGridComponentProps {
 }
 export class ColorPickerPropertyGridComponent extends React.Component<IColorPickerPropertyGridComponentProps> {
     constructor(props: IColorPickerPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3830,8 +3885,8 @@ interface ICommonControlPropertyGridComponentProps {
 }
 export class CommonControlPropertyGridComponent extends React.Component<ICommonControlPropertyGridComponentProps> {
     constructor(props: ICommonControlPropertyGridComponentProps);
-    renderGridInformation(control: Control): JSX.Element | null;
-    render(): JSX.Element | undefined;
+
+
 }
 export {};
 
@@ -3849,7 +3904,7 @@ interface IControlPropertyGridComponentProps {
 }
 export class ControlPropertyGridComponent extends React.Component<IControlPropertyGridComponentProps> {
     constructor(props: IControlPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3867,7 +3922,7 @@ interface IEllipsePropertyGridComponentProps {
 }
 export class EllipsePropertyGridComponent extends React.Component<IEllipsePropertyGridComponentProps> {
     constructor(props: IEllipsePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3885,9 +3940,9 @@ interface IGridPropertyGridComponentProps {
 }
 export class GridPropertyGridComponent extends React.Component<IGridPropertyGridComponentProps> {
     constructor(props: IGridPropertyGridComponentProps);
-    renderRows(): JSX.Element[];
-    renderColumns(): JSX.Element[];
-    render(): JSX.Element;
+
+
+
 }
 export {};
 
@@ -3905,7 +3960,7 @@ interface IImageBasedSliderPropertyGridComponentProps {
 }
 export class ImageBasedSliderPropertyGridComponent extends React.Component<IImageBasedSliderPropertyGridComponentProps> {
     constructor(props: IImageBasedSliderPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3923,7 +3978,7 @@ interface IImagePropertyGridComponentProps {
 }
 export class ImagePropertyGridComponent extends React.Component<IImagePropertyGridComponentProps> {
     constructor(props: IImagePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3941,7 +3996,7 @@ interface IInputTextPropertyGridComponentProps {
 }
 export class InputTextPropertyGridComponent extends React.Component<IInputTextPropertyGridComponentProps> {
     constructor(props: IInputTextPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3960,7 +4015,7 @@ interface ILinePropertyGridComponentProps {
 export class LinePropertyGridComponent extends React.Component<ILinePropertyGridComponentProps> {
     constructor(props: ILinePropertyGridComponentProps);
     onDashChange(value: string): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3978,7 +4033,7 @@ interface IRadioButtonPropertyGridComponentProps {
 }
 export class RadioButtonPropertyGridComponent extends React.Component<IRadioButtonPropertyGridComponentProps> {
     constructor(props: IRadioButtonPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3996,7 +4051,7 @@ interface IRectanglePropertyGridComponentProps {
 }
 export class RectanglePropertyGridComponent extends React.Component<IRectanglePropertyGridComponentProps> {
     constructor(props: IRectanglePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4014,7 +4069,7 @@ interface IScrollViewerPropertyGridComponentProps {
 }
 export class ScrollViewerPropertyGridComponent extends React.Component<IScrollViewerPropertyGridComponentProps> {
     constructor(props: IScrollViewerPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4032,7 +4087,7 @@ interface ISliderPropertyGridComponentProps {
 }
 export class SliderPropertyGridComponent extends React.Component<ISliderPropertyGridComponentProps> {
     constructor(props: ISliderPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4050,7 +4105,7 @@ interface IStackPanelPropertyGridComponentProps {
 }
 export class StackPanelPropertyGridComponent extends React.Component<IStackPanelPropertyGridComponentProps> {
     constructor(props: IStackPanelPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4068,7 +4123,7 @@ interface ITextBlockPropertyGridComponentProps {
 }
 export class TextBlockPropertyGridComponent extends React.Component<ITextBlockPropertyGridComponentProps> {
     constructor(props: ITextBlockPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4096,7 +4151,7 @@ declare module BABYLON.NodeGeometryEditor {
      * Static class for BlockTools
      */
     export class BlockTools {
-        static GetBlockFromString(data: string): BABYLON.BooleanGeometryBlock | BABYLON.GeometryTextureFetchBlock | BABYLON.GeometryTextureBlock | BABYLON.BoundingBlock | BABYLON.MatrixComposeBlock | BABYLON.GeometryInfoBlock | BABYLON.GeometryCollectionBlock | BABYLON.GeometryOptimizeBlock | BABYLON.NullBlock | BABYLON.TeleportInBlock | BABYLON.TeleportOutBlock | BABYLON.DebugBlock | BABYLON.IntFloatConverterBlock | BABYLON.ConditionBlock | BABYLON.MappingBlock | BABYLON.SetMaterialIDBlock | BABYLON.InstantiateOnVolumeBlock | BABYLON.InstantiateOnFacesBlock | BABYLON.InstantiateOnVerticesBlock | BABYLON.InstantiateBlock | BABYLON.MapRangeBlock | BABYLON.NormalizeVectorBlock | BABYLON.MeshBlock | BABYLON.VectorConverterBlock | BABYLON.TranslationBlock | BABYLON.ScalingBlock | BABYLON.AlignBlock | BABYLON.RotationXBlock | BABYLON.RotationYBlock | BABYLON.RotationZBlock | BABYLON.ComputeNormalsBlock | BABYLON.SetPositionsBlock | BABYLON.SetNormalsBlock | BABYLON.SetColorsBlock | BABYLON.SetTangentsBlock | BABYLON.SetUVsBlock | BABYLON.NoiseBlock | BABYLON.RandomBlock | BABYLON.GeometryOutputBlock | BABYLON.GridBlock | BABYLON.DiscBlock | BABYLON.IcoSphereBlock | BABYLON.BoxBlock | BABYLON.TorusBlock | BABYLON.SphereBlock | BABYLON.CylinderBlock | BABYLON.CapsuleBlock | BABYLON.PlaneBlock | BABYLON.GeometryElbowBlock | BABYLON.MergeGeometryBlock | BABYLON.GeometryTransformBlock | BABYLON.GeometryInputBlock | BABYLON.MathBlock | BABYLON.GeometryTrigonometryBlock | BABYLON.InstantiateLinearBlock | BABYLON.InstantiateRadialBlock | null;
+        static GetBlockFromString(data: string): BABYLON.GeometryRotate2dBlock | BABYLON.GeometryLengthBlock | BABYLON.GeometryDistanceBlock | BABYLON.GeometryDotBlock | BABYLON.GeometryPosterizeBlock | BABYLON.GeometryReplaceColorBlock | BABYLON.GeometryDesaturateBlock | BABYLON.GeometryCurveBlock | BABYLON.GeometryCrossBlock | BABYLON.GeometryClampBlock | BABYLON.BooleanGeometryBlock | BABYLON.GeometryTextureFetchBlock | BABYLON.GeometryTextureBlock | BABYLON.BoundingBlock | BABYLON.MatrixComposeBlock | BABYLON.GeometryInfoBlock | BABYLON.GeometryCollectionBlock | BABYLON.GeometryOptimizeBlock | BABYLON.NullBlock | BABYLON.TeleportInBlock | BABYLON.TeleportOutBlock | BABYLON.DebugBlock | BABYLON.IntFloatConverterBlock | BABYLON.ConditionBlock | BABYLON.GeometryLerpBlock | BABYLON.GeometryNLerpBlock | BABYLON.GeometrySmoothStepBlock | BABYLON.GeometryStepBlock | BABYLON.MappingBlock | BABYLON.SetMaterialIDBlock | BABYLON.InstantiateOnVolumeBlock | BABYLON.InstantiateOnFacesBlock | BABYLON.InstantiateOnVerticesBlock | BABYLON.InstantiateBlock | BABYLON.MapRangeBlock | BABYLON.NormalizeVectorBlock | BABYLON.MeshBlock | BABYLON.VectorConverterBlock | BABYLON.TranslationBlock | BABYLON.ScalingBlock | BABYLON.AlignBlock | BABYLON.RotationXBlock | BABYLON.RotationYBlock | BABYLON.RotationZBlock | BABYLON.ComputeNormalsBlock | BABYLON.SetPositionsBlock | BABYLON.SetNormalsBlock | BABYLON.SetColorsBlock | BABYLON.SetTangentsBlock | BABYLON.SetUVsBlock | BABYLON.NoiseBlock | BABYLON.RandomBlock | BABYLON.GeometryOutputBlock | BABYLON.GridBlock | BABYLON.DiscBlock | BABYLON.IcoSphereBlock | BABYLON.BoxBlock | BABYLON.TorusBlock | BABYLON.SphereBlock | BABYLON.CylinderBlock | BABYLON.CapsuleBlock | BABYLON.PlaneBlock | BABYLON.GeometryElbowBlock | BABYLON.MergeGeometryBlock | BABYLON.GeometryTransformBlock | BABYLON.GeometryModBlock | BABYLON.GeometryPowBlock | BABYLON.GeometryInputBlock | BABYLON.MathBlock | BABYLON.GeometryTrigonometryBlock | BABYLON.GeometryArcTan2Block | BABYLON.InstantiateLinearBlock | BABYLON.InstantiateRadialBlock | null;
         static GetColorFromConnectionNodeType(type: BABYLON.NodeGeometryBlockConnectionPointTypes): string;
         static GetConnectionNodeTypeFromString(type: string): BABYLON.NodeGeometryBlockConnectionPointTypes.Int | BABYLON.NodeGeometryBlockConnectionPointTypes.Float | BABYLON.NodeGeometryBlockConnectionPointTypes.Vector2 | BABYLON.NodeGeometryBlockConnectionPointTypes.Vector3 | BABYLON.NodeGeometryBlockConnectionPointTypes.Vector4 | BABYLON.NodeGeometryBlockConnectionPointTypes.Matrix | BABYLON.NodeGeometryBlockConnectionPointTypes.AutoDetect;
         static GetStringFromConnectionNodeType(type: BABYLON.NodeGeometryBlockConnectionPointTypes): "" | "Int" | "Float" | "Vector2" | "Vector3" | "Vector4" | "Matrix";
@@ -4119,7 +4174,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: ILogComponentProps);
         componentDidMount(): void;
         componentDidUpdate(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4137,7 +4192,7 @@ declare module BABYLON.NodeGeometryEditor {
         filterContent(filter: string): void;
         loadCustomFrame(file: File): void;
         removeItem(value: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4158,7 +4213,7 @@ declare module BABYLON.NodeGeometryEditor {
         changeVertexColor(): void;
         changeMatCap(): void;
         changeTexture(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4209,7 +4264,7 @@ declare module BABYLON.NodeGeometryEditor {
         changeBackground(value: string): void;
         changeBackgroundClick(): void;
         frame(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4230,8 +4285,8 @@ declare module BABYLON.NodeGeometryEditor {
     export class InputsPropertyTabComponent extends React.Component<IInputsPropertyTabComponentProps> {
         constructor(props: IInputsPropertyTabComponentProps);
         processInputBlockUpdate(): void;
-        renderInputBlock(block: BABYLON.GeometryInputBlock): JSX.Element | null;
-        render(): JSX.Element;
+        renderInputBlock(block: BABYLON.GeometryInputBlock): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4240,7 +4295,7 @@ declare module BABYLON.NodeGeometryEditor {
         inputBlock: BABYLON.GeometryInputBlock;
     }
     export class FloatPropertyTabComponent extends React.Component<IFloatPropertyTabComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4250,7 +4305,7 @@ declare module BABYLON.NodeGeometryEditor {
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
     export class Vector2PropertyTabComponent extends React.Component<IVector2PropertyTabComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4260,7 +4315,7 @@ declare module BABYLON.NodeGeometryEditor {
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
     export class Vector3PropertyTabComponent extends React.Component<IVector3PropertyTabComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4270,7 +4325,7 @@ declare module BABYLON.NodeGeometryEditor {
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
     export class Vector4PropertyTabComponent extends React.Component<IVector4PropertyTabComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4291,7 +4346,7 @@ declare module BABYLON.NodeGeometryEditor {
         componentDidMount(): void;
         componentWillUnmount(): void;
         processInputBlockUpdate(): void;
-        renderInputBlock(block: BABYLON.GeometryInputBlock): JSX.Element | null;
+        renderInputBlock(block: BABYLON.GeometryInputBlock): import("react/jsx-runtime").JSX.Element | null;
         load(file: File): void;
         loadFrame(file: File): void;
         save(): void;
@@ -4299,7 +4354,7 @@ declare module BABYLON.NodeGeometryEditor {
         saveToSnippetServer(): void;
         loadFromSnippet(): void;
         exportAsGLB(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4399,7 +4454,7 @@ declare module BABYLON.NodeGeometryEditor {
         createPreviewMeshControlHost: (options: IInternalPreviewAreaOptions, parentControl: BABYLON.Nullable<HTMLElement>) => void;
         createPreviewHost: (options: IInternalPreviewAreaOptions, parentControl: BABYLON.Nullable<HTMLElement>) => void;
         fixPopUpStyles: (document: Document) => void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4425,7 +4480,7 @@ declare module BABYLON.NodeGeometryEditor {
         isConnectedToOutput(): boolean;
         dispose(): void;
         prepareHeaderIcon(iconDiv: HTMLDivElement, img: HTMLImageElement): void;
-        get invisibleEndpoints(): import("core/Meshes/Node/Blocks/Teleport/teleportOutBlock").TeleportOutBlock[] | null;
+        get invisibleEndpoints(): BABYLON.TeleportOutBlock[] | null;
         constructor(data: BABYLON.NodeGeometryBlock, nodeContainer: BABYLON.NodeGeometryEditor.SharedUIComponents.INodeContainer);
     }
 
@@ -4549,7 +4604,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         componentDidMount(): void;
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4566,7 +4621,7 @@ declare module BABYLON.NodeGeometryEditor {
         private _onSelectionChangedObserver;
         constructor(props: IFrameNodePortPropertyTabComponentProps);
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4579,24 +4634,24 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: IFramePropertyTabComponentProps);
         componentDidMount(): void;
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
     export class GenericPropertyComponent extends React.Component<BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps> {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
     export class GeneralPropertyTabComponent extends React.Component<BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps> {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         processUpdate(): void;
-        renderConnectionPoint(point: BABYLON.NodeGeometryConnectionPoint): JSX.Element | null;
-        render(): JSX.Element;
+        renderConnectionPoint(point: BABYLON.NodeGeometryConnectionPoint): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
     export class GenericPropertyTabComponent extends React.Component<BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps> {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         forceRebuild(propertyName: string, notifiers?: IEditablePropertyOption["notifiers"]): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4605,9 +4660,9 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         componentDidMount(): void;
         componentWillUnmount(): void;
-        renderValue(globalState: GlobalState): JSX.Element | null;
+        renderValue(globalState: GlobalState): import("react/jsx-runtime").JSX.Element | null;
         setDefaultValue(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4617,7 +4672,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         loadMesh(file: File): Promise<void>;
         removeData(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4628,7 +4683,7 @@ declare module BABYLON.NodeGeometryEditor {
     export class NodePortPropertyTabComponent extends React.Component<IFrameNodePortPropertyTabComponentProps> {
         constructor(props: IFrameNodePortPropertyTabComponentProps);
         toggleExposeOnFrame(value: boolean): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4637,7 +4692,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         componentDidMount(): void;
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4646,7 +4701,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         componentDidMount(): void;
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4654,7 +4709,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: BABYLON.NodeGeometryEditor.SharedUIComponents.IPropertyComponentProps);
         loadTextureData(file: File): Promise<void>;
         removeData(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4751,7 +4806,7 @@ declare module BABYLON.NodeGeometryEditor {
             isDisabled: boolean;
         }): boolean;
         onChange(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4761,7 +4816,7 @@ declare module BABYLON.NodeGeometryEditor {
     }
     export class DraggableLineComponent extends React.Component<IButtonLineComponentProps> {
         constructor(props: IButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4775,7 +4830,7 @@ declare module BABYLON.NodeGeometryEditor {
     }
     export class DraggableLineWithButtonComponent extends React.Component<IDraggableLineWithButtonComponent> {
         constructor(props: IDraggableLineWithButtonComponent);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4789,7 +4844,7 @@ declare module BABYLON.NodeGeometryEditor {
         private _uploadRef;
         constructor(props: IFileButtonLineComponentProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4803,8 +4858,8 @@ declare module BABYLON.NodeGeometryEditor {
     }> {
         constructor(props: ILineContainerComponentProps);
         switchExpandedState(): void;
-        renderHeader(): JSX.Element;
-        render(): JSX.Element;
+        renderHeader(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4824,7 +4879,7 @@ declare module BABYLON.NodeGeometryEditor {
         constructor(props: ILineWithFileButtonComponentProps);
         onChange(evt: any): void;
         switchExpandedState(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4856,7 +4911,7 @@ declare module BABYLON.NodeGeometryEditor {
         componentDidUpdate(): void;
         updatePreview(): void;
         static UpdatePreview(previewCanvas: HTMLCanvasElement, texture: BABYLON.BaseTexture, width: number, options: ITextureLineComponentState, onReady?: () => void, globalState?: any): Promise<void>;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4877,7 +4932,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateValue(valueString: string): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4924,7 +4979,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         private _evaluateHue;
         componentDidUpdate(): void;
         raiseOnColorChanged(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -4950,7 +5005,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         lock(): void;
         unlock(): void;
         updateHexValue(valueString: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5023,7 +5078,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         activeState: string;
     }> {
         constructor(props: ICommandDropdownComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5071,12 +5126,12 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         disabled?: boolean;
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
-    export class ColorComponentEntry extends React.Component<IColorComponentEntryProps> {
+    export class ColorComponentComponentEntry extends React.Component<IColorComponentEntryProps> {
         constructor(props: IColorComponentEntryProps);
         updateValue(valueString: string): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5089,7 +5144,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         /**
      * Interface used to specify creation options for color picker
      */
-    export interface IColorPickerProps {
+    export interface IColorPickerComponentProps {
         color: BABYLON.Color3 | BABYLON.Color4;
         linearhint?: boolean;
         debugMode?: boolean;
@@ -5107,13 +5162,13 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     /**
      * Class used to create a color picker
      */
-    export class ColorPicker extends React.Component<IColorPickerProps, IColorPickerState> {
+    export class ColorPickerComponent extends React.Component<IColorPickerComponentProps, IColorPickerState> {
         private _saturationRef;
         private _hueRef;
         private _isSaturationPointerDown;
         private _isHuePointerDown;
-        constructor(props: IColorPickerProps);
-        shouldComponentUpdate(nextProps: IColorPickerProps, nextState: IColorPickerState): boolean;
+        constructor(props: IColorPickerComponentProps);
+        shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerState): boolean;
         onSaturationPointerDown(evt: React.PointerEvent<HTMLDivElement>): void;
         onSaturationPointerUp(evt: React.PointerEvent<HTMLDivElement>): void;
         onSaturationPointerMove(evt: React.PointerEvent<HTMLDivElement>): void;
@@ -5124,7 +5179,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         private _evaluateHue;
         componentDidUpdate(): void;
         raiseOnColorChanged(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5140,7 +5195,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         onChange: (value: string) => void;
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
-    export class HexColor extends React.Component<IHexColorProps, {
+    export class HexColorComponent extends React.Component<IHexColorProps, {
         hex: string;
     }> {
         constructor(props: IHexColorProps);
@@ -5150,7 +5205,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         lock(): void;
         unlock(): void;
         updateHexValue(valueString: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5207,6 +5262,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     /**
      * An icon that can be dragged by the user
+     * @param props properties
+     * @returns draggable icon element
      */
     export var DraggableIcon: React.FC<IDraggableIconProps>;
 
@@ -5256,6 +5313,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     /**
      * This component receives the drop events and updates the layout accordingly
+     * @param props properties
+     * @returns DragHandler element
      */
     export var FlexibleDragHandler: React.FC<IFlexibleDragHandlerProps>;
 
@@ -5282,6 +5341,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     /**
      * This component contains the drag and drop zone for the resize bars that
      * allow redefining width and height of layout elements
+     * @param props properties
+     * @returns drop zone element
      */
     export var FlexibleDropZone: React.FC<IFlexibleDropZoneProps>;
 
@@ -5299,6 +5360,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     /**
      * Component responsible for mapping the layout to the actual components
+     * @returns GridContainer element
      */
     export var FlexibleGridContainer: React.FC<IFlexibleGridContainerProps>;
 
@@ -5321,6 +5383,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     /**
      * This component represents a grid layout that can be resized and rearranged
      * by the user.
+     * @param props properties
+     * @returns layout element
      */
     export var FlexibleGridLayout: React.FC<IFlexibleGridLayoutProps>;
 
@@ -5367,6 +5431,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     };
     /**
      * A component that renders a bar that the user can drag to resize.
+     * @param props properties
+     * @returns resize bar element
      */
     export var FlexibleResizeBar: React.FC<IFlexibleRowResizerProps>;
 
@@ -5407,6 +5473,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
      * to activate or drag to reorder. It also listens for
      * drop events if the user wants to drop another tab
      * after it.
+     * @param props properties
+     * @returns FlexibleTab element
      */
     export var FlexibleTab: React.FC<IFlexibleTabProps>;
 
@@ -5441,6 +5509,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     /**
      * This component contains a set of tabs of which only one is visible at a time.
      * The tabs can also be dragged from and to different containers.
+     * @param props properties
+     * @returns tabs container element
      */
     export var FlexibleTabsContainer: React.FC<IFlexibleTabsContainerProps>;
 
@@ -5576,11 +5646,15 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     export const removeLayoutRowAndRedistributePercentages: (layout: BABYLON.NodeGeometryEditor.SharedUIComponents.Layout, column: number, row: number) => void;
     /**
      * Add a percentage string to a number
+     * @param p1 the percentage string
+     * @param p2 the number
+     * @returns the sum of the percentage string and the number
      */
     export const addPercentageStringToNumber: (p1: string, p2: number) => number;
     /**
      * Parses a percentage string into a number
      * @param p the percentage string
+     * @returns the parsed number
      */
     export const parsePercentage: (p: string) => number;
 
@@ -5623,7 +5697,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         copyToClipboard(): void;
         private _convertToColor;
         private _toColor3;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5633,7 +5707,7 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        export interface IColorPickerComponentProps {
+        export interface IColorPickerLineComponentProps {
         value: BABYLON.Color4 | BABYLON.Color3;
         linearHint?: boolean;
         onColorChanged: (newOne: string) => void;
@@ -5648,19 +5722,19 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         color: BABYLON.Color3 | BABYLON.Color4;
         hex: string;
     }
-    export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+    export class ColorPickerLineComponent extends React.Component<IColorPickerLineComponentProps, IColorPickerComponentState> {
         private _floatRef;
         private _floatHostRef;
         private _coverRef;
-        constructor(props: IColorPickerComponentProps);
+        constructor(props: IColorPickerLineComponentProps);
         syncPositions(): void;
-        shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-        getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+        shouldComponentUpdate(nextProps: IColorPickerLineComponentProps, nextState: IColorPickerComponentState): boolean;
+        getHexString(props?: Readonly<IColorPickerLineComponentProps> & Readonly<{
             children?: React.ReactNode;
         }>): string;
         componentDidUpdate(): void;
         componentDidMount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5683,7 +5757,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         private _uploadInputRef;
         constructor(props: IFileButtonLineComponentProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5719,7 +5793,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         onBlur(): void;
         incrementValue(amount: number): void;
         onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -5729,8 +5803,7 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        /// <reference types="react" />
-    /**
+        /**
      * This components represents an options menu with optional
      * customizable properties. Option IDs should be unique.
      */
@@ -5748,7 +5821,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         validateNewOptionValue?: (newOptionValue: string) => boolean;
         addOptionText?: string;
     }
-    export const OptionsLineComponent: (props: IOptionsLineComponentProps) => JSX.Element;
+    export const OptionsLineComponent: (props: IOptionsLineComponentProps) => import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -5811,6 +5884,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     /**
      * This component is used to initiate a connection between two nodes. Simply
      * drag the handle in a node and drop it in another node to create a connection.
+     * @returns connector element
      */
     export var GraphConnectorHandler: React.FC<IGraphConnectorHandlerProps>;
 
@@ -5893,6 +5967,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     /**
      * This component draws a SVG line between two points, with an optional marker
      * indicating direction
+     * @param props properties
+     * @returns graph line element
      */
     export var GraphLine: React.FC<IGraphLineProps>;
 
@@ -5937,7 +6013,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         highlighted?: boolean;
         parentContainerId: string;
     }
-    export var GraphNode: React.FC<IGraphNodeProps>;
+    export var SingleGraphNode: React.FC<IGraphNodeProps>;
 
 
 
@@ -5952,6 +6028,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     /**
      * This component contains all the nodes and handles their dragging
+     * @param props properties
+     * @returns graph node container element
      */
     export var GraphNodesContainer: React.FC<IGraphContainerProps>;
 
@@ -6028,7 +6106,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
      * @param props
      * @returns
      */
-    export const NodeRenderer: (props: INodeRendererProps) => JSX.Element;
+    export const NodeRenderer: (props: INodeRendererProps) => import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -6050,8 +6128,7 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        /// <reference types="react" />
-    export interface ITextInputProps {
+        export interface ITextInputProps {
         label?: string;
         placeholder?: string;
         submitValue: (newValue: string) => void;
@@ -6060,8 +6137,10 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     /**
      * This component represents a text input that can be submitted or cancelled on buttons
+     * @param props properties
+     * @returns TextInputWithSubmit element
      */
-    export const TextInputWithSubmit: (props: ITextInputProps) => JSX.Element;
+    export const TextInputWithSubmit: (props: ITextInputProps) => import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -6086,6 +6165,19 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
+        export function copyCommandToClipboard(strCommand: string): void;
+    export function getClassNameWithNamespace(obj: any): {
+        className: string;
+        babylonNamespace: string;
+    };
+
+
+
+}
+declare module BABYLON.NodeGeometryEditor {
+
+}
+declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         export interface IBooleanLineComponentProps {
         label: string;
         value: boolean;
@@ -6094,7 +6186,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class BooleanLineComponent extends React.Component<IBooleanLineComponentProps> {
         constructor(props: IBooleanLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6113,7 +6205,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ButtonLineComponent extends React.Component<IButtonLineComponentProps> {
         constructor(props: IButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6153,7 +6245,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
             isConflict: boolean;
         }): boolean;
         onChange(): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6175,7 +6268,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         onChange?: () => void;
     }
     export class Color3LineComponent extends React.Component<IColor3LineComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6197,7 +6290,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
     export class Color4LineComponent extends React.Component<IColor4LineComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6207,7 +6300,7 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        export interface IColorLineComponentProps {
+        export interface IColorLineProps {
         label: string;
         target?: any;
         propertyName: string;
@@ -6223,10 +6316,10 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         isExpanded: boolean;
         color: BABYLON.Color4;
     }
-    export class ColorLineComponent extends React.Component<IColorLineComponentProps, IColorLineComponentState> {
-        constructor(props: IColorLineComponentProps);
-        shouldComponentUpdate(nextProps: IColorLineComponentProps, nextState: IColorLineComponentState): boolean;
-        getValue(props?: Readonly<IColorLineComponentProps> & Readonly<{
+    export class ColorLine extends React.Component<IColorLineProps, IColorLineComponentState> {
+        constructor(props: IColorLineProps);
+        shouldComponentUpdate(nextProps: IColorLineProps, nextState: IColorLineComponentState): boolean;
+        getValue(props?: Readonly<IColorLineProps> & Readonly<{
             children?: React.ReactNode;
         }>): BABYLON.Color4;
         setColorFromString(colorString: string): void;
@@ -6236,10 +6329,10 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateStateG(value: number): void;
         updateStateB(value: number): void;
         updateStateA(value: number): void;
-        copyToClipboard(): void;
         private _convertToColor;
         private _toColor3;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6249,7 +6342,7 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        export interface IColorPickerComponentProps {
+        export interface IColorPickerLineProps {
         value: BABYLON.Color4 | BABYLON.Color3;
         linearHint?: boolean;
         onColorChanged: (newOne: string) => void;
@@ -6263,18 +6356,18 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         color: BABYLON.Color3 | BABYLON.Color4;
         hex: string;
     }
-    export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+    export class ColorPickerLine extends React.Component<IColorPickerLineProps, IColorPickerComponentState> {
         private _floatRef;
         private _floatHostRef;
-        constructor(props: IColorPickerComponentProps);
+        constructor(props: IColorPickerLineProps);
         syncPositions(): void;
-        shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-        getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+        shouldComponentUpdate(nextProps: IColorPickerLineProps, nextState: IColorPickerComponentState): boolean;
+        getHexString(props?: Readonly<IColorPickerLineProps> & Readonly<{
             children?: React.ReactNode;
         }>): string;
         componentDidUpdate(): void;
         componentDidMount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6290,7 +6383,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class DraggableLineComponent extends React.Component<IButtonLineComponentProps> {
         constructor(props: IButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6300,20 +6393,20 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        interface IFileButtonLineComponentProps {
+        interface IFileButtonLineProps {
         label: string;
         onClick: (file: File) => void;
         accept: string;
         icon?: string;
         iconLabel?: string;
     }
-    export class FileButtonLineComponent extends React.Component<IFileButtonLineComponentProps> {
+    export class FileButtonLine extends React.Component<IFileButtonLineProps> {
         private static _IDGenerator;
         private _id;
         private _uploadInputRef;
-        constructor(props: IFileButtonLineComponentProps);
+        constructor(props: IFileButtonLineProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6336,7 +6429,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         private _uploadInputRef;
         constructor(props: IFileMultipleButtonLineComponentProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6369,6 +6462,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         unit?: React.ReactNode;
         onDragStart?: (newValue: number) => void;
         onDragStop?: (newValue: number) => void;
+        disabled?: boolean;
     }
     export class FloatLineComponent extends React.Component<IFloatLineComponentProps, {
         value: string;
@@ -6389,7 +6483,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         unlock(): void;
         incrementValue(amount: number, processStep?: boolean): void;
         onKeyDown(event: React.KeyboardEvent<HTMLInputElement>): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6432,7 +6527,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateValue(valueString: string, raisePropertyChanged: boolean): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6450,7 +6545,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class IconButtonLineComponent extends React.Component<IIconButtonLineComponentProps> {
         constructor(props: IIconButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6465,7 +6560,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         label?: string;
     }
     export class IconComponent extends React.Component<IIconComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6486,8 +6581,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     export class IndentedTextLineComponent extends React.Component<IIndentedTextLineComponentProps> {
         constructor(props: IIndentedTextLineComponentProps);
         onLink(): void;
-        renderContent(): JSX.Element;
-        render(): JSX.Element;
+        renderContent(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6506,7 +6601,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         private _drag;
         private _releaseListener;
         private _lockChangeListener;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6540,9 +6635,9 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }> {
         constructor(props: ILineContainerComponentProps);
         switchExpandedState(): void;
-        renderHeader(): JSX.Element;
+        renderHeader(): import("react/jsx-runtime").JSX.Element;
         componentDidMount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6563,7 +6658,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     export class LinkButtonComponent extends React.Component<ILinkButtonComponentProps> {
         constructor(props: ILinkButtonComponentProps);
         onLink(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6600,7 +6695,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateMatrix(): void;
         updateRow(value: BABYLON.Vector4, row: number): void;
         updateBasedOnMode(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6617,7 +6712,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class MessageLineComponent extends React.Component<IMessageLineComponentProps> {
         constructor(props: IMessageLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6627,7 +6722,7 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        interface INumericInputComponentProps {
+        interface INumericInputProps {
         label: string;
         value: number;
         step?: number;
@@ -6637,23 +6732,23 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         iconLabel?: string;
         lockObject: BABYLON.NodeGeometryEditor.SharedUIComponents.LockObject;
     }
-    export class NumericInputComponent extends React.Component<INumericInputComponentProps, {
+    export class NumericInput extends React.Component<INumericInputProps, {
         value: string;
     }> {
         static defaultProps: {
             step: number;
         };
         private _localChange;
-        constructor(props: INumericInputComponentProps);
+        constructor(props: INumericInputProps);
         componentWillUnmount(): void;
-        shouldComponentUpdate(nextProps: INumericInputComponentProps, nextState: {
+        shouldComponentUpdate(nextProps: INumericInputProps, nextState: {
             value: string;
         }): boolean;
         updateValue(valueString: string): void;
         onBlur(): void;
         incrementValue(amount: number): void;
         onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6664,7 +6759,7 @@ declare module BABYLON.NodeGeometryEditor {
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         export var Null_Value: number;
-    export interface IOptionsLineComponentProps {
+    export interface IOptionsLineProps {
         label: string;
         target: any;
         propertyName: string;
@@ -6680,21 +6775,22 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         valuesAreStrings?: boolean;
         defaultIfNull?: number;
     }
-    export class OptionsLineComponent extends React.Component<IOptionsLineComponentProps, {
+    export class OptionsLine extends React.Component<IOptionsLineProps, {
         value: number | string;
     }> {
         private _localChange;
         private _remapValueIn;
         private _remapValueOut;
         private _getValue;
-        constructor(props: IOptionsLineComponentProps);
-        shouldComponentUpdate(nextProps: IOptionsLineComponentProps, nextState: {
+        constructor(props: IOptionsLineProps);
+        shouldComponentUpdate(nextProps: IOptionsLineProps, nextState: {
             value: number;
         }): boolean;
         raiseOnPropertyChanged(newValue: number, previousValue: number): void;
         setValue(value: string | number): void;
         updateValue(valueString: string): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6732,7 +6828,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         componentDidMount(): void;
         componentWillUnmount(): void;
         onChange(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6772,7 +6868,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         onChange(newValueString: any): void;
         onInput(newValueString: any): void;
         prepareDataToRead(value: number): number;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6843,7 +6940,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateValue(value: string, valueToValidate?: string): void;
         incrementValue(amount: number): void;
         onKeyDown(event: React.KeyboardEvent): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6869,8 +6966,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     export class TextLineComponent extends React.Component<ITextLineComponentProps> {
         constructor(props: ITextLineComponentProps);
         onLink(): void;
-        renderContent(): JSX.Element | null;
-        render(): JSX.Element;
+        renderContent(): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6880,13 +6977,12 @@ declare module BABYLON.NodeGeometryEditor {
 
 }
 declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
-        /// <reference types="react" />
-    interface IUnitButtonProps {
+        interface IUnitButtonProps {
         unit: string;
         locked?: boolean;
         onClick?: (unit: string) => void;
     }
-    export function UnitButton(props: IUnitButtonProps): JSX.Element;
+    export function UnitButton(props: IUnitButtonProps): import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -6906,7 +7002,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ValueLineComponent extends React.Component<IValueLineComponentProps> {
         constructor(props: IValueLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6944,7 +7040,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         raiseOnPropertyChanged(previousValue: BABYLON.Vector2): void;
         updateStateX(value: number): void;
         updateStateY(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -6987,7 +7083,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateStateX(value: number): void;
         updateStateY(value: number): void;
         updateStateZ(value: number): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7031,7 +7128,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         updateStateY(value: number): void;
         updateStateZ(value: number): void;
         updateStateW(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7186,7 +7283,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         processEditorData(editorData: BABYLON.NodeGeometryEditor.SharedUIComponents.IEditorData): void;
         reOrganize(editorData?: BABYLON.Nullable<BABYLON.NodeGeometryEditor.SharedUIComponents.IEditorData>, isImportingAFrame?: boolean): void;
         addFrame(frameData: BABYLON.NodeGeometryEditor.SharedUIComponents.IFrameData): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7699,7 +7796,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
         onFilterChange(evt: React.ChangeEvent<HTMLInputElement>): void;
         onNewNodeRequested(name: string): void;
         onKeyDown(evt: React.KeyboardEvent): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -7837,7 +7934,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class CheckboxPropertyGridComponent extends React.Component<ICheckboxPropertyGridComponentProps> {
         constructor(props: ICheckboxPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7854,7 +7951,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ColorPickerPropertyGridComponent extends React.Component<IColorPickerPropertyGridComponentProps> {
         constructor(props: IColorPickerPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7872,8 +7969,8 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class CommonControlPropertyGridComponent extends React.Component<ICommonControlPropertyGridComponentProps> {
         constructor(props: ICommonControlPropertyGridComponentProps);
-        renderGridInformation(control: BABYLON.GUI.Control): JSX.Element | null;
-        render(): JSX.Element | undefined;
+        renderGridInformation(control: BABYLON.GUI.Control): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | undefined;
     }
 
 
@@ -7890,7 +7987,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ControlPropertyGridComponent extends React.Component<IControlPropertyGridComponentProps> {
         constructor(props: IControlPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7907,7 +8004,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class EllipsePropertyGridComponent extends React.Component<IEllipsePropertyGridComponentProps> {
         constructor(props: IEllipsePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7924,9 +8021,9 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class GridPropertyGridComponent extends React.Component<IGridPropertyGridComponentProps> {
         constructor(props: IGridPropertyGridComponentProps);
-        renderRows(): JSX.Element[];
-        renderColumns(): JSX.Element[];
-        render(): JSX.Element;
+        renderRows(): import("react/jsx-runtime").JSX.Element[];
+        renderColumns(): import("react/jsx-runtime").JSX.Element[];
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7943,7 +8040,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ImageBasedSliderPropertyGridComponent extends React.Component<IImageBasedSliderPropertyGridComponentProps> {
         constructor(props: IImageBasedSliderPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7960,7 +8057,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ImagePropertyGridComponent extends React.Component<IImagePropertyGridComponentProps> {
         constructor(props: IImagePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7977,7 +8074,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class InputTextPropertyGridComponent extends React.Component<IInputTextPropertyGridComponentProps> {
         constructor(props: IInputTextPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7995,7 +8092,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     export class LinePropertyGridComponent extends React.Component<ILinePropertyGridComponentProps> {
         constructor(props: ILinePropertyGridComponentProps);
         onDashChange(value: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8012,7 +8109,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class RadioButtonPropertyGridComponent extends React.Component<IRadioButtonPropertyGridComponentProps> {
         constructor(props: IRadioButtonPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8029,7 +8126,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class RectanglePropertyGridComponent extends React.Component<IRectanglePropertyGridComponentProps> {
         constructor(props: IRectanglePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8046,7 +8143,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class ScrollViewerPropertyGridComponent extends React.Component<IScrollViewerPropertyGridComponentProps> {
         constructor(props: IScrollViewerPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8063,7 +8160,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class SliderPropertyGridComponent extends React.Component<ISliderPropertyGridComponentProps> {
         constructor(props: ISliderPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8080,7 +8177,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class StackPanelPropertyGridComponent extends React.Component<IStackPanelPropertyGridComponentProps> {
         constructor(props: IStackPanelPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8097,7 +8194,7 @@ declare module BABYLON.NodeGeometryEditor.SharedUIComponents {
     }
     export class TextBlockPropertyGridComponent extends React.Component<ITextBlockPropertyGridComponentProps> {
         constructor(props: ITextBlockPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 

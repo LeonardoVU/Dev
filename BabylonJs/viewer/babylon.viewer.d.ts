@@ -729,6 +729,7 @@ declare module BabylonViewer {
          * Get a specific configuration mapper.
          *
          * @param type the name of the mapper to load
+         * @returns the mapper
          */
         getMapper(type: string): IMapper;
         /**
@@ -812,6 +813,7 @@ declare module BabylonViewer {
      * "default, environmentMap" will first load the default configuration and will extend it using the environmentMap configuration.
      *
      * @param types a comma-separated string of the type(s) or configuration to load.
+     * @returns the configuration object
      */
     const getConfigurationType: (types: string) => ViewerConfiguration;
 
@@ -870,16 +872,19 @@ declare module BabylonViewer {
      * Is the provided string a URL?
      *
      * @param urlToCheck the url to inspect
+     * @returns true if the string is a URL
      */
     export function isUrl(urlToCheck: string): boolean;
     /**
      * Convert a string from kebab-case to camelCase
      * @param s string to convert
+     * @returns the converted string
      */
     export function kebabToCamel(s: string): string;
     /**
      * Convert a string from camelCase to kebab-case
      * @param str string to convert
+     * @returns the converted string
      */
     export function camelToKebab(str: string): string | null;
     /**
@@ -1296,6 +1301,9 @@ declare module BabylonViewer {
         private _loaders;
         private _plugins;
         private _baseUrl;
+        /**
+         * @returns the base url of the model loader
+         */
         get baseUrl(): string;
         /**
          * Create a new Model loader
@@ -1312,8 +1320,13 @@ declare module BabylonViewer {
         /**
          * Load a model using predefined configuration
          * @param modelConfiguration the modelConfiguration to use to load the model
+         * @returns the loaded model
          */
         load(modelConfiguration: IModelConfiguration): ViewerModel;
+        /**
+         * Cancel the loading of a model.
+         * @param model the model to cancel the loading of
+         */
         cancelLoad(model: ViewerModel): void;
         /**
          * dispose the model loader.
@@ -1348,6 +1361,7 @@ declare module BabylonViewer {
      * The plugin will be cached and will be reused if called for again.
      *
      * @param name the name of the plugin
+     * @returns the plugin
      */
     export function getLoaderPluginByName(name: string): ILoaderPlugin;
     /**
@@ -1603,7 +1617,8 @@ declare module BabylonViewer {
         unlockBabylonFeatures(): void;
         /**
          * initialize the scene. Calling this function again will dispose the old scene, if exists.
-         * @param sceneConfiguration
+         * @param sceneConfiguration the configuration of the scene
+         * @returns a promise that resolves when the scene is ready
          */
         initScene(sceneConfiguration?: ISceneConfiguration): Promise<BABYLON.Scene>;
         clearScene(clearModels?: boolean, clearLights?: boolean): void;
@@ -1688,17 +1703,38 @@ declare module BabylonViewer {
      * The data structure of a telemetry event.
      */
     export interface TelemetryData {
+        /**
+         *
+         */
         event: string;
+        /**
+         *
+         */
         session: string;
+        /**
+         *
+         */
         date: Date;
+        /**
+         *
+         */
         now: number;
+        /**
+         *
+         */
         viewerId?: string;
+        /**
+         *
+         */
         detail: any;
     }
     /**
      * Receives Telemetry events and raises events to the API
      */
     export class TelemetryManager {
+        /**
+         *
+         */
         onEventBroadcastedObservable: BABYLON.Observable<TelemetryData>;
         private _currentSessionId;
         private _event;
@@ -1711,7 +1747,7 @@ declare module BabylonViewer {
          * @param engine The Babylon engine with the WebGL context.
          * @param viewerId
          */
-        flushWebGLErrors(engine: BABYLON.Engine, viewerId?: string): void;
+        flushWebGLErrors(engine: BABYLON.AbstractEngine, viewerId?: string): void;
         /**
          * Enable or disable telemetry events
          * @param enabled Boolean, true if events are enabled
@@ -2063,6 +2099,7 @@ declare module BabylonViewer {
          *
          * @param mesh the new mesh to add
          * @param triggerLoaded should this mesh trigger the onLoaded observable. Used when adding meshes manually.
+         * @returns a promise that will resolve when the model is done loading
          */
         addMesh(mesh: BABYLON.AbstractMesh, triggerLoaded?: boolean): Promise<ViewerModel>;
         /**
@@ -2099,15 +2136,18 @@ declare module BabylonViewer {
         addAnimationGroup(animationGroup: BABYLON.AnimationGroup): void;
         /**
          * Get the ModelAnimation array
+         * @returns the array of ModelAnimations
          */
         getAnimations(): Array<IModelAnimation>;
         /**
          * Get the animations' names. Using the names you can play a specific animation.
+         * @returns the array of ModelAnimations
          */
         getAnimationNames(): Array<string>;
         /**
          * Get an animation by the provided name. Used mainly when playing n animation.
          * @param name the name of the animation to find
+         * @returns the ModelAnimation object
          */
         protected _getAnimationByName(name: string): BABYLON.Nullable<IModelAnimation>;
         /**
@@ -2174,11 +2214,13 @@ declare module BabylonViewer {
     /**
      * A custom upgrade-oriented function configuration for the scene optimizer.
      * @param sceneManager
+     * @returns true if the scene is fully upgraded
      */
     export function extendedUpgrade(sceneManager: SceneManager): boolean;
     /**
      * A custom degrade-oriented function configuration for the scene optimizer.
      * @param sceneManager
+     * @returns true if the scene is fully degraded
      */
     export function extendedDegrade(sceneManager: SceneManager): boolean;
 
@@ -2187,6 +2229,7 @@ declare module BabylonViewer {
      *
      * @param name the name of the custom optimizer configuration
      * @param upgrade set to true if you want to upgrade optimizer and false if you want to degrade
+     * @returns the optimizer function
      */
     export function getCustomOptimizerByName(name: string, upgrade?: boolean): (sceneManager: SceneManager) => boolean;
     export function registerCustomOptimizer(name: string, optimizer: (sceneManager: SceneManager) => boolean): void;
@@ -2291,6 +2334,7 @@ declare module BabylonViewer {
         /**
          * Initialize the template(s) for the viewer. Called bay the Viewer class
          * @param templates the templates to be used to initialize the main template
+         * @returns a promise that will be fulfilled when the template is loaded
          */
         initTemplate(templates: {
             [key: string]: ITemplateConfiguration;
@@ -2301,17 +2345,20 @@ declare module BabylonViewer {
          * It will compile each template, check if its children exist in the configuration and will add them if they do.
          * It is expected that the main template will be called main!
          *
-         * @param templates
+         * @param templates the templates to be used to initialize the main template
+         * @returns a promise that will be fulfilled when the template is loaded
          */
         private _buildHTMLTree;
         /**
          * Get the canvas in the template tree.
          * There must be one and only one canvas inthe template.
+         * @returns the canvas element or null if not found
          */
         getCanvas(): HTMLCanvasElement | null;
         /**
          * Get a specific template from the template tree
          * @param name the name of the template to load
+         * @returns the template or undefined if not found
          */
         getTemplate(name: string): Template | undefined;
         private _checkLoadedState;
@@ -2398,6 +2445,7 @@ declare module BabylonViewer {
         /**
          * A template can be a parent element for other templates or HTML elements.
          * This function will deliver all child HTML elements of this template.
+         * @returns an array of strings, each string is the name of the child element
          */
         getChildElements(): Array<string>;
         /**
@@ -2415,6 +2463,7 @@ declare module BabylonViewer {
          * Since it is a promise async operations are more than possible.
          * See the default viewer for an opacity example.
          * @param visibilityFunction The function to execute to show the template.
+         * @returns a promise that will be fulfilled when the template is shown
          */
         show(visibilityFunction?: (template: Template) => Promise<Template>): Promise<Template>;
         /**
@@ -2423,6 +2472,7 @@ declare module BabylonViewer {
          * Since it is a promise async operations are more than possible.
          * See the default viewer for an opacity example.
          * @param visibilityFunction The function to execute to show the template.
+         * @returns a promise that will be fulfilled when the template is hidden
          */
         hide(visibilityFunction?: (template: Template) => Promise<Template>): Promise<Template>;
         /**
@@ -2479,6 +2529,7 @@ declare module BabylonViewer {
         registerTemplatePlugin(plugin: IViewerTemplatePlugin): void;
         /**
          * This will be executed when the templates initialize.
+         * @returns a promise that will be resolved when the templates are loaded
          */
         protected _onTemplatesLoaded(): Promise<AbstractViewer>;
         private _initNavbar;
@@ -2531,6 +2582,7 @@ declare module BabylonViewer {
          * overriding the AbstractViewer's loadModel.
          * The scene will automatically be cleared of the old models, if exist.
          * @param model the configuration object (or URL) to load.
+         * @returns a promise that will be resolved when the model is loaded
          */
         loadModel(model?: string | File | IModelConfiguration): Promise<ViewerModel>;
         private _onModelLoaded;
@@ -2538,31 +2590,37 @@ declare module BabylonViewer {
          * Show the overlay and the defined sub-screen.
          * Mainly used for help and errors
          * @param subScreen the name of the subScreen. Those can be defined in the configuration object
+         * @returns a promise that will be resolved when the overlay is shown
          */
         showOverlayScreen(subScreen: string): Promise<string> | Promise<Template>;
         /**
          * Hide the overlay screen.
+         * @returns a promise that will be resolved when the overlay is hidden
          */
         hideOverlayScreen(): Promise<string> | Promise<Template>;
         /**
          * show the viewer (in case it was hidden)
          *
          * @param visibilityFunction an optional function to execute in order to show the container
+         * @returns a promise that will be resolved when the viewer is shown
          */
         show(visibilityFunction?: (template: Template) => Promise<Template>): Promise<Template>;
         /**
          * hide the viewer (in case it is visible)
          *
          * @param visibilityFunction an optional function to execute in order to hide the container
+         * @returns a promise that will be resolved when the viewer is hidden
          */
         hide(visibilityFunction?: (template: Template) => Promise<Template>): Promise<Template>;
         /**
          * Show the loading screen.
          * The loading screen can be configured using the configuration object
+         * @returns a promise that will be resolved when the loading screen is shown
          */
         showLoadingScreen(): Promise<string> | Promise<Template>;
         /**
          * Hide the loading screen
+         * @returns a promise that will be resolved when the loading screen is hidden
          */
         hideLoadingScreen(): Promise<string> | Promise<Template>;
         dispose(): void;
@@ -2698,10 +2756,12 @@ declare module BabylonViewer {
         constructor(containerElement: Element, initialConfiguration?: ViewerConfiguration);
         /**
          * get the baseId of this viewer
+         * @returns the baseId of this viewer
          */
         getBaseId(): string;
         /**
          * Do we have a canvas to render on, and is it a part of the scene
+         * @returns true if the canvas is in the DOM
          */
         isCanvasInDOM(): boolean;
         /**
@@ -2779,13 +2839,14 @@ declare module BabylonViewer {
          * This function will execute when the HTML templates finished initializing.
          * It should initialize the engine and continue execution.
          *
-         * @returns {Promise<AbstractViewer>} The viewer object will be returned after the object was loaded.
+         * @returns The viewer object will be returned after the object was loaded.
          */
         protected _onTemplatesLoaded(): Promise<AbstractViewer>;
         /**
          * This will force the creation of an engine and a scene.
          * It will also load a model if preconfigured.
          * But first - it will load the extendible onTemplateLoaded()!
+         * @returns A promise that will resolve when the template was loaded
          */
         protected _onTemplateLoaded(): Promise<AbstractViewer>;
         /**
@@ -2857,11 +2918,13 @@ declare module BabylonViewer {
         /**
          * Get a viewer by its baseId (if the container element has an ID, it is the this is. if not, a random id was assigned)
          * @param id the id of the HTMl element (or the viewer's, if none provided)
+         * @returns the viewer associated with the given id (if found)
          */
         getViewerById(id: string): AbstractViewer;
         /**
          * Get a viewer using a container element
          * @param element the HTML element to search viewers associated with
+         * @returns the viewer associated with the given element (if found)
          */
         getViewerByHTMLElement(element: HTMLElement): AbstractViewer | null;
         /**
@@ -2869,6 +2932,7 @@ declare module BabylonViewer {
          * Since viewer initialization and template injection is asynchronous, using the promise will guaranty that
          * you will get the viewer after everything was already configured.
          * @param id the viewer id to find
+         * @returns a promise that will resolve to the viewer
          */
         getViewerPromiseById(id: string): Promise<AbstractViewer>;
         private _onViewerAdded;

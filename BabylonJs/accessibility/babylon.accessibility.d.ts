@@ -5,7 +5,7 @@ declare module BABYLON.Accessibility {
         children: React.ReactElement[];
         a11yItem: HTMLTwinItem;
     }
-    export function HTMLTwinAccessibilityItem(props: IHTMLTwinItemComponentProps): JSX.Element;
+    export function HTMLTwinAccessibilityItem(props: IHTMLTwinItemComponentProps): import("react/jsx-runtime").JSX.Element;
 
 
     /**
@@ -20,6 +20,7 @@ declare module BABYLON.Accessibility {
         /**
          * The text content displayed in HTML element.
          * @param options - Options to render HTML twin tree where this element is contained.
+         * @returns The text content displayed in HTML element.
          */
         getDescription(options: IHTMLTwinRendererOptions): string;
         /**
@@ -57,7 +58,7 @@ declare module BABYLON.Accessibility {
     export class HTMLTwinHostComponent extends React.Component<IHTMLTwinHostComponentProps, IHTMLTwinHostComponentState> {
         private _options;
         constructor(props: IHTMLTwinHostComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -95,11 +96,17 @@ declare module BABYLON.Accessibility {
          * The BabylonJS scene that the corresponding BabylonJS entity is in.
          */
         scene: BABYLON.Scene;
+        /**
+         * Constructor of HTMLTwinItem.
+         * @param entity - The corresponding BabylonJS entity. Can be a BABYLON.Node or a BABYLON.GUI.Control.
+         * @param scene - The BabylonJS scene that the corresponding BabylonJS entity is in.
+         */
         constructor(entity: AccessibilityEntity, scene: BABYLON.Scene);
         /**
          * The text content displayed in HTML element.
          * Returns the description in accessibilityTag, if defined (returns "" by default).
          * @param _options - The options to render the HTML twin tree where this item is contained. Not used in this class, but in its children.
+         * @returns the text content displayed in HTML element
          */
         getDescription(_options: IHTMLTwinRendererOptions): string;
         /**
@@ -133,7 +140,6 @@ declare module BABYLON.Accessibility {
     }
 
 
-    /// <reference types="react" />
     /**
      * An adapter that transforms a Accessible entity in a React element. Contains observables for the events that can
      * change the state of the entity or the accesible tree.
@@ -144,7 +150,7 @@ declare module BABYLON.Accessibility {
         node: AccessibilityEntity;
         scene: BABYLON.Scene;
         options: IHTMLTwinRendererOptions;
-    }): JSX.Element | null;
+    }): import("react/jsx-runtime").JSX.Element | null;
 
 
     /**
@@ -217,7 +223,6 @@ declare module BABYLON.Accessibility {
     export var SceneContext: import("react").Context<ISceneContext>;
 
 
-    /// <reference types="react" />
     /**
      * The scene tree of the HTML twin. It contain all the top level nodes
      * @param props
@@ -226,7 +231,7 @@ declare module BABYLON.Accessibility {
     export function HTMLTwinSceneTree(props: {
         scene: BABYLON.Scene;
         options: IHTMLTwinRendererOptions;
-    }): JSX.Element;
+    }): import("react/jsx-runtime").JSX.Element;
 
 
 

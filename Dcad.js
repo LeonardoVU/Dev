@@ -1,15 +1,64 @@
 
+class Nvl {
+    constructor(nmr, lbl, bln, sbl) {
+        this.nivel = nmr;
+        this.label = lbl;
+        this.hasSblvls = bln;
+        this.subLvl = sbl;
+    }
+}
+
+var nms = [];
+
+var nm = new Nvl(0, "Start", true, {});
+nms[nm.nivel] = [nm];
+var nm = new Nvl(1, "En", true, {});
+nms[nm.nivel] = [nm];
+var nm = new Nvl(1, "Es", true, {});
+nms[nm.nivel].push(nm);
+
+nms[nm.nivel - 1].subLvl = nms[nm.nivel];
+var nm = new Nvl(2, "Products\nand\nServices", true, {});
+nms[nm.nivel] = [nm];
+var nm = new Nvl(2, "Experience", true, {});
+nms[nm.nivel].push(nm);
+var nm = new Nvl(2, "Contact:", true, {});
+nms[nm.nivel].push(nm);
+var nm = new Nvl(3, "General", true, {});
+nms[nm.nivel] = [nm];
+
+//Objct.assign({},o1,o2,o3);
+
+//nm.subLvl = { nm, nm };
+
+//console.log(nms);
+//console.log(nms[0].subLvl);
+
+/* var tst = {};   /////////////////FUNCIONA//////////////////////////////
+
+var lvl0K = "lvl0 Key";
+
+var lvl0V = { "lvl0V": 0 };
+
+tst[lvl0K] = lvl0V;
+
+console.log(tst);
+ */
+
+/* var mail = document.createElement("a");
+mail.href = "mailto:ljv004ar@gmail.com";
+mail.click(); */
 
 
 var mn =
 {
-    Start_Inicio_Click: {
-        0: {},
-        English: {
-            0: {},
-            Products_and_Services: {
+    "Start_Inicio_Click": {
+        "Back": {},
+        "English": {
+            "Back": {},
+            "Products_&_Services": {
                 0: {},
-                General: {
+                "General": {
                     0: {},
                     1: "Engineering\nDesign\nData",
                     2: "Project\nEngineering\nPlan",
@@ -156,22 +205,38 @@ var mn =
                     19: "Electrical\ncalculations"
                 }
             },
-            Experience: {
+            "Experience": {
                 0: {},
-                Mining: {
+                "Mining": {
                     0: {},
-                    1: "Under\nConstruction"
+                    1: "Lithium",
                 },
-                Oil_and_Gas: {
+                "Oil_&_Gas": {
                     0: {},
-                    1: "Under\nConstruction"
-                },
-                Power_Generation: {
-                    0: {},
-
-                    Up_to_100MW: {
+                    "Exploration_&_Production": {
                         0: {},
-                        Grid_BackUp: {
+                        1: "Wells Pads\n(Off-Shore\n&\nOn-Shore)",
+                        2: "Oil & Gas\nPipelines\n(Off-Shore &\nOn-Shore)",
+                        3: "Oil and Gas\nSeparation\nPlants\n(Off-Shore &\nOn-Shore)"
+                    },
+                    "Transport_&_Storage": {
+                        0: {},
+                        1: "Tank Farms,\nOil & Water\nSeparation\nProcess &\nPumping\nStations",
+                        2: "Natural Gas\nLiquids (NGL)",
+                        3: "Gas Central\nProcess\nFacilities\n(CPF)"
+                    },
+                    "Process_&_Distribution":{
+                        0:{},
+                        1:"Refineries",
+                        2:"Petrochemical\nIndustry",
+                        3:"Truck Filling\nStations"
+                    }
+                },
+                "Power_Generation": {
+                    0: {},
+                    "Up_to_100MW": {
+                        0: {},
+                        "Grid_BackUp": {
                             0: {},
                             Open_Cycle_50MW: {
                                 0: {},
@@ -184,11 +249,11 @@ var mn =
                             }
                         }
                     },
-                    More_100MW: {
+                    "More_100MW": {
                         0: {},
-                        New_Plants: {
+                        "New_Plants": {
                             0: {},
-                            Open_Cycle_150MW: {
+                            "Open_Cycle_150MW": {
                                 0: {},
                                 1: "Location:\nCasanare\nDepartment,\nColombia",
                                 2: "Company:\nSINCO-\nSOLUCIONES\nDE I&C",
@@ -197,7 +262,7 @@ var mn =
                                 5: "Scope:\nCivil\nDesign",
                                 6: "Qty:\n3 Units\nGE LM6000\n50 MW eu"
                             },
-                            Closed_Cycle_250MW: {
+                            "Closed_Cycle_250MW": {
                                 0: {},
                                 1: "Location:\nBuenos Aires\nProvince,\nArgentina",
                                 2: "Company:\nBarker\nThermoelectric",
@@ -207,7 +272,7 @@ var mn =
                                 6: "Qty:\n4 Units\nGE LM6000\n50 MW eu"
 
                             },
-                            Closed_Cycle_450MW: {
+                            "Closed_Cycle_450MW": {
                                 0: {},
                                 1: "Location:\nZulia\nState,\nVenezuela",
                                 2: "Company:\nJANTESA",
@@ -224,10 +289,10 @@ var mn =
 
                 }
             },
-            Contact: {
+            "Contact": {
                 0: {},
-                Email: "email:\nljv004ar@\ngmail.com",
-                Phone: "Phone:\n+541160423223"
+                "Email": "email:\nljv004ar@\ngmail.com",
+                "Phone": "Phone:\n+541160423223"
             }
 
         },
@@ -394,11 +459,12 @@ var mn =
         }
     }
 };
-/* 
-var mn= {
-    Start:{0:{}, Add: "+", Delete:"-"}
-}
- */
+
+
+//delete mn['Start_Inicio_Click'].Spanish;
+
+
+
 var PI = Math.PI;
 
 var fcs = 0;
@@ -515,6 +581,7 @@ const createScene = function () {
         if (typeof value === "object") {
 
             if (txt === "0") { txt = "Back"; }
+
             try {
                 text1.text = txt.replace(/_/g, "\n");
                 //text0.text = text1.text;
@@ -537,12 +604,20 @@ const createScene = function () {
                 }
                 //stxt = text1.text;
                 clk = 1;
+
                 //camera.alpha = ca;
                 return stxt;
             });
         } else {
             //button.text = value;
-            
+            if (txt === "Email") {
+
+                button.onPointerUpObservable.add(function (txt) {
+                    var mail = document.createElement("a");
+                    mail.href = "mailto:ljv004ar@gmail.com";
+                    mail.click();
+                })
+            }
             text1.text = value;
         }
         button.content = text1;
@@ -639,16 +714,7 @@ const createScene = function () {
             if (stxt === "Back" && en.length > 0 && mstxt.length > 0) {
                 mstxt.pop();
                 var mtxt = mstxt[mstxt.length - 1];
-                /*                         if (mtxt) {
-                                            try {
-                                                text0.text = "LV Projects\n" + mtxt.replace(/_/g, "\n");
-                                            }
-                                            catch {
-                                                text0.text = "LV Projects\n" + mtxt;
-                                            }
-                                        } else {
-                                            text0.text = "LV Projects\n" + "";
-                                        } */
+
                 en.pop();
                 enlen = en.length - 1;
                 if (en.length > 0) {
@@ -666,12 +732,7 @@ const createScene = function () {
             }
             if (stxt !== "Back") {
                 mstxt.push(stxt);
-                /*                         try {
-                                            text0.text = "LV Projects\n" + stxt.replace(/_/g, "\n");
-                                        }
-                                        catch {
-                                            text0.text = "LV Projects\n" + stxt;
-                                        } */
+
                 //text0.text = stxt;
                 en.push(e);
                 enlen = en.length - 1;
@@ -755,7 +816,7 @@ const createScene = function () {
                 break;
             case BABYLON.PointerEventTypes.POINTERWHEEL:
                 if (panel.isVertical) {
-                   // text0.text = "POINTER WHEEL";
+                    // text0.text = "POINTER WHEEL";
                     // console.log(scene);
                 }
                 //text0.text = "POINTER WHEEL";
@@ -772,11 +833,13 @@ const createScene = function () {
         }
     })
 
+    //let person = prompt("Please enter your name", "Harry Potter");
+
 
     return scene;
 };
-const scene = createScene(); //Call the createScene function
-// Register a render loop to repeatedly render the scene
+const scene = createScene();  
+
 engine.runRenderLoop(function () {
     scene.render();
 });

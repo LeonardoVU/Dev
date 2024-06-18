@@ -28,10 +28,10 @@ export class ActionTabsComponent extends React.Component<IActionTabsComponentPro
     componentDidMount(): void;
     componentWillUnmount(): void;
     changeSelectedTab(index: number): void;
-    renderContent(): JSX.Element | null;
+
     onClose(): void;
     onPopup(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -52,7 +52,7 @@ interface IMeshPickerComponentProps {
 }
 export class MeshPickerComponent extends React.Component<IMeshPickerComponentProps> {
     constructor(props: IMeshPickerComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -95,7 +95,8 @@ export class QuaternionLineComponent extends React.Component<IQuaternionLineComp
     updateStateEulerX(value: number): void;
     updateStateEulerY(value: number): void;
     updateStateEulerZ(value: number): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -126,7 +127,7 @@ export class TextureLineComponent extends React.Component<ITextureLineComponentP
     componentDidMount(): void;
     componentDidUpdate(): void;
     updatePreview(): Promise<void>;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -165,7 +166,7 @@ export class TextureLinkLineComponent extends React.Component<ITextureLinkLineCo
     onLink(): void;
     updateTexture(file: File): void;
     removeTexture(): void;
-    render(): JSX.Element | null;
+
 }
 
 }
@@ -194,7 +195,6 @@ export class PaneComponent extends React.Component<IPaneComponentProps, {
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/debugTabComponent" {
-/// <reference types="react" />
 import { IPaneComponentProps } from "babylonjs-inspector/components/actionTabs/paneComponent";
 import { PaneComponent } from "babylonjs-inspector/components/actionTabs/paneComponent";
 import "babylonjs/Physics/physicsEngineComponent";
@@ -204,7 +204,7 @@ export class DebugTabComponent extends PaneComponent {
     private _physicsViewersEnabled;
     constructor(props: IPaneComponentProps);
     switchPhysicsViewers(): void;
-    render(): JSX.Element | null;
+
 }
 
 }
@@ -220,7 +220,7 @@ export class GradientPropertyTabComponent extends React.Component<IPropertyCompo
     copyStep(step: GradientBlockColorStep): void;
     addNewStep(): void;
     checkForReOrder(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -246,7 +246,7 @@ export class GradientStepComponent extends React.Component<IGradientStepComponen
     updateColor(color: string): void;
     updateStep(gradient: number): void;
     onPointerUp(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -298,7 +298,6 @@ export {};
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/performanceViewer/performanceViewerSidebarComponent" {
-/// <reference types="react" />
 import { PerformanceViewerCollector } from "babylonjs/Misc/PerformanceViewer/performanceViewerCollector";
 import { Observable } from "babylonjs/Misc/observable";
 import { IVisibleRangeChangedObservableProps } from "babylonjs-inspector/components/graph/graphSupportingTypes";
@@ -306,7 +305,7 @@ interface IPerformanceViewerSidebarComponentProps {
     collector: PerformanceViewerCollector;
     onVisibleRangeChangedObservable?: Observable<IVisibleRangeChangedObservableProps>;
 }
-export const PerformanceViewerSidebarComponent: (props: IPerformanceViewerSidebarComponentProps) => JSX.Element;
+
 export {};
 
 }
@@ -352,7 +351,7 @@ export class AnimationGroupGridComponent extends React.Component<IAnimationGroup
     componentWillUnmount(): void;
     playOrPause(): void;
     onCurrentFrameChange(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -390,7 +389,7 @@ export class AnimationGridComponent extends React.Component<IAnimationGridCompon
     onCurrentFrameChange(value: number): void;
     onChangeFromOrTo(): void;
     componentDidUpdate(prevProps: IAnimationGridComponentProps): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -412,7 +411,7 @@ export class AnimationCurveEditorComponent extends React.Component<IAnimationCur
     onCloseAnimationCurveEditor(window: Window | null): void;
     shouldComponentUpdate(newProps: IAnimationCurveEditorComponentProps, newState: IAnimationCurveEditorComponentState): boolean;
     private _onKeyDown;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -437,7 +436,7 @@ export class BottomBarComponent extends React.Component<IBottomBarComponentProps
     constructor(props: IBottomBarComponentProps);
     private _changeClipLength;
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -466,7 +465,7 @@ export class MediaPlayerComponent extends React.Component<IMediaPlayerComponentP
     private _onNextKey;
     private _onEndKey;
     private _onStop;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -499,7 +498,7 @@ export class RangeSelectorComponent extends React.Component<IRangeSelectorCompon
     private _onPointerMove;
     private _updateLimits;
     private _onPointerUp;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -604,12 +603,16 @@ export class Context {
      * If any current active animation has a key at the received frameNumber,
      * return the index of the animation in the active animation array, and
      * the index of the frame on the animation.
-     * @param frameNumber
+     * @param frameNumber the frame number to look for
+     * @returns null if no key was found, or an object with the animation index and key index
      */
     getKeyAtAnyFrameIndex(frameNumber: number): {
         animationIndex: number;
         keyIndex: number;
     } | null;
+    /**
+     * @returns true if any active animation has a quaternion animation
+     */
     hasActiveQuaternionAnimationKeyPoints(): boolean;
 }
 
@@ -632,7 +635,7 @@ interface IActionButtonComponentState {
 }
 export class ActionButtonComponent extends React.Component<IActionButtonComponentProps, IActionButtonComponentState> {
     constructor(props: IActionButtonComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -655,7 +658,7 @@ interface IControlButtonComponentState {
 }
 export class ControlButtonComponent extends React.Component<IControlButtonComponentProps, IControlButtonComponentState> {
     constructor(props: IControlButtonComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -679,7 +682,7 @@ interface IPushButtonComponentState {
 }
 export class PushButtonComponent extends React.Component<IPushButtonComponentProps, IPushButtonComponentState> {
     constructor(props: IPushButtonComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -712,7 +715,7 @@ export class TextInputComponent extends React.Component<ITextInputComponentProps
     private _onFocus;
     shouldComponentUpdate(newProps: ITextInputComponentProps, newState: ITextInputComponentState): boolean;
     private _onKeyPress;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -732,7 +735,7 @@ export class CanvasComponent extends React.Component<ICanvasComponentProps, ICan
     private _onActiveAnimationChangedObserver;
     constructor(props: ICanvasComponentProps);
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -799,7 +802,7 @@ export class CurveComponent extends React.Component<ICurveComponentProps, ICurve
     constructor(props: ICurveComponentProps);
     componentWillUnmount(): void;
     componentDidUpdate(): boolean;
-    render(): JSX.Element | null;
+
 }
 export {};
 
@@ -825,7 +828,7 @@ export class FrameBarComponent extends React.Component<IFrameBarComponentProps, 
     componentWillUnmount(): void;
     private _computeSizes;
     private _buildFrames;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -887,7 +890,7 @@ export class GraphComponent extends React.Component<IGraphComponentProps, IGraph
     private _onPointerMove;
     private _onPointerUp;
     private _onWheel;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -970,7 +973,7 @@ export class KeyPointComponent extends React.Component<IKeyPointComponentProps, 
     private _processTangentMove;
     private _onPointerMove;
     private _onPointerUp;
-    render(): JSX.Element | null;
+
 }
 export {};
 
@@ -1010,7 +1013,7 @@ export class PlayHeadComponent extends React.Component<IPlayHeadComponentProps, 
     private _onPointerDown;
     private _onPointerMove;
     private _onPointerUp;
-    render(): JSX.Element | null;
+
 }
 export {};
 
@@ -1040,7 +1043,7 @@ export class RangeFrameBarComponent extends React.Component<IRangeFrameBarCompon
     private _dropKeyFrames;
     private _buildActiveFrame;
     private _buildFrames;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1066,7 +1069,7 @@ export class AddAnimationComponent extends React.Component<IAddAnimationComponen
     constructor(props: IAddAnimationComponentProps);
     createNew(): void;
     getInferredType(activeProperty?: string): any;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1096,7 +1099,7 @@ export class AnimationEntryComponent extends React.Component<IAnimationEntryComp
     componentWillUnmount(): void;
     private _activate;
     private _expandOrCollapse;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1118,7 +1121,7 @@ export class AnimationListComponent extends React.Component<IAnimationListCompon
     private _onDeleteAnimationObserver;
     constructor(props: IAnimationListComponentProps);
     componentWillUnmount(): void;
-    render(): JSX.Element | null;
+
 }
 export {};
 
@@ -1144,7 +1147,7 @@ export class AnimationSubEntryComponent extends React.Component<IAnimationSubEnt
     constructor(props: IAnimationSubEntryComponentProps);
     componentWillUnmount(): void;
     private _activate;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1173,7 +1176,7 @@ export class EditAnimationComponent extends React.Component<IEditAnimationCompon
     componentWillUnmount(): void;
     close(): void;
     validate(): void;
-    render(): JSX.Element | null;
+
 }
 export {};
 
@@ -1194,7 +1197,7 @@ export class LoadAnimationComponent extends React.Component<ILoadAnimationCompon
     constructor(props: ILoadAnimationComponentProps);
     loadFromFile(evt: React.ChangeEvent<HTMLInputElement>): void;
     loadFromSnippetServer(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1216,7 +1219,7 @@ export class SaveAnimationComponent extends React.Component<ISaveAnimationCompon
     private _getJson;
     saveToSnippetServer(): void;
     saveToFile(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1245,7 +1248,7 @@ export class SideBarComponent extends React.Component<ISideBarComponentProps, IS
     private _onLoadAnimation;
     private _onSaveAnimation;
     private _onEditAnimation;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1272,7 +1275,7 @@ export class TopBarComponent extends React.Component<ITopBarComponentProps, ITop
     private _onActiveKeyPointChanged;
     constructor(props: ITopBarComponentProps);
     componentWillUnmount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1303,7 +1306,7 @@ export class TargetedAnimationGridComponent extends React.Component<ITargetedAni
     updateContextFromProps: () => void;
     componentDidMount(): void;
     componentDidUpdate(prevProps: Readonly<ITargetedAnimationGridComponentProps>, prevState: Readonly<{}>, snapshot?: any): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1323,7 +1326,7 @@ interface IArcRotateCameraPropertyGridComponentProps {
 }
 export class ArcRotateCameraPropertyGridComponent extends React.Component<IArcRotateCameraPropertyGridComponentProps> {
     constructor(props: IArcRotateCameraPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1345,7 +1348,7 @@ export class CommonCameraPropertyGridComponent extends React.Component<ICommonCa
     mode: number;
 }> {
     constructor(props: ICommonCameraPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1365,7 +1368,7 @@ interface IFollowCameraPropertyGridComponentProps {
 }
 export class FollowCameraPropertyGridComponent extends React.Component<IFollowCameraPropertyGridComponentProps> {
     constructor(props: IFollowCameraPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1385,7 +1388,7 @@ interface IFreeCameraPropertyGridComponentProps {
 }
 export class FreeCameraPropertyGridComponent extends React.Component<IFreeCameraPropertyGridComponentProps> {
     constructor(props: IFreeCameraPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1406,8 +1409,8 @@ interface ICommonPropertyGridComponentProps {
 }
 export class CommonPropertyGridComponent extends React.Component<ICommonPropertyGridComponentProps> {
     constructor(props: ICommonPropertyGridComponentProps);
-    renderLevel(jsonObject: any): JSX.Element[];
-    render(): JSX.Element | null;
+
+
 }
 export {};
 
@@ -1429,8 +1432,8 @@ export class CustomPropertyGridComponent extends React.Component<ICustomProperty
     mode: number;
 }> {
     constructor(props: ICustomPropertyGridComponentProps);
-    renderInspectable(inspectable: IInspectable): JSX.Element | null;
-    render(): JSX.Element | null;
+
+
 }
 export {};
 
@@ -1451,7 +1454,7 @@ interface IEmptyPropertyGridComponentProps {
 }
 export class EmptyPropertyGridComponent extends React.Component<IEmptyPropertyGridComponentProps> {
     constructor(props: IEmptyPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1473,7 +1476,7 @@ export class FogPropertyGridComponent extends React.Component<IFogPropertyGridCo
     mode: number;
 }> {
     constructor(props: IFogPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1495,7 +1498,7 @@ interface ILayerPropertyGridComponentProps {
 }
 export class LayerPropertyGridComponent extends React.Component<ILayerPropertyGridComponentProps> {
     constructor(props: ILayerPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1515,7 +1518,7 @@ interface ICommonLightPropertyGridComponentProps {
 }
 export class CommonLightPropertyGridComponent extends React.Component<ICommonLightPropertyGridComponentProps> {
     constructor(props: ICommonLightPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1538,7 +1541,7 @@ export class CommonShadowLightPropertyGridComponent extends React.Component<ICom
     constructor(props: ICommonShadowLightPropertyGridComponentProps);
     createShadowGenerator(): void;
     disposeShadowGenerator(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1559,7 +1562,7 @@ interface IDirectionalLightPropertyGridComponentProps {
 export class DirectionalLightPropertyGridComponent extends React.Component<IDirectionalLightPropertyGridComponentProps> {
     constructor(props: IDirectionalLightPropertyGridComponentProps);
     displayFrustum(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1579,7 +1582,7 @@ interface IHemisphericLightPropertyGridComponentProps {
 }
 export class HemisphericLightPropertyGridComponent extends React.Component<IHemisphericLightPropertyGridComponentProps> {
     constructor(props: IHemisphericLightPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1599,7 +1602,7 @@ interface IPointLightPropertyGridComponentProps {
 }
 export class PointLightPropertyGridComponent extends React.Component<IPointLightPropertyGridComponentProps> {
     constructor(props: IPointLightPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1619,7 +1622,7 @@ interface ISpotLightPropertyGridComponentProps {
 }
 export class SpotLightPropertyGridComponent extends React.Component<ISpotLightPropertyGridComponentProps> {
     constructor(props: ISpotLightPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1641,8 +1644,8 @@ interface IBackgroundMaterialPropertyGridComponentProps {
 export class BackgroundMaterialPropertyGridComponent extends React.Component<IBackgroundMaterialPropertyGridComponentProps> {
     private _onDebugSelectionChangeObservable;
     constructor(props: IBackgroundMaterialPropertyGridComponentProps);
-    renderTextures(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1662,7 +1665,7 @@ interface ICommonMaterialPropertyGridComponentProps {
 }
 export class CommonMaterialPropertyGridComponent extends React.Component<ICommonMaterialPropertyGridComponentProps> {
     constructor(props: ICommonMaterialPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1682,7 +1685,7 @@ interface IMaterialPropertyGridComponentProps {
 }
 export class MaterialPropertyGridComponent extends React.Component<IMaterialPropertyGridComponentProps> {
     constructor(props: IMaterialPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1705,8 +1708,8 @@ interface IMultiMaterialPropertyGridComponentProps {
 export class MultiMaterialPropertyGridComponent extends React.Component<IMultiMaterialPropertyGridComponentProps> {
     constructor(props: IMultiMaterialPropertyGridComponentProps);
     onMaterialLink(mat: Material): void;
-    renderChildMaterial(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1730,10 +1733,10 @@ export class NodeMaterialPropertyGridComponent extends React.Component<INodeMate
     private _onDebugSelectionChangeObservable;
     constructor(props: INodeMaterialPropertyGridComponentProps);
     edit(): void;
-    renderTextures(): JSX.Element | null;
-    renderInputBlock(block: InputBlock): JSX.Element | null;
-    renderInputValues(): JSX.Element;
-    render(): JSX.Element;
+
+
+
+
 }
 export {};
 
@@ -1763,8 +1766,8 @@ export class PBRMaterialPropertyGridComponent extends React.Component<IPBRMateri
     private _onDebugSelectionChangeObservable;
     constructor(props: IPBRMaterialPropertyGridComponentProps);
     switchAmbientMode(state: boolean): void;
-    renderTextures(onDebugSelectionChangeObservable: Observable<TextureLinkLineComponent>): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1786,8 +1789,8 @@ interface IPBRMetallicRoughnessMaterialPropertyGridComponentProps {
 export class PBRMetallicRoughnessMaterialPropertyGridComponent extends React.Component<IPBRMetallicRoughnessMaterialPropertyGridComponentProps> {
     private _onDebugSelectionChangeObservable;
     constructor(props: IPBRMetallicRoughnessMaterialPropertyGridComponentProps);
-    renderTextures(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1809,8 +1812,8 @@ interface IPBRSpecularGlossinessMaterialPropertyGridComponentProps {
 export class PBRSpecularGlossinessMaterialPropertyGridComponent extends React.Component<IPBRSpecularGlossinessMaterialPropertyGridComponentProps> {
     private _onDebugSelectionChangeObservable;
     constructor(props: IPBRSpecularGlossinessMaterialPropertyGridComponentProps);
-    renderTextures(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1833,8 +1836,8 @@ interface IStandardMaterialPropertyGridComponentProps {
 export class StandardMaterialPropertyGridComponent extends React.Component<IStandardMaterialPropertyGridComponentProps> {
     private _onDebugSelectionChangeObservable;
     constructor(props: IStandardMaterialPropertyGridComponentProps);
-    renderTextures(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -1895,7 +1898,7 @@ export class TexturePropertyGridComponent extends React.Component<ITextureProper
         normalizable: number;
         value: number;
     } | null;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1908,7 +1911,7 @@ interface IBottomBarProps {
     mipLevel: number;
 }
 export class BottomBar extends React.PureComponent<IBottomBarProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -1940,7 +1943,7 @@ interface IChannelsBarProps {
     setChannels(channelState: IChannel[]): void;
 }
 export class ChannelsBar extends React.PureComponent<IChannelsBarProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2003,7 +2006,7 @@ export class PropertiesBar extends React.PureComponent<IPropertiesBarProps, IPro
     private _pixelData;
     private _getNewDimension;
     componentWillUpdate(nextProps: IPropertiesBarProps): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2018,7 +2021,7 @@ interface ITextureCanvasComponentProps {
     texture: BaseTexture;
 }
 export class TextureCanvasComponent extends React.Component<ITextureCanvasComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2149,9 +2152,6 @@ import { Vector2 } from "babylonjs/Maths/math.vector";
 import { PointerInfo } from "babylonjs/Events/pointerEvents";
 import { PopupComponent } from "babylonjs-inspector/components/popupComponent";
 import "babylonjs-inspector/components/actionTabs/tabs/propertyGrids/materials/textures/textureEditor.scss";
-global {
-    var _TOOL_DATA_: IToolData;
-}
 interface ITextureEditorComponentProps {
     texture: BaseTexture;
     url: string;
@@ -2257,7 +2257,7 @@ export class TextureEditorComponent extends React.Component<ITextureEditorCompon
     resetTexture(): void;
     resizeTexture(width: number, height: number): void;
     uploadTexture(file: File): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2290,7 +2290,7 @@ export class ToolBar extends React.Component<IToolBarProps, IToolBarState> {
     constructor(props: IToolBarProps);
     computeRGBAColor(): Color4;
     shouldComponentUpdate(nextProps: IToolBarProps): boolean;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2302,7 +2302,7 @@ interface IToolSettingsProps {
     tool: ITool | undefined;
 }
 export class ToolSettings extends React.Component<IToolSettingsProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2323,7 +2323,7 @@ interface IBonePropertyGridComponentProps {
 export class BonePropertyGridComponent extends React.Component<IBonePropertyGridComponentProps> {
     constructor(props: IBonePropertyGridComponentProps);
     onTransformNodeLink(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2364,9 +2364,118 @@ export class MeshPropertyGridComponent extends React.Component<IMeshPropertyGrid
     onSkeletonLink(): void;
     convertPhysicsTypeToString(): string;
     private _getIdForDisplay;
-    render(): JSX.Element;
+
 }
 export {};
+
+}
+declare module "babylonjs-inspector/components/actionTabs/tabs/propertyGrids/meshes/physics/physicsBodyGridComponent" {
+import { Observable } from "babylonjs/Misc/observable";
+import { PhysicsBody } from "babylonjs/Physics/v2/physicsBody";
+import { GlobalState } from "babylonjs-inspector/components/globalState";
+import { PropertyChangedEvent } from "babylonjs-inspector/propertyChangedEvent";
+import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
+/**
+ * Properties of the physics body grid component.
+ */
+export interface IPhysicsBodyGridComponentProps {
+    /**
+     * Lock object
+     */
+    lockObject: LockObject;
+    /**
+     * Callback raised on the property changed event
+     */
+    onPropertyChangedObservable?: Observable<PropertyChangedEvent>;
+    /**
+     * Physics body to edit
+     */
+    body: PhysicsBody;
+    /**
+     * Global state
+     */
+    globalState: GlobalState;
+}
+/**
+ * Component that allows displaying and tweaking a physics body's properties.
+ * @param props the component props
+ * @returns the component
+ */
+
+
+}
+declare module "babylonjs-inspector/components/actionTabs/tabs/propertyGrids/meshes/physics/physicsMassPropertiesGridComponent" {
+import { Observable } from "babylonjs/Misc/observable";
+import { PhysicsBody } from "babylonjs/Physics/v2/physicsBody";
+import { GlobalState } from "babylonjs-inspector/components/globalState";
+import { PropertyChangedEvent } from "babylonjs-inspector/components/propertyChangedEvent";
+import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
+/**
+ * Properties of the physics mass properties grid component.
+ */
+export interface IPhysicsMassPropertiesGridComponentProps {
+    /**
+     * Lock object
+     */
+    lockObject: LockObject;
+    /**
+     * Callback raised on the property changed event
+     */
+    onPropertyChangedObservable?: Observable<PropertyChangedEvent>;
+    /**
+     * Physics body to edit
+     */
+    body: PhysicsBody;
+    /**
+     * Global state
+     */
+    globalState: GlobalState;
+    /**
+     * Index of the instance to edit
+     */
+    instanceIndex?: number;
+}
+/**
+ * Component that displays the mass properties of a physics body.
+ * @param props the component props
+ * @returns the component
+ */
+
+
+}
+declare module "babylonjs-inspector/components/actionTabs/tabs/propertyGrids/meshes/physics/physicsMaterialGridComponent" {
+import { Observable } from "babylonjs/Misc/observable";
+import { PhysicsBody } from "babylonjs/Physics/v2/physicsBody";
+import { GlobalState } from "babylonjs-inspector/components/globalState";
+import { PropertyChangedEvent } from "babylonjs-inspector/propertyChangedEvent";
+import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
+/**
+ * Properties of the physics material grid component.
+ */
+export interface IPhysicsMaterialGridComponentProps {
+    /**
+     * Lock object
+     */
+    lockObject: LockObject;
+    /**
+     * Callback raised on the property changed event
+     */
+    onPropertyChangedObservable?: Observable<PropertyChangedEvent>;
+    /**
+     * Physics body to edit
+     */
+    body: PhysicsBody;
+    /**
+     * Global state
+     */
+    globalState: GlobalState;
+}
+/**
+ * Component that displays the physic material properties of a physics body.
+ * @param props the component props
+ * @returns the component
+ */
+
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/propertyGrids/meshes/skeletonPropertyGridComponent" {
@@ -2392,7 +2501,7 @@ export class SkeletonPropertyGridComponent extends React.Component<ISkeletonProp
     changeDisplayMode(): void;
     changeDisplayOptions(option: string, value: number): void;
     shouldComponentUpdate(nextProps: ISkeletonPropertyGridComponentProps): boolean;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2412,7 +2521,7 @@ interface ITransformNodePropertyGridComponentProps {
 }
 export class TransformNodePropertyGridComponent extends React.Component<ITransformNodePropertyGridComponentProps> {
     constructor(props: ITransformNodePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2432,7 +2541,7 @@ enum MetadataTypes {
     OBJECT = "Object",
     JSON = "JSON"
 }
-/** @ignorenaming */
+/** Metadata Grid Component */
 export class MetadataGridComponent extends React.Component<IMetadataComponentProps, {
     selectedEntityMetadata: string;
     dirty: boolean;
@@ -2443,17 +2552,25 @@ export class MetadataGridComponent extends React.Component<IMetadataComponentPro
     isValidJson: boolean;
 }> {
     private readonly _textAreaHost;
-    /** @ignorenaming */
+    /**
+     * @param props - component props
+     */
     constructor(props: IMetadataComponentProps);
     /** @ignorenaming */
     componentDidMount(): void;
-    /** @ignorenaming */
+    /**
+     * @param prevProps - previous component props
+     */
     componentDidUpdate(prevProps: Readonly<IMetadataComponentProps>): void;
     /** on entity refresh */
     refreshSelected(): void;
-    /** @ignorenaming */
+    /**
+     * @param disabled - is disabled
+     */
     setTextAreaDisabled(disabled: boolean): void;
-    /** textarea style */
+    /**
+     * @returns class name
+     */
     getClassName(): string;
     /**
      * Determines the Metadata type
@@ -2461,13 +2578,26 @@ export class MetadataGridComponent extends React.Component<IMetadataComponentPro
      * @returns MetadataTypes
      */
     getEntityType(entity: any): MetadataTypes;
-    /** @ignorenaming */
+    /**
+     * @param input - any input
+     * @returns is string
+     */
     isString(input: any): boolean;
-    /** @ignorenaming */
+    /**
+     * @param object - any object
+     * @returns is parsable
+     */
     parsableJson(object: Object): boolean;
-    /** @ignorenaming */
+    /**
+     * @param string - any string
+     * @returns parsable string
+     */
     parsableString(string: string): JSON | null;
-    /** @ignorenaming */
+    /**
+     * @param validJson - a valid json
+     * @param metadata - any metadata
+     * @returns parsed metadata
+     */
     parseMetaObject(validJson: boolean, metadata: any): any;
     /**
      * Recurse through an object to check for any Functions, returns False if found at least one
@@ -2478,8 +2608,10 @@ export class MetadataGridComponent extends React.Component<IMetadataComponentPro
     copyToClipboard(): void;
     /** Safely checks if valid JSON then appends necessary props without overwriting existing */
     populateGltfExtras(): void;
-    /** @ignorenaming */
-    render(): JSX.Element;
+    /** render
+     * @returns the component
+     */
+
 }
 export {};
 
@@ -2500,7 +2632,7 @@ interface IParentPropertyGridComponentProps {
 export class ParentPropertyGridComponent extends React.Component<IParentPropertyGridComponentProps> {
     constructor(props: IParentPropertyGridComponentProps);
     private _getNameForSortingAndDisplay;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2520,7 +2652,7 @@ interface IBoxEmitterGridComponentProps {
 }
 export class BoxEmitterGridComponent extends React.Component<IBoxEmitterGridComponentProps> {
     constructor(props: IBoxEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2553,7 +2685,7 @@ export class ColorGradientStepGridComponent extends React.Component<IColorGradie
     onPointerUp(): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2574,7 +2706,7 @@ interface IConeEmitterGridComponentProps {
 }
 export class ConeEmitterGridComponent extends React.Component<IConeEmitterGridComponentProps> {
     constructor(props: IConeEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2594,7 +2726,7 @@ interface ICylinderEmitterGridComponentProps {
 }
 export class CylinderEmitterGridComponent extends React.Component<ICylinderEmitterGridComponentProps> {
     constructor(props: ICylinderEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2633,7 +2765,7 @@ export class FactorGradientStepGridComponent extends React.Component<IFactorGrad
     onPointerUp(): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2653,7 +2785,7 @@ interface IHemisphericEmitterGridComponentProps {
 }
 export class HemisphericEmitterGridComponent extends React.Component<IHemisphericEmitterGridComponentProps> {
     constructor(props: IHemisphericEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2676,7 +2808,7 @@ interface IMeshEmitterGridComponentProps {
 }
 export class MeshEmitterGridComponent extends React.Component<IMeshEmitterGridComponentProps> {
     constructor(props: IMeshEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2698,14 +2830,15 @@ interface IParticleSystemPropertyGridComponentProps {
 export class ParticleSystemPropertyGridComponent extends React.Component<IParticleSystemPropertyGridComponentProps> {
     private _snippetUrl;
     constructor(props: IParticleSystemPropertyGridComponentProps);
-    renderEmitter(): JSX.Element | null;
+
     raiseOnPropertyChanged(property: string, newValue: any, previousValue: any): void;
-    renderControls(): JSX.Element;
+
     saveToFile(): void;
     loadFromFile(file: File): void;
     loadFromSnippet(): void;
     saveToSnippet(): void;
-    render(): JSX.Element;
+    updateTexture(file: File): void;
+
 }
 export {};
 
@@ -2725,7 +2858,7 @@ interface IPointEmitterGridComponentProps {
 }
 export class PointEmitterGridComponent extends React.Component<IPointEmitterGridComponentProps> {
     constructor(props: IPointEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2745,7 +2878,7 @@ interface ISphereEmitterGridComponentProps {
 }
 export class SphereEmitterGridComponent extends React.Component<ISphereEmitterGridComponentProps> {
     constructor(props: ISphereEmitterGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2779,7 +2912,7 @@ export class ValueGradientGridComponent extends React.Component<IValueGradientGr
     addNewStep(): void;
     checkForReOrder(): void;
     updateAndSync(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2799,7 +2932,7 @@ interface ICommonPostProcessPropertyGridComponentProps {
 }
 export class CommonPostProcessPropertyGridComponent extends React.Component<ICommonPostProcessPropertyGridComponentProps> {
     constructor(props: ICommonPostProcessPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2819,7 +2952,7 @@ interface ICommonRenderingPipelinePropertyGridComponentProps {
 }
 export class CommonRenderingPipelinePropertyGridComponent extends React.Component<ICommonRenderingPipelinePropertyGridComponentProps> {
     constructor(props: ICommonRenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2839,7 +2972,7 @@ interface IDefaultRenderingPipelinePropertyGridComponentProps {
 }
 export class DefaultRenderingPipelinePropertyGridComponent extends React.Component<IDefaultRenderingPipelinePropertyGridComponentProps> {
     constructor(props: IDefaultRenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2859,7 +2992,7 @@ interface ILenstRenderingPipelinePropertyGridComponentProps {
 }
 export class LensRenderingPipelinePropertyGridComponent extends React.Component<ILenstRenderingPipelinePropertyGridComponentProps> {
     constructor(props: ILenstRenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2880,7 +3013,7 @@ interface IPostProcessPropertyGridComponentProps {
 export class PostProcessPropertyGridComponent extends React.Component<IPostProcessPropertyGridComponentProps> {
     constructor(props: IPostProcessPropertyGridComponentProps);
     edit(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2900,7 +3033,7 @@ interface IRenderingPipelinePropertyGridComponentProps {
 }
 export class RenderingPipelinePropertyGridComponent extends React.Component<IRenderingPipelinePropertyGridComponentProps> {
     constructor(props: IRenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2920,7 +3053,7 @@ interface ISSAO2RenderingPipelinePropertyGridComponentProps {
 }
 export class SSAO2RenderingPipelinePropertyGridComponent extends React.Component<ISSAO2RenderingPipelinePropertyGridComponentProps> {
     constructor(props: ISSAO2RenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2940,7 +3073,7 @@ interface ISSAORenderingPipelinePropertyGridComponentProps {
 }
 export class SSAORenderingPipelinePropertyGridComponent extends React.Component<ISSAORenderingPipelinePropertyGridComponentProps> {
     constructor(props: ISSAORenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2960,7 +3093,7 @@ interface ISSRRenderingPipelinePropertyGridComponentProps {
 }
 export class SSRRenderingPipelinePropertyGridComponent extends React.Component<ISSRRenderingPipelinePropertyGridComponentProps> {
     constructor(props: ISSRRenderingPipelinePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -2980,7 +3113,7 @@ export class RenderGridPropertyGridComponent extends React.Component<IRenderGrid
     constructor(props: IRenderGridPropertyGridComponentProps);
     componentDidMount(): void;
     addOrRemoveGrid(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3013,7 +3146,7 @@ export class ScenePropertyGridComponent extends React.Component<IScenePropertyGr
     updateGravity(newValue: Vector3): void;
     updateTimeStep(newValue: number): void;
     normalizeScene(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3035,7 +3168,7 @@ interface ISoundPropertyGridComponentProps {
 }
 export class SoundPropertyGridComponent extends React.Component<ISoundPropertyGridComponentProps> {
     constructor(props: ISoundPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3063,7 +3196,7 @@ export class SpriteManagerPropertyGridComponent extends React.Component<ISpriteM
     loadFromFile(file: File): void;
     loadFromSnippet(): void;
     saveToSnippet(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3094,7 +3227,7 @@ export class SpritePropertyGridComponent extends React.Component<ISpriteProperty
     componentDidUpdate(): void;
     shouldComponentUpdate(nextProps: ISpritePropertyGridComponentProps): boolean;
     updatePreview(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3114,13 +3247,12 @@ interface IVariantsPropertyGridComponentProps {
 export class VariantsPropertyGridComponent extends React.Component<IVariantsPropertyGridComponentProps> {
     constructor(props: IVariantsPropertyGridComponentProps);
     private _getVariantsExtension;
-    render(): JSX.Element | null;
+
 }
 export {};
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/propertyGridTabComponent" {
-/// <reference types="react" />
 import { IPaneComponentProps } from "babylonjs-inspector/components/actionTabs/paneComponent";
 import { PaneComponent } from "babylonjs-inspector/components/actionTabs/paneComponent";
 export class PropertyGridTabComponent extends PaneComponent {
@@ -3130,23 +3262,21 @@ export class PropertyGridTabComponent extends PaneComponent {
     timerRefresh(): void;
     componentDidMount(): void;
     componentWillUnmount(): void;
-    renderContent(): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/settingsTabComponent" {
-/// <reference types="react" />
 import { IPaneComponentProps } from "babylonjs-inspector/components/actionTabs/paneComponent";
 import { PaneComponent } from "babylonjs-inspector/components/actionTabs/paneComponent";
 export class SettingsTabComponent extends PaneComponent {
     constructor(props: IPaneComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/statisticsTabComponent" {
-/// <reference types="react" />
 import { IPaneComponentProps } from "babylonjs-inspector/components/actionTabs/paneComponent";
 import { PaneComponent } from "babylonjs-inspector/components/actionTabs/paneComponent";
 export class StatisticsTabComponent extends PaneComponent {
@@ -3155,7 +3285,7 @@ export class StatisticsTabComponent extends PaneComponent {
     private _timerIntervalId;
     constructor(props: IPaneComponentProps);
     componentWillUnmount(): void;
-    render(): JSX.Element | null;
+
 }
 
 }
@@ -3175,14 +3305,13 @@ export class GLTFComponent extends React.Component<IGLTFComponentProps> {
     prepareText(singularForm: string, count: number): string;
     componentDidMount(): void;
     componentWillUnmount(): void;
-    renderValidation(): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 export {};
 
 }
 declare module "babylonjs-inspector/components/actionTabs/tabs/toolsTabComponent" {
-/// <reference types="react" />
 import { IPaneComponentProps } from "babylonjs-inspector/components/actionTabs/paneComponent";
 import { PaneComponent } from "babylonjs-inspector/components/actionTabs/paneComponent";
 export class ToolsTabComponent extends PaneComponent {
@@ -3218,7 +3347,7 @@ export class ToolsTabComponent extends PaneComponent {
     startRecording(): void;
     applyDelta(file: File): void;
     connectReflector(): void;
-    render(): JSX.Element | null;
+
 }
 
 }
@@ -3233,8 +3362,8 @@ interface ITabsComponentProps {
 export class TabsComponent extends React.Component<ITabsComponentProps> {
     constructor(props: ITabsComponentProps);
     onSelect(index: number): void;
-    renderLabel(child: PaneComponent, index: number): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -3264,8 +3393,8 @@ export class EmbedHostComponent extends React.Component<IEmbedHostComponentProps
     private _bottomPartRef;
     constructor(props: IEmbedHostComponentProps);
     componentDidMount(): void;
-    renderContent(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -3699,8 +3828,8 @@ export class HeaderComponent extends React.Component<IHeaderComponentProps, {
     componentDidMount(): void;
     componentWillUnmount(): void;
     goBack(): void;
-    renderLogo(): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 
 }
@@ -3770,7 +3899,7 @@ interface IAnimationGroupItemComponentProps {
 }
 export class AnimationGroupItemComponent extends React.Component<IAnimationGroupItemComponentProps> {
     constructor(props: IAnimationGroupItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3786,7 +3915,7 @@ interface IBoneTreeItemComponentProps {
 }
 export class BoneTreeItemComponent extends React.Component<IBoneTreeItemComponentProps> {
     constructor(props: IBoneTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3813,7 +3942,7 @@ export class CameraTreeItemComponent extends React.Component<ICameraTreeItemComp
     componentDidMount(): void;
     componentWillUnmount(): void;
     toggleGizmo(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3829,7 +3958,7 @@ interface IEffectLayerItemComponenttProps {
 }
 export class EffectLayerItemComponent extends React.Component<IEffectLayerItemComponenttProps> {
     constructor(props: IEffectLayerItemComponenttProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3852,7 +3981,7 @@ export class AdvancedDynamicTextureTreeItemComponent extends React.Component<IAd
     constructor(props: IAdvancedDynamicTextureTreeItemComponentProps);
     componentWillUnmount(): void;
     onPickingMode(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3873,7 +4002,7 @@ export class ControlTreeItemComponent extends React.Component<IControlTreeItemCo
     constructor(props: IControlTreeItemComponentProps);
     highlight(): void;
     switchVisibility(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3896,6 +4025,7 @@ export function SetGUIEditorURL(guiEditorURL: string): void;
  * If you are in a UMD environment, it will load the package from a URL
  * @param adt
  * @param embed defines whether editor is being opened from the Playground
+ * @returns a promise that resolves when the editor is opened
  */
 export function EditAdvancedDynamicTexture(adt: AdvancedDynamicTexture, embed?: boolean): Promise<void>;
 
@@ -3920,7 +4050,7 @@ export class LightTreeItemComponent extends React.Component<ILightTreeItemCompon
     constructor(props: ILightTreeItemComponentProps);
     switchIsEnabled(): void;
     toggleGizmo(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3937,7 +4067,7 @@ interface IMaterialTreeItemComponentProps {
 }
 export class MaterialTreeItemComponent extends React.Component<IMaterialTreeItemComponentProps> {
     constructor(props: IMaterialTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3962,7 +4092,8 @@ export class MeshTreeItemComponent extends React.Component<IMeshTreeItemComponen
     showBoundingBox(): void;
     switchVisibility(): void;
     private _getNameForLabel;
-    render(): JSX.Element;
+    private _editGeometry;
+
 }
 export {};
 
@@ -3978,7 +4109,7 @@ interface IParticleSystemTreeItemComponentProps {
 }
 export class ParticleSystemTreeItemComponent extends React.Component<IParticleSystemTreeItemComponentProps> {
     constructor(props: IParticleSystemTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -3994,7 +4125,7 @@ interface IPostProcessItemComponentProps {
 }
 export class PostProcessItemComponent extends React.Component<IPostProcessItemComponentProps> {
     constructor(props: IPostProcessItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4010,7 +4141,7 @@ interface IRenderPipelineItemComponenttProps {
 }
 export class RenderingPipelineItemComponent extends React.Component<IRenderPipelineItemComponenttProps> {
     constructor(props: IRenderPipelineItemComponenttProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4051,12 +4182,13 @@ export class SceneTreeItemComponent extends React.Component<ISceneTreeItemCompon
     }): boolean;
     updateGizmoAutoPicking(isInPickingMode: boolean): void;
     componentDidMount(): void;
+    private _getMeshFromBone;
     componentWillUnmount(): void;
     onSelect(): void;
     onCoordinatesMode(): void;
     onPickingMode(): void;
     setGizmoMode(mode: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4072,7 +4204,7 @@ interface ISkeletonTreeItemComponentProps {
 }
 export class SkeletonTreeItemComponent extends React.Component<ISkeletonTreeItemComponentProps> {
     constructor(props: ISkeletonTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4088,7 +4220,7 @@ interface ISoundTreeItemComponentProps {
 }
 export class SoundTreeItemComponent extends React.Component<ISoundTreeItemComponentProps> {
     constructor(props: ISoundTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4104,7 +4236,7 @@ interface ISpriteManagerTreeItemComponentProps {
 }
 export class SpriteManagerTreeItemComponent extends React.Component<ISpriteManagerTreeItemComponentProps> {
     constructor(props: ISpriteManagerTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4120,7 +4252,7 @@ interface ISpriteTreeItemComponentProps {
 }
 export class SpriteTreeItemComponent extends React.Component<ISpriteTreeItemComponentProps> {
     constructor(props: ISpriteTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4136,7 +4268,7 @@ interface ITargetedAnimationItemComponentProps {
 }
 export class TargetedAnimationItemComponent extends React.Component<ITargetedAnimationItemComponentProps> {
     constructor(props: ITargetedAnimationItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4152,7 +4284,7 @@ interface ITextureTreeItemComponentProps {
 }
 export class TextureTreeItemComponent extends React.Component<ITextureTreeItemComponentProps> {
     constructor(props: ITextureTreeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4168,7 +4300,7 @@ interface ITransformNodeItemComponentProps {
 }
 export class TransformNodeItemComponent extends React.Component<ITransformNodeItemComponentProps> {
     constructor(props: ITransformNodeItemComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4189,7 +4321,7 @@ export class ExtensionsComponent extends React.Component<IExtensionsComponentPro
     showPopup(): void;
     componentDidMount(): void;
     componentDidUpdate(): void;
-    render(): JSX.Element | null;
+
 }
 export {};
 
@@ -4210,7 +4342,7 @@ interface ISceneExplorerFilterComponentProps {
 }
 export class SceneExplorerFilterComponent extends React.Component<ISceneExplorerFilterComponentProps> {
     constructor(props: ISceneExplorerFilterComponentProps);
-    render(): JSX.Element;
+
 }
 interface ISceneExplorerComponentProps {
     scene: Scene;
@@ -4257,10 +4389,10 @@ export class SceneExplorerComponent extends React.Component<ISceneExplorerCompon
     private _getMaterialsContextMenus;
     private _getSpriteManagersContextMenus;
     private _getParticleSystemsContextMenus;
-    renderContent(allNodes: any[]): JSX.Element | null;
+
     onClose(): void;
     onPopup(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4295,8 +4427,8 @@ export class TreeItemComponent extends React.Component<ITreeItemComponentProps, 
         isExpanded: boolean;
     }): boolean;
     expandAll(expand: boolean): void;
-    renderContextMenu(): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 
 }
@@ -4312,7 +4444,7 @@ interface ITreeItemLabelComponentProps {
 export class TreeItemLabelComponent extends React.Component<ITreeItemLabelComponentProps> {
     constructor(props: ITreeItemLabelComponentProps);
     onClick(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4348,8 +4480,8 @@ export class TreeItemSelectableComponent extends React.Component<ITreeItemSelect
     componentDidMount(): void;
     componentDidUpdate(): void;
     onSelect(): void;
-    renderChildren(): JSX.Element[] | null;
-    render(): JSX.Element | null;
+
+
 }
 
 }
@@ -4369,9 +4501,13 @@ interface ITreeItemSpecializedComponentProps {
 export class TreeItemSpecializedComponent extends React.Component<ITreeItemSpecializedComponentProps> {
     constructor(props: ITreeItemSpecializedComponentProps);
     onClick(): void;
-    render(): JSX.Element;
+
 }
 export {};
+
+}
+declare module "babylonjs-inspector/components/sceneExplorer/treeNodeDebugger" {
+export function setDebugNode(node: any): void;
 
 }
 declare module "babylonjs-inspector/index" {
@@ -4434,27 +4570,9 @@ declare module "babylonjs-inspector/legacy/legacy" {
 export * from "babylonjs-inspector/index";
 
 }
-declare module "babylonjs-inspector/lod" {
-/** @internal */
-export var lodPixelShader: {
-    name: string;
-    shader: string;
-};
-
-}
-declare module "babylonjs-inspector/lodCube" {
-/** @internal */
-export var lodCubePixelShader: {
-    name: string;
-    shader: string;
-};
-
-}
 declare module "babylonjs-inspector/textureHelper" {
 import { BaseTexture } from "babylonjs/Materials/Textures/baseTexture";
 import { GlobalState } from "babylonjs-inspector/components/globalState";
-import "babylonjs-inspector/lod";
-import "babylonjs-inspector/lodCube";
 /**
  * Defines which channels of the texture to retrieve with {@link TextureHelper.GetTextureDataAsync}.
  */
@@ -4488,6 +4606,7 @@ export class TextureHelper {
      * @param height the height of the result, which does not have to match the source texture height
      * @param face if the texture has multiple faces, the face index to use for the source
      * @param channels a filter for which of the RGBA channels to return in the result
+     * @param globalState the global state to use for rendering the texture
      * @param lod if the texture has multiple LODs, the lod index to use for the source
      * @returns the 8-bit texture data
      */
@@ -4521,7 +4640,7 @@ export class ColorComponentEntry extends React.Component<IColorComponentEntryPro
     updateValue(valueString: string): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -4567,7 +4686,7 @@ export class ColorPicker extends React.Component<IColorPickerProps, IColorPicker
     private _evaluateHue;
     componentDidUpdate(): void;
     raiseOnColorChanged(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -4590,7 +4709,7 @@ export class HexColor extends React.Component<IHexColorProps, {
     lock(): void;
     unlock(): void;
     updateHexValue(valueString: string): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -4651,7 +4770,7 @@ export class CommandDropdownComponent extends React.Component<ICommandDropdownCo
     activeState: string;
 }> {
     constructor(props: ICommandDropdownComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -4687,12 +4806,12 @@ export interface IColorComponentEntryProps {
     disabled?: boolean;
     lockObject: LockObject;
 }
-export class ColorComponentEntry extends React.Component<IColorComponentEntryProps> {
+export class ColorComponentComponentEntry extends React.Component<IColorComponentEntryProps> {
     constructor(props: IColorComponentEntryProps);
     updateValue(valueString: string): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -4703,7 +4822,7 @@ import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
 /**
  * Interface used to specify creation options for color picker
  */
-export interface IColorPickerProps {
+export interface IColorPickerComponentProps {
     color: Color3 | Color4;
     linearhint?: boolean;
     debugMode?: boolean;
@@ -4721,13 +4840,13 @@ export interface IColorPickerState {
 /**
  * Class used to create a color picker
  */
-export class ColorPicker extends React.Component<IColorPickerProps, IColorPickerState> {
+export class ColorPickerComponent extends React.Component<IColorPickerComponentProps, IColorPickerState> {
     private _saturationRef;
     private _hueRef;
     private _isSaturationPointerDown;
     private _isHuePointerDown;
-    constructor(props: IColorPickerProps);
-    shouldComponentUpdate(nextProps: IColorPickerProps, nextState: IColorPickerState): boolean;
+    constructor(props: IColorPickerComponentProps);
+    shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerState): boolean;
     onSaturationPointerDown(evt: React.PointerEvent<HTMLDivElement>): void;
     onSaturationPointerUp(evt: React.PointerEvent<HTMLDivElement>): void;
     onSaturationPointerMove(evt: React.PointerEvent<HTMLDivElement>): void;
@@ -4738,7 +4857,7 @@ export class ColorPicker extends React.Component<IColorPickerProps, IColorPicker
     private _evaluateHue;
     componentDidUpdate(): void;
     raiseOnColorChanged(): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -4751,7 +4870,7 @@ export interface IHexColorProps {
     onChange: (value: string) => void;
     lockObject: LockObject;
 }
-export class HexColor extends React.Component<IHexColorProps, {
+export class HexColorComponent extends React.Component<IHexColorProps, {
     hex: string;
 }> {
     constructor(props: IHexColorProps);
@@ -4761,7 +4880,7 @@ export class HexColor extends React.Component<IHexColorProps, {
     lock(): void;
     unlock(): void;
     updateHexValue(valueString: string): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -4806,6 +4925,8 @@ export interface IDraggableIconProps {
 }
 /**
  * An icon that can be dragged by the user
+ * @param props properties
+ * @returns draggable icon element
  */
 export const DraggableIcon: FC<IDraggableIconProps>;
 
@@ -4847,6 +4968,8 @@ export interface IFlexibleDragHandlerProps {
 }
 /**
  * This component receives the drop events and updates the layout accordingly
+ * @param props properties
+ * @returns DragHandler element
  */
 export const FlexibleDragHandler: FC<IFlexibleDragHandlerProps>;
 
@@ -4869,6 +4992,8 @@ export interface IFlexibleDropZoneProps {
 /**
  * This component contains the drag and drop zone for the resize bars that
  * allow redefining width and height of layout elements
+ * @param props properties
+ * @returns drop zone element
  */
 export const FlexibleDropZone: FC<IFlexibleDropZoneProps>;
 
@@ -4882,6 +5007,7 @@ export interface IFlexibleGridContainerProps {
 }
 /**
  * Component responsible for mapping the layout to the actual components
+ * @returns GridContainer element
  */
 export const FlexibleGridContainer: FC<IFlexibleGridContainerProps>;
 
@@ -4901,6 +5027,8 @@ export interface IFlexibleGridLayoutProps {
 /**
  * This component represents a grid layout that can be resized and rearranged
  * by the user.
+ * @param props properties
+ * @returns layout element
  */
 export const FlexibleGridLayout: FC<IFlexibleGridLayoutProps>;
 
@@ -4944,6 +5072,8 @@ export type ResizeItem = {
 };
 /**
  * A component that renders a bar that the user can drag to resize.
+ * @param props properties
+ * @returns resize bar element
  */
 export const FlexibleResizeBar: FC<IFlexibleRowResizerProps>;
 
@@ -4981,6 +5111,8 @@ export interface IFlexibleTabProps {
  * to activate or drag to reorder. It also listens for
  * drop events if the user wants to drop another tab
  * after it.
+ * @param props properties
+ * @returns FlexibleTab element
  */
 export const FlexibleTab: FC<IFlexibleTabProps>;
 
@@ -5012,6 +5144,8 @@ export interface IFlexibleTabsContainerProps {
 /**
  * This component contains a set of tabs of which only one is visible at a time.
  * The tabs can also be dragged from and to different containers.
+ * @param props properties
+ * @returns tabs container element
  */
 export const FlexibleTabsContainer: FC<IFlexibleTabsContainerProps>;
 
@@ -5135,11 +5269,15 @@ export const getPosInLayout: (layout: Layout, column: number, row?: number) => L
 export const removeLayoutRowAndRedistributePercentages: (layout: Layout, column: number, row: number) => void;
 /**
  * Add a percentage string to a number
+ * @param p1 the percentage string
+ * @param p2 the number
+ * @returns the sum of the percentage string and the number
  */
 export const addPercentageStringToNumber: (p1: string, p2: number) => number;
 /**
  * Parses a percentage string into a number
  * @param p the percentage string
+ * @returns the parsed number
  */
 export const parsePercentage: (p: string) => number;
 
@@ -5182,7 +5320,7 @@ export class ColorLineComponent extends React.Component<IColorLineComponentProps
     copyToClipboard(): void;
     private _convertToColor;
     private _toColor3;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5191,7 +5329,7 @@ declare module "babylonjs-inspector/components/lines/ColorPickerLineComponent" {
 import * as React from "react";
 import { Color4, Color3 } from "babylonjs/Maths/math.color";
 import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
-export interface IColorPickerComponentProps {
+export interface IColorPickerLineComponentProps {
     value: Color4 | Color3;
     linearHint?: boolean;
     onColorChanged: (newOne: string) => void;
@@ -5206,19 +5344,19 @@ interface IColorPickerComponentState {
     color: Color3 | Color4;
     hex: string;
 }
-export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+export class ColorPickerLineComponent extends React.Component<IColorPickerLineComponentProps, IColorPickerComponentState> {
     private _floatRef;
     private _floatHostRef;
     private _coverRef;
-    constructor(props: IColorPickerComponentProps);
+    constructor(props: IColorPickerLineComponentProps);
     syncPositions(): void;
-    shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-    getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+    shouldComponentUpdate(nextProps: IColorPickerLineComponentProps, nextState: IColorPickerComponentState): boolean;
+    getHexString(props?: Readonly<IColorPickerLineComponentProps> & Readonly<{
         children?: React.ReactNode;
     }>): string;
     componentDidUpdate(): void;
     componentDidMount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5238,7 +5376,7 @@ export class FileButtonLineComponent extends React.Component<IFileButtonLineComp
     private _uploadInputRef;
     constructor(props: IFileButtonLineComponentProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -5271,13 +5409,12 @@ export class NumericInputComponent extends React.Component<INumericInputComponen
     onBlur(): void;
     incrementValue(amount: number): void;
     onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
+
 }
 export {};
 
 }
 declare module "babylonjs-inspector/components/lines/OptionsLineComponent" {
-/// <reference types="react" />
 /**
  * This components represents an options menu with optional
  * customizable properties. Option IDs should be unique.
@@ -5296,7 +5433,7 @@ export interface IOptionsLineComponentProps {
     validateNewOptionValue?: (newOptionValue: string) => boolean;
     addOptionText?: string;
 }
-export const OptionsLineComponent: (props: IOptionsLineComponentProps) => JSX.Element;
+
 
 }
 declare module "babylonjs-inspector/components/MessageDialog" {
@@ -5351,6 +5488,7 @@ export interface IGraphConnectorHandlerProps {
 /**
  * This component is used to initiate a connection between two nodes. Simply
  * drag the handle in a node and drop it in another node to create a connection.
+ * @returns connector element
  */
 export const GraphConnectorHandler: FC<IGraphConnectorHandlerProps>;
 
@@ -5420,6 +5558,8 @@ export const MarkerArrowId = "arrow";
 /**
  * This component draws a SVG line between two points, with an optional marker
  * indicating direction
+ * @param props properties
+ * @returns graph line element
  */
 export const GraphLine: FC<IGraphLineProps>;
 
@@ -5456,7 +5596,7 @@ export interface IGraphNodeProps {
     highlighted?: boolean;
     parentContainerId: string;
 }
-export const GraphNode: FC<IGraphNodeProps>;
+export const SingleGraphNode: FC<IGraphNodeProps>;
 
 }
 declare module "babylonjs-inspector/components/reactGraphSystem/GraphNodesContainer" {
@@ -5467,6 +5607,8 @@ export interface IGraphContainerProps {
 }
 /**
  * This component contains all the nodes and handles their dragging
+ * @param props properties
+ * @returns graph node container element
  */
 export const GraphNodesContainer: FC<IGraphContainerProps>;
 
@@ -5540,7 +5682,7 @@ export interface INodeRendererProps {
  * @param props
  * @returns
  */
-export const NodeRenderer: (props: INodeRendererProps) => JSX.Element;
+
 
 }
 declare module "babylonjs-inspector/components/reactGraphSystem/useGraphContext" {
@@ -5552,7 +5694,6 @@ export const useGraphContext: () => import("babylonjs-inspector/components/react
 
 }
 declare module "babylonjs-inspector/components/TextInputWithSubmit" {
-/// <reference types="react" />
 export interface ITextInputProps {
     label?: string;
     placeholder?: string;
@@ -5562,8 +5703,10 @@ export interface ITextInputProps {
 }
 /**
  * This component represents a text input that can be submitted or cancelled on buttons
+ * @param props properties
+ * @returns TextInputWithSubmit element
  */
-export const TextInputWithSubmit: (props: ITextInputProps) => JSX.Element;
+
 
 }
 declare module "babylonjs-inspector/components/Toggle" {
@@ -5577,6 +5720,14 @@ export type ToggleProps = {
 export const Toggle: React.FC<ToggleProps>;
 
 }
+declare module "babylonjs-inspector/copyCommandToClipboard" {
+export function copyCommandToClipboard(strCommand: string): void;
+export function getClassNameWithNamespace(obj: any): {
+    className: string;
+    babylonNamespace: string;
+};
+
+}
 declare module "babylonjs-inspector/lines/booleanLineComponent" {
 import * as React from "react";
 export interface IBooleanLineComponentProps {
@@ -5587,7 +5738,7 @@ export interface IBooleanLineComponentProps {
 }
 export class BooleanLineComponent extends React.Component<IBooleanLineComponentProps> {
     constructor(props: IBooleanLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -5602,7 +5753,7 @@ export interface IButtonLineComponentProps {
 }
 export class ButtonLineComponent extends React.Component<IButtonLineComponentProps> {
     constructor(props: IButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -5641,7 +5792,8 @@ export class CheckBoxLineComponent extends React.Component<ICheckBoxLineComponen
         isConflict: boolean;
     }): boolean;
     onChange(): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 
 }
@@ -5662,7 +5814,7 @@ export interface IColor3LineComponentProps {
     onChange?: () => void;
 }
 export class Color3LineComponent extends React.Component<IColor3LineComponentProps> {
-    render(): JSX.Element;
+
 }
 
 }
@@ -5683,7 +5835,7 @@ export interface IColor4LineComponentProps {
     lockObject: LockObject;
 }
 export class Color4LineComponent extends React.Component<IColor4LineComponentProps> {
-    render(): JSX.Element;
+
 }
 
 }
@@ -5693,7 +5845,7 @@ import { Observable } from "babylonjs/Misc/observable";
 import { Color4 } from "babylonjs/Maths/math.color";
 import { PropertyChangedEvent } from "babylonjs-inspector/propertyChangedEvent";
 import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
-export interface IColorLineComponentProps {
+export interface IColorLineProps {
     label: string;
     target?: any;
     propertyName: string;
@@ -5709,10 +5861,10 @@ interface IColorLineComponentState {
     isExpanded: boolean;
     color: Color4;
 }
-export class ColorLineComponent extends React.Component<IColorLineComponentProps, IColorLineComponentState> {
-    constructor(props: IColorLineComponentProps);
-    shouldComponentUpdate(nextProps: IColorLineComponentProps, nextState: IColorLineComponentState): boolean;
-    getValue(props?: Readonly<IColorLineComponentProps> & Readonly<{
+export class ColorLine extends React.Component<IColorLineProps, IColorLineComponentState> {
+    constructor(props: IColorLineProps);
+    shouldComponentUpdate(nextProps: IColorLineProps, nextState: IColorLineComponentState): boolean;
+    getValue(props?: Readonly<IColorLineProps> & Readonly<{
         children?: React.ReactNode;
     }>): Color4;
     setColorFromString(colorString: string): void;
@@ -5722,10 +5874,10 @@ export class ColorLineComponent extends React.Component<IColorLineComponentProps
     updateStateG(value: number): void;
     updateStateB(value: number): void;
     updateStateA(value: number): void;
-    copyToClipboard(): void;
     private _convertToColor;
     private _toColor3;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -5734,7 +5886,7 @@ declare module "babylonjs-inspector/lines/colorPickerComponent" {
 import * as React from "react";
 import { Color4, Color3 } from "babylonjs/Maths/math.color";
 import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
-export interface IColorPickerComponentProps {
+export interface IColorPickerLineProps {
     value: Color4 | Color3;
     linearHint?: boolean;
     onColorChanged: (newOne: string) => void;
@@ -5748,18 +5900,18 @@ interface IColorPickerComponentState {
     color: Color3 | Color4;
     hex: string;
 }
-export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+export class ColorPickerLine extends React.Component<IColorPickerLineProps, IColorPickerComponentState> {
     private _floatRef;
     private _floatHostRef;
-    constructor(props: IColorPickerComponentProps);
+    constructor(props: IColorPickerLineProps);
     syncPositions(): void;
-    shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-    getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+    shouldComponentUpdate(nextProps: IColorPickerLineProps, nextState: IColorPickerComponentState): boolean;
+    getHexString(props?: Readonly<IColorPickerLineProps> & Readonly<{
         children?: React.ReactNode;
     }>): string;
     componentDidUpdate(): void;
     componentDidMount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5772,26 +5924,26 @@ export interface IButtonLineComponentProps {
 }
 export class DraggableLineComponent extends React.Component<IButtonLineComponentProps> {
     constructor(props: IButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
 declare module "babylonjs-inspector/lines/fileButtonLineComponent" {
 import * as React from "react";
-interface IFileButtonLineComponentProps {
+interface IFileButtonLineProps {
     label: string;
     onClick: (file: File) => void;
     accept: string;
     icon?: string;
     iconLabel?: string;
 }
-export class FileButtonLineComponent extends React.Component<IFileButtonLineComponentProps> {
+export class FileButtonLine extends React.Component<IFileButtonLineProps> {
     private static _IDGenerator;
     private _id;
     private _uploadInputRef;
-    constructor(props: IFileButtonLineComponentProps);
+    constructor(props: IFileButtonLineProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5811,7 +5963,7 @@ export class FileMultipleButtonLineComponent extends React.Component<IFileMultip
     private _uploadInputRef;
     constructor(props: IFileMultipleButtonLineComponentProps);
     onChange(evt: any): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5844,6 +5996,7 @@ interface IFloatLineComponentProps {
     unit?: React.ReactNode;
     onDragStart?: (newValue: number) => void;
     onDragStop?: (newValue: number) => void;
+    disabled?: boolean;
 }
 export class FloatLineComponent extends React.Component<IFloatLineComponentProps, {
     value: string;
@@ -5864,7 +6017,8 @@ export class FloatLineComponent extends React.Component<IFloatLineComponentProps
     unlock(): void;
     incrementValue(amount: number, processStep?: boolean): void;
     onKeyDown(event: React.KeyboardEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -5907,7 +6061,7 @@ export class HexLineComponent extends React.Component<IHexLineComponentProps, {
     updateValue(valueString: string, raisePropertyChanged: boolean): void;
     lock(): void;
     unlock(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5922,7 +6076,7 @@ export interface IIconButtonLineComponentProps {
 }
 export class IconButtonLineComponent extends React.Component<IIconButtonLineComponentProps> {
     constructor(props: IIconButtonLineComponentProps);
-    render(): JSX.Element;
+
 }
 
 }
@@ -5933,7 +6087,7 @@ interface IIconComponentProps {
     label?: string;
 }
 export class IconComponent extends React.Component<IIconComponentProps> {
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5951,8 +6105,8 @@ interface IIndentedTextLineComponentProps {
 export class IndentedTextLineComponent extends React.Component<IIndentedTextLineComponentProps> {
     constructor(props: IIndentedTextLineComponentProps);
     onLink(): void;
-    renderContent(): JSX.Element;
-    render(): JSX.Element;
+
+
 }
 export {};
 
@@ -5968,7 +6122,7 @@ export class InputArrowsComponent extends React.Component<IInputArrowsComponentP
     private _drag;
     private _releaseListener;
     private _lockChangeListener;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -5995,9 +6149,9 @@ export class LineContainerComponent extends React.Component<ILineContainerCompon
 }> {
     constructor(props: ILineContainerComponentProps);
     switchExpandedState(): void;
-    renderHeader(): JSX.Element;
+
     componentDidMount(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6016,7 +6170,7 @@ interface ILinkButtonComponentProps {
 export class LinkButtonComponent extends React.Component<ILinkButtonComponentProps> {
     constructor(props: ILinkButtonComponentProps);
     onLink(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6055,7 +6209,7 @@ export class MatrixLineComponent extends React.Component<IMatrixLineComponentPro
     updateMatrix(): void;
     updateRow(value: Vector4, row: number): void;
     updateBasedOnMode(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6070,7 +6224,7 @@ interface IMessageLineComponentProps {
 }
 export class MessageLineComponent extends React.Component<IMessageLineComponentProps> {
     constructor(props: IMessageLineComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6078,7 +6232,7 @@ export {};
 declare module "babylonjs-inspector/lines/numericInputComponent" {
 import * as React from "react";
 import { LockObject } from "babylonjs-inspector/tabs/propertyGrids/lockObject";
-interface INumericInputComponentProps {
+interface INumericInputProps {
     label: string;
     value: number;
     step?: number;
@@ -6088,23 +6242,23 @@ interface INumericInputComponentProps {
     iconLabel?: string;
     lockObject: LockObject;
 }
-export class NumericInputComponent extends React.Component<INumericInputComponentProps, {
+export class NumericInput extends React.Component<INumericInputProps, {
     value: string;
 }> {
     static defaultProps: {
         step: number;
     };
     private _localChange;
-    constructor(props: INumericInputComponentProps);
+    constructor(props: INumericInputProps);
     componentWillUnmount(): void;
-    shouldComponentUpdate(nextProps: INumericInputComponentProps, nextState: {
+    shouldComponentUpdate(nextProps: INumericInputProps, nextState: {
         value: string;
     }): boolean;
     updateValue(valueString: string): void;
     onBlur(): void;
     incrementValue(amount: number): void;
     onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6115,7 +6269,7 @@ import { Observable } from "babylonjs/Misc/observable";
 import { PropertyChangedEvent } from "babylonjs-inspector/propertyChangedEvent";
 import { IInspectableOptions } from "babylonjs/Misc/iInspectable";
 export const Null_Value: number;
-export interface IOptionsLineComponentProps {
+export interface IOptionsLineProps {
     label: string;
     target: any;
     propertyName: string;
@@ -6131,21 +6285,22 @@ export interface IOptionsLineComponentProps {
     valuesAreStrings?: boolean;
     defaultIfNull?: number;
 }
-export class OptionsLineComponent extends React.Component<IOptionsLineComponentProps, {
+export class OptionsLine extends React.Component<IOptionsLineProps, {
     value: number | string;
 }> {
     private _localChange;
     private _remapValueIn;
     private _remapValueOut;
     private _getValue;
-    constructor(props: IOptionsLineComponentProps);
-    shouldComponentUpdate(nextProps: IOptionsLineComponentProps, nextState: {
+    constructor(props: IOptionsLineProps);
+    shouldComponentUpdate(nextProps: IOptionsLineProps, nextState: {
         value: number;
     }): boolean;
     raiseOnPropertyChanged(newValue: number, previousValue: number): void;
     setValue(value: string | number): void;
     updateValue(valueString: string): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 
 }
@@ -6175,7 +6330,7 @@ export class RadioButtonLineComponent extends React.Component<IRadioButtonLineCo
     componentDidMount(): void;
     componentWillUnmount(): void;
     onChange(): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6215,7 +6370,8 @@ export class SliderLineComponent extends React.Component<ISliderLineComponentPro
     onChange(newValueString: any): void;
     onInput(newValueString: any): void;
     prepareDataToRead(value: number): number;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -6283,7 +6439,7 @@ export class TextInputLineComponent extends React.Component<ITextInputLineCompon
     updateValue(value: string, valueToValidate?: string): void;
     incrementValue(amount: number): void;
     onKeyDown(event: React.KeyboardEvent): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -6305,20 +6461,19 @@ interface ITextLineComponentProps {
 export class TextLineComponent extends React.Component<ITextLineComponentProps> {
     constructor(props: ITextLineComponentProps);
     onLink(): void;
-    renderContent(): JSX.Element | null;
-    render(): JSX.Element;
+
+
 }
 export {};
 
 }
 declare module "babylonjs-inspector/lines/unitButton" {
-/// <reference types="react" />
 interface IUnitButtonProps {
     unit: string;
     locked?: boolean;
     onClick?: (unit: string) => void;
 }
-export function UnitButton(props: IUnitButtonProps): JSX.Element;
+
 export {};
 
 }
@@ -6335,7 +6490,7 @@ interface IValueLineComponentProps {
 }
 export class ValueLineComponent extends React.Component<IValueLineComponentProps> {
     constructor(props: IValueLineComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6374,7 +6529,7 @@ export class Vector2LineComponent extends React.Component<IVector2LineComponentP
     raiseOnPropertyChanged(previousValue: Vector2): void;
     updateStateX(value: number): void;
     updateStateY(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6418,7 +6573,8 @@ export class Vector3LineComponent extends React.Component<IVector3LineComponentP
     updateStateX(value: number): void;
     updateStateY(value: number): void;
     updateStateZ(value: number): void;
-    render(): JSX.Element;
+    onCopyClick(): void;
+
 }
 export {};
 
@@ -6463,7 +6619,7 @@ export class Vector4LineComponent extends React.Component<IVector4LineComponentP
     updateStateY(value: number): void;
     updateStateZ(value: number): void;
     updateStateW(value: number): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -6623,7 +6779,7 @@ export class GraphCanvasComponent extends React.Component<IGraphCanvasComponentP
     processEditorData(editorData: IEditorData): void;
     reOrganize(editorData?: Nullable<IEditorData>, isImportingAFrame?: boolean): void;
     addFrame(frameData: IFrameData): void;
-    render(): JSX.Element;
+
 }
 
 }
@@ -7118,7 +7274,7 @@ export class SearchBoxComponent extends React.Component<ISearchBoxComponentProps
     onFilterChange(evt: React.ChangeEvent<HTMLInputElement>): void;
     onNewNodeRequested(name: string): void;
     onKeyDown(evt: React.KeyboardEvent): void;
-    render(): JSX.Element | null;
+
 }
 
 }
@@ -7247,7 +7403,7 @@ interface ICheckboxPropertyGridComponentProps {
 }
 export class CheckboxPropertyGridComponent extends React.Component<ICheckboxPropertyGridComponentProps> {
     constructor(props: ICheckboxPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7265,7 +7421,7 @@ interface IColorPickerPropertyGridComponentProps {
 }
 export class ColorPickerPropertyGridComponent extends React.Component<IColorPickerPropertyGridComponentProps> {
     constructor(props: IColorPickerPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7284,8 +7440,8 @@ interface ICommonControlPropertyGridComponentProps {
 }
 export class CommonControlPropertyGridComponent extends React.Component<ICommonControlPropertyGridComponentProps> {
     constructor(props: ICommonControlPropertyGridComponentProps);
-    renderGridInformation(control: Control): JSX.Element | null;
-    render(): JSX.Element | undefined;
+
+
 }
 export {};
 
@@ -7303,7 +7459,7 @@ interface IControlPropertyGridComponentProps {
 }
 export class ControlPropertyGridComponent extends React.Component<IControlPropertyGridComponentProps> {
     constructor(props: IControlPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7321,7 +7477,7 @@ interface IEllipsePropertyGridComponentProps {
 }
 export class EllipsePropertyGridComponent extends React.Component<IEllipsePropertyGridComponentProps> {
     constructor(props: IEllipsePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7339,9 +7495,9 @@ interface IGridPropertyGridComponentProps {
 }
 export class GridPropertyGridComponent extends React.Component<IGridPropertyGridComponentProps> {
     constructor(props: IGridPropertyGridComponentProps);
-    renderRows(): JSX.Element[];
-    renderColumns(): JSX.Element[];
-    render(): JSX.Element;
+
+
+
 }
 export {};
 
@@ -7359,7 +7515,7 @@ interface IImageBasedSliderPropertyGridComponentProps {
 }
 export class ImageBasedSliderPropertyGridComponent extends React.Component<IImageBasedSliderPropertyGridComponentProps> {
     constructor(props: IImageBasedSliderPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7377,7 +7533,7 @@ interface IImagePropertyGridComponentProps {
 }
 export class ImagePropertyGridComponent extends React.Component<IImagePropertyGridComponentProps> {
     constructor(props: IImagePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7395,7 +7551,7 @@ interface IInputTextPropertyGridComponentProps {
 }
 export class InputTextPropertyGridComponent extends React.Component<IInputTextPropertyGridComponentProps> {
     constructor(props: IInputTextPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7414,7 +7570,7 @@ interface ILinePropertyGridComponentProps {
 export class LinePropertyGridComponent extends React.Component<ILinePropertyGridComponentProps> {
     constructor(props: ILinePropertyGridComponentProps);
     onDashChange(value: string): void;
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7432,7 +7588,7 @@ interface IRadioButtonPropertyGridComponentProps {
 }
 export class RadioButtonPropertyGridComponent extends React.Component<IRadioButtonPropertyGridComponentProps> {
     constructor(props: IRadioButtonPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7450,7 +7606,7 @@ interface IRectanglePropertyGridComponentProps {
 }
 export class RectanglePropertyGridComponent extends React.Component<IRectanglePropertyGridComponentProps> {
     constructor(props: IRectanglePropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7468,7 +7624,7 @@ interface IScrollViewerPropertyGridComponentProps {
 }
 export class ScrollViewerPropertyGridComponent extends React.Component<IScrollViewerPropertyGridComponentProps> {
     constructor(props: IScrollViewerPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7486,7 +7642,7 @@ interface ISliderPropertyGridComponentProps {
 }
 export class SliderPropertyGridComponent extends React.Component<ISliderPropertyGridComponentProps> {
     constructor(props: ISliderPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7504,7 +7660,7 @@ interface IStackPanelPropertyGridComponentProps {
 }
 export class StackPanelPropertyGridComponent extends React.Component<IStackPanelPropertyGridComponentProps> {
     constructor(props: IStackPanelPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7522,7 +7678,7 @@ interface ITextBlockPropertyGridComponentProps {
 }
 export class TextBlockPropertyGridComponent extends React.Component<ITextBlockPropertyGridComponentProps> {
     constructor(props: ITextBlockPropertyGridComponentProps);
-    render(): JSX.Element;
+
 }
 export {};
 
@@ -7569,10 +7725,10 @@ declare module INSPECTOR {
         componentDidMount(): void;
         componentWillUnmount(): void;
         changeSelectedTab(index: number): void;
-        renderContent(): JSX.Element | null;
+        renderContent(): import("react/jsx-runtime").JSX.Element | null;
         onClose(): void;
         onPopup(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7586,7 +7742,7 @@ declare module INSPECTOR {
     }
     export class MeshPickerComponent extends React.Component<IMeshPickerComponentProps> {
         constructor(props: IMeshPickerComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7622,7 +7778,8 @@ declare module INSPECTOR {
         updateStateEulerX(value: number): void;
         updateStateEulerY(value: number): void;
         updateStateEulerZ(value: number): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7647,7 +7804,7 @@ declare module INSPECTOR {
         componentDidMount(): void;
         componentDidUpdate(): void;
         updatePreview(): Promise<void>;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7678,7 +7835,7 @@ declare module INSPECTOR {
         onLink(): void;
         updateTexture(file: File): void;
         removeTexture(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -7699,12 +7856,11 @@ declare module INSPECTOR {
     }
 
 
-    /// <reference types="react" />
     export class DebugTabComponent extends PaneComponent {
         private _physicsViewersEnabled;
         constructor(props: IPaneComponentProps);
         switchPhysicsViewers(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -7716,7 +7872,7 @@ declare module INSPECTOR {
         copyStep(step: BABYLON.GradientBlockColorStep): void;
         addNewStep(): void;
         checkForReOrder(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7737,7 +7893,7 @@ declare module INSPECTOR {
         updateColor(color: string): void;
         updateStep(gradient: number): void;
         onPointerUp(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7770,12 +7926,11 @@ declare module INSPECTOR {
     export var PerformanceViewerPopupComponent: React.FC<IPerformanceViewerPopupComponentProps>;
 
 
-    /// <reference types="react" />
     interface IPerformanceViewerSidebarComponentProps {
         collector: BABYLON.PerformanceViewerCollector;
         onVisibleRangeChangedObservable?: BABYLON.Observable<IVisibleRangeChangedObservableProps>;
     }
-    export const PerformanceViewerSidebarComponent: (props: IPerformanceViewerSidebarComponentProps) => JSX.Element;
+    export const PerformanceViewerSidebarComponent: (props: IPerformanceViewerSidebarComponentProps) => import("react/jsx-runtime").JSX.Element;
 
 
     export interface IPropertyComponentProps {
@@ -7809,7 +7964,7 @@ declare module INSPECTOR {
         componentWillUnmount(): void;
         playOrPause(): void;
         onCurrentFrameChange(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7838,7 +7993,7 @@ declare module INSPECTOR {
         onCurrentFrameChange(value: number): void;
         onChangeFromOrTo(): void;
         componentDidUpdate(prevProps: IAnimationGridComponentProps): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7854,7 +8009,7 @@ declare module INSPECTOR {
         onCloseAnimationCurveEditor(window: Window | null): void;
         shouldComponentUpdate(newProps: IAnimationCurveEditorComponentProps, newState: IAnimationCurveEditorComponentState): boolean;
         private _onKeyDown;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7873,7 +8028,7 @@ declare module INSPECTOR {
         constructor(props: IBottomBarComponentProps);
         private _changeClipLength;
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7897,7 +8052,7 @@ declare module INSPECTOR {
         private _onNextKey;
         private _onEndKey;
         private _onStop;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -7925,7 +8080,7 @@ declare module INSPECTOR {
         private _onPointerMove;
         private _updateLimits;
         private _onPointerUp;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8020,12 +8175,16 @@ declare module INSPECTOR {
          * If any current active animation has a key at the received frameNumber,
          * return the index of the animation in the active animation array, and
          * the index of the frame on the animation.
-         * @param frameNumber
+         * @param frameNumber the frame number to look for
+         * @returns null if no key was found, or an object with the animation index and key index
          */
         getKeyAtAnyFrameIndex(frameNumber: number): {
             animationIndex: number;
             keyIndex: number;
         } | null;
+        /**
+         * @returns true if any active animation has a quaternion animation
+         */
         hasActiveQuaternionAnimationKeyPoints(): boolean;
     }
 
@@ -8044,7 +8203,7 @@ declare module INSPECTOR {
     }
     export class ActionButtonComponent extends React.Component<IActionButtonComponentProps, IActionButtonComponentState> {
         constructor(props: IActionButtonComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8062,7 +8221,7 @@ declare module INSPECTOR {
     }
     export class ControlButtonComponent extends React.Component<IControlButtonComponentProps, IControlButtonComponentState> {
         constructor(props: IControlButtonComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8081,7 +8240,7 @@ declare module INSPECTOR {
     }
     export class PushButtonComponent extends React.Component<IPushButtonComponentProps, IPushButtonComponentState> {
         constructor(props: IPushButtonComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8109,7 +8268,7 @@ declare module INSPECTOR {
         private _onFocus;
         shouldComponentUpdate(newProps: ITextInputComponentProps, newState: ITextInputComponentState): boolean;
         private _onKeyPress;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8123,7 +8282,7 @@ declare module INSPECTOR {
         private _onActiveAnimationChangedObserver;
         constructor(props: ICanvasComponentProps);
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8181,7 +8340,7 @@ declare module INSPECTOR {
         constructor(props: ICurveComponentProps);
         componentWillUnmount(): void;
         componentDidUpdate(): boolean;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8202,7 +8361,7 @@ declare module INSPECTOR {
         componentWillUnmount(): void;
         private _computeSizes;
         private _buildFrames;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8259,7 +8418,7 @@ declare module INSPECTOR {
         private _onPointerMove;
         private _onPointerUp;
         private _onWheel;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8336,7 +8495,7 @@ declare module INSPECTOR {
         private _processTangentMove;
         private _onPointerMove;
         private _onPointerUp;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8371,7 +8530,7 @@ declare module INSPECTOR {
         private _onPointerDown;
         private _onPointerMove;
         private _onPointerUp;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8396,7 +8555,7 @@ declare module INSPECTOR {
         private _dropKeyFrames;
         private _buildActiveFrame;
         private _buildFrames;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8417,7 +8576,7 @@ declare module INSPECTOR {
         constructor(props: IAddAnimationComponentProps);
         createNew(): void;
         getInferredType(activeProperty?: string): any;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8441,7 +8600,7 @@ declare module INSPECTOR {
         componentWillUnmount(): void;
         private _activate;
         private _expandOrCollapse;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8458,7 +8617,7 @@ declare module INSPECTOR {
         private _onDeleteAnimationObserver;
         constructor(props: IAnimationListComponentProps);
         componentWillUnmount(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8478,7 +8637,7 @@ declare module INSPECTOR {
         constructor(props: IAnimationSubEntryComponentProps);
         componentWillUnmount(): void;
         private _activate;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8500,7 +8659,7 @@ declare module INSPECTOR {
         componentWillUnmount(): void;
         close(): void;
         validate(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8516,7 +8675,7 @@ declare module INSPECTOR {
         constructor(props: ILoadAnimationComponentProps);
         loadFromFile(evt: React.ChangeEvent<HTMLInputElement>): void;
         loadFromSnippetServer(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8533,7 +8692,7 @@ declare module INSPECTOR {
         private _getJson;
         saveToSnippetServer(): void;
         saveToFile(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8556,7 +8715,7 @@ declare module INSPECTOR {
         private _onLoadAnimation;
         private _onSaveAnimation;
         private _onEditAnimation;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8577,7 +8736,7 @@ declare module INSPECTOR {
         private _onActiveKeyPointChanged;
         constructor(props: ITopBarComponentProps);
         componentWillUnmount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8599,7 +8758,7 @@ declare module INSPECTOR {
         updateContextFromProps: () => void;
         componentDidMount(): void;
         componentDidUpdate(prevProps: Readonly<ITargetedAnimationGridComponentProps>, prevState: Readonly<{}>, snapshot?: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8611,7 +8770,7 @@ declare module INSPECTOR {
     }
     export class ArcRotateCameraPropertyGridComponent extends React.Component<IArcRotateCameraPropertyGridComponentProps> {
         constructor(props: IArcRotateCameraPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8625,7 +8784,7 @@ declare module INSPECTOR {
         mode: number;
     }> {
         constructor(props: ICommonCameraPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8637,7 +8796,7 @@ declare module INSPECTOR {
     }
     export class FollowCameraPropertyGridComponent extends React.Component<IFollowCameraPropertyGridComponentProps> {
         constructor(props: IFollowCameraPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8649,7 +8808,7 @@ declare module INSPECTOR {
     }
     export class FreeCameraPropertyGridComponent extends React.Component<IFreeCameraPropertyGridComponentProps> {
         constructor(props: IFreeCameraPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8663,8 +8822,8 @@ declare module INSPECTOR {
     }
     export class CommonPropertyGridComponent extends React.Component<ICommonPropertyGridComponentProps> {
         constructor(props: ICommonPropertyGridComponentProps);
-        renderLevel(jsonObject: any): JSX.Element[];
-        render(): JSX.Element | null;
+        renderLevel(jsonObject: any): import("react/jsx-runtime").JSX.Element[];
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8678,8 +8837,8 @@ declare module INSPECTOR {
         mode: number;
     }> {
         constructor(props: ICustomPropertyGridComponentProps);
-        renderInspectable(inspectable: BABYLON.IInspectable): JSX.Element | null;
-        render(): JSX.Element | null;
+        renderInspectable(inspectable: BABYLON.IInspectable): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -8693,7 +8852,7 @@ declare module INSPECTOR {
     }
     export class EmptyPropertyGridComponent extends React.Component<IEmptyPropertyGridComponentProps> {
         constructor(props: IEmptyPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8707,7 +8866,7 @@ declare module INSPECTOR {
         mode: number;
     }> {
         constructor(props: IFogPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8720,7 +8879,7 @@ declare module INSPECTOR {
     }
     export class LayerPropertyGridComponent extends React.Component<ILayerPropertyGridComponentProps> {
         constructor(props: ILayerPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8732,7 +8891,7 @@ declare module INSPECTOR {
     }
     export class CommonLightPropertyGridComponent extends React.Component<ICommonLightPropertyGridComponentProps> {
         constructor(props: ICommonLightPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8747,7 +8906,7 @@ declare module INSPECTOR {
         constructor(props: ICommonShadowLightPropertyGridComponentProps);
         createShadowGenerator(): void;
         disposeShadowGenerator(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8760,7 +8919,7 @@ declare module INSPECTOR {
     export class DirectionalLightPropertyGridComponent extends React.Component<IDirectionalLightPropertyGridComponentProps> {
         constructor(props: IDirectionalLightPropertyGridComponentProps);
         displayFrustum(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8772,7 +8931,7 @@ declare module INSPECTOR {
     }
     export class HemisphericLightPropertyGridComponent extends React.Component<IHemisphericLightPropertyGridComponentProps> {
         constructor(props: IHemisphericLightPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8784,7 +8943,7 @@ declare module INSPECTOR {
     }
     export class PointLightPropertyGridComponent extends React.Component<IPointLightPropertyGridComponentProps> {
         constructor(props: IPointLightPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8796,7 +8955,7 @@ declare module INSPECTOR {
     }
     export class SpotLightPropertyGridComponent extends React.Component<ISpotLightPropertyGridComponentProps> {
         constructor(props: ISpotLightPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8810,8 +8969,8 @@ declare module INSPECTOR {
     export class BackgroundMaterialPropertyGridComponent extends React.Component<IBackgroundMaterialPropertyGridComponentProps> {
         private _onDebugSelectionChangeObservable;
         constructor(props: IBackgroundMaterialPropertyGridComponentProps);
-        renderTextures(): JSX.Element;
-        render(): JSX.Element;
+        renderTextures(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8823,7 +8982,7 @@ declare module INSPECTOR {
     }
     export class CommonMaterialPropertyGridComponent extends React.Component<ICommonMaterialPropertyGridComponentProps> {
         constructor(props: ICommonMaterialPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8835,7 +8994,7 @@ declare module INSPECTOR {
     }
     export class MaterialPropertyGridComponent extends React.Component<IMaterialPropertyGridComponentProps> {
         constructor(props: IMaterialPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8849,8 +9008,8 @@ declare module INSPECTOR {
     export class MultiMaterialPropertyGridComponent extends React.Component<IMultiMaterialPropertyGridComponentProps> {
         constructor(props: IMultiMaterialPropertyGridComponentProps);
         onMaterialLink(mat: BABYLON.Material): void;
-        renderChildMaterial(): JSX.Element;
-        render(): JSX.Element;
+        renderChildMaterial(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8865,10 +9024,10 @@ declare module INSPECTOR {
         private _onDebugSelectionChangeObservable;
         constructor(props: INodeMaterialPropertyGridComponentProps);
         edit(): void;
-        renderTextures(): JSX.Element | null;
-        renderInputBlock(block: BABYLON.InputBlock): JSX.Element | null;
-        renderInputValues(): JSX.Element;
-        render(): JSX.Element;
+        renderTextures(): import("react/jsx-runtime").JSX.Element | null;
+        renderInputBlock(block: BABYLON.InputBlock): import("react/jsx-runtime").JSX.Element | null;
+        renderInputValues(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8886,8 +9045,8 @@ declare module INSPECTOR {
         private _onDebugSelectionChangeObservable;
         constructor(props: IPBRMaterialPropertyGridComponentProps);
         switchAmbientMode(state: boolean): void;
-        renderTextures(onDebugSelectionChangeObservable: BABYLON.Observable<TextureLinkLineComponent>): JSX.Element;
-        render(): JSX.Element;
+        renderTextures(onDebugSelectionChangeObservable: BABYLON.Observable<TextureLinkLineComponent>): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8901,8 +9060,8 @@ declare module INSPECTOR {
     export class PBRMetallicRoughnessMaterialPropertyGridComponent extends React.Component<IPBRMetallicRoughnessMaterialPropertyGridComponentProps> {
         private _onDebugSelectionChangeObservable;
         constructor(props: IPBRMetallicRoughnessMaterialPropertyGridComponentProps);
-        renderTextures(): JSX.Element;
-        render(): JSX.Element;
+        renderTextures(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8916,8 +9075,8 @@ declare module INSPECTOR {
     export class PBRSpecularGlossinessMaterialPropertyGridComponent extends React.Component<IPBRSpecularGlossinessMaterialPropertyGridComponentProps> {
         private _onDebugSelectionChangeObservable;
         constructor(props: IPBRSpecularGlossinessMaterialPropertyGridComponentProps);
-        renderTextures(): JSX.Element;
-        render(): JSX.Element;
+        renderTextures(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8931,8 +9090,8 @@ declare module INSPECTOR {
     export class StandardMaterialPropertyGridComponent extends React.Component<IStandardMaterialPropertyGridComponentProps> {
         private _onDebugSelectionChangeObservable;
         constructor(props: IStandardMaterialPropertyGridComponentProps);
-        renderTextures(): JSX.Element;
-        render(): JSX.Element;
+        renderTextures(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8984,7 +9143,7 @@ declare module INSPECTOR {
             normalizable: number;
             value: number;
         } | null;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -8993,7 +9152,7 @@ declare module INSPECTOR {
         mipLevel: number;
     }
     export class BottomBar extends React.PureComponent<IBottomBarProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9021,7 +9180,7 @@ declare module INSPECTOR {
         setChannels(channelState: IChannel[]): void;
     }
     export class ChannelsBar extends React.PureComponent<IChannelsBarProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9066,7 +9225,7 @@ declare module INSPECTOR {
         private _pixelData;
         private _getNewDimension;
         componentWillUpdate(nextProps: IPropertiesBarProps): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9077,7 +9236,7 @@ declare module INSPECTOR {
         texture: BABYLON.BaseTexture;
     }
     export class TextureCanvasComponent extends React.Component<ITextureCanvasComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9185,13 +9344,6 @@ declare module INSPECTOR {
     }
 
 
-   
-}
-
-        var _TOOL_DATA_: IToolData;
-    
-declare module INSPECTOR {
-    
     interface ITextureEditorComponentProps {
         texture: BABYLON.BaseTexture;
         url: string;
@@ -9297,7 +9449,7 @@ declare module INSPECTOR {
         resetTexture(): void;
         resizeTexture(width: number, height: number): void;
         uploadTexture(file: File): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9325,7 +9477,7 @@ declare module INSPECTOR {
         constructor(props: IToolBarProps);
         computeRGBAColor(): BABYLON.Color4;
         shouldComponentUpdate(nextProps: IToolBarProps): boolean;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9333,7 +9485,7 @@ declare module INSPECTOR {
         tool: ITool | undefined;
     }
     export class ToolSettings extends React.Component<IToolSettingsProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9346,7 +9498,7 @@ declare module INSPECTOR {
     export class BonePropertyGridComponent extends React.Component<IBonePropertyGridComponentProps> {
         constructor(props: IBonePropertyGridComponentProps);
         onTransformNodeLink(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9377,8 +9529,99 @@ declare module INSPECTOR {
         onSkeletonLink(): void;
         convertPhysicsTypeToString(): string;
         private _getIdForDisplay;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
+
+
+    /**
+     * Properties of the physics body grid component.
+     */
+    export interface IPhysicsBodyGridComponentProps {
+        /**
+         * Lock object
+         */
+        lockObject: INSPECTOR.SharedUIComponents.LockObject;
+        /**
+         * Callback raised on the property changed event
+         */
+        onPropertyChangedObservable?: BABYLON.Observable<INSPECTOR.SharedUIComponents.PropertyChangedEvent>;
+        /**
+         * Physics body to edit
+         */
+        body: BABYLON.PhysicsBody;
+        /**
+         * Global state
+         */
+        globalState: GlobalState;
+    }
+    /**
+     * Component that allows displaying and tweaking a physics body's properties.
+     * @param props the component props
+     * @returns the component
+     */
+    export function PhysicsBodyGridComponent(props: IPhysicsBodyGridComponentProps): import("react/jsx-runtime").JSX.Element;
+
+
+    /**
+     * Properties of the physics mass properties grid component.
+     */
+    export interface IPhysicsMassPropertiesGridComponentProps {
+        /**
+         * Lock object
+         */
+        lockObject: INSPECTOR.SharedUIComponents.LockObject;
+        /**
+         * Callback raised on the property changed event
+         */
+        onPropertyChangedObservable?: BABYLON.Observable<PropertyChangedEvent>;
+        /**
+         * Physics body to edit
+         */
+        body: BABYLON.PhysicsBody;
+        /**
+         * Global state
+         */
+        globalState: GlobalState;
+        /**
+         * Index of the instance to edit
+         */
+        instanceIndex?: number;
+    }
+    /**
+     * Component that displays the mass properties of a physics body.
+     * @param props the component props
+     * @returns the component
+     */
+    export function PhysicsMassPropertiesGridComponent(props: IPhysicsMassPropertiesGridComponentProps): import("react/jsx-runtime").JSX.Element;
+
+
+    /**
+     * Properties of the physics material grid component.
+     */
+    export interface IPhysicsMaterialGridComponentProps {
+        /**
+         * Lock object
+         */
+        lockObject: INSPECTOR.SharedUIComponents.LockObject;
+        /**
+         * Callback raised on the property changed event
+         */
+        onPropertyChangedObservable?: BABYLON.Observable<INSPECTOR.SharedUIComponents.PropertyChangedEvent>;
+        /**
+         * Physics body to edit
+         */
+        body: BABYLON.PhysicsBody;
+        /**
+         * Global state
+         */
+        globalState: GlobalState;
+    }
+    /**
+     * Component that displays the physic material properties of a physics body.
+     * @param props the component props
+     * @returns the component
+     */
+    export function PhysicsMaterialGridComponent(props: IPhysicsMaterialGridComponentProps): import("react/jsx-runtime").JSX.Element;
 
 
     interface ISkeletonPropertyGridComponentProps {
@@ -9397,7 +9640,7 @@ declare module INSPECTOR {
         changeDisplayMode(): void;
         changeDisplayOptions(option: string, value: number): void;
         shouldComponentUpdate(nextProps: ISkeletonPropertyGridComponentProps): boolean;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9409,7 +9652,7 @@ declare module INSPECTOR {
     }
     export class TransformNodePropertyGridComponent extends React.Component<ITransformNodePropertyGridComponentProps> {
         constructor(props: ITransformNodePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9424,7 +9667,7 @@ declare module INSPECTOR {
         OBJECT = "Object",
         JSON = "JSON"
     }
-    /** @ignorenaming */
+    /** Metadata Grid Component */
     export class MetadataGridComponent extends React.Component<IMetadataComponentProps, {
         selectedEntityMetadata: string;
         dirty: boolean;
@@ -9435,17 +9678,25 @@ declare module INSPECTOR {
         isValidJson: boolean;
     }> {
         private readonly _textAreaHost;
-        /** @ignorenaming */
+        /**
+         * @param props - component props
+         */
         constructor(props: IMetadataComponentProps);
         /** @ignorenaming */
         componentDidMount(): void;
-        /** @ignorenaming */
+        /**
+         * @param prevProps - previous component props
+         */
         componentDidUpdate(prevProps: Readonly<IMetadataComponentProps>): void;
         /** on entity refresh */
         refreshSelected(): void;
-        /** @ignorenaming */
+        /**
+         * @param disabled - is disabled
+         */
         setTextAreaDisabled(disabled: boolean): void;
-        /** textarea style */
+        /**
+         * @returns class name
+         */
         getClassName(): string;
         /**
          * Determines the Metadata type
@@ -9453,13 +9704,26 @@ declare module INSPECTOR {
          * @returns MetadataTypes
          */
         getEntityType(entity: any): MetadataTypes;
-        /** @ignorenaming */
+        /**
+         * @param input - any input
+         * @returns is string
+         */
         isString(input: any): boolean;
-        /** @ignorenaming */
+        /**
+         * @param object - any object
+         * @returns is parsable
+         */
         parsableJson(object: Object): boolean;
-        /** @ignorenaming */
+        /**
+         * @param string - any string
+         * @returns parsable string
+         */
         parsableString(string: string): JSON | null;
-        /** @ignorenaming */
+        /**
+         * @param validJson - a valid json
+         * @param metadata - any metadata
+         * @returns parsed metadata
+         */
         parseMetaObject(validJson: boolean, metadata: any): any;
         /**
          * Recurse through an object to check for any Functions, returns False if found at least one
@@ -9470,8 +9734,10 @@ declare module INSPECTOR {
         copyToClipboard(): void;
         /** Safely checks if valid JSON then appends necessary props without overwriting existing */
         populateGltfExtras(): void;
-        /** @ignorenaming */
-        render(): JSX.Element;
+        /** render
+         * @returns the component
+         */
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9484,7 +9750,7 @@ declare module INSPECTOR {
     export class ParentPropertyGridComponent extends React.Component<IParentPropertyGridComponentProps> {
         constructor(props: IParentPropertyGridComponentProps);
         private _getNameForSortingAndDisplay;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9496,7 +9762,7 @@ declare module INSPECTOR {
     }
     export class BoxEmitterGridComponent extends React.Component<IBoxEmitterGridComponentProps> {
         constructor(props: IBoxEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9522,7 +9788,7 @@ declare module INSPECTOR {
         onPointerUp(): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9535,7 +9801,7 @@ declare module INSPECTOR {
     }
     export class ConeEmitterGridComponent extends React.Component<IConeEmitterGridComponentProps> {
         constructor(props: IConeEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9547,7 +9813,7 @@ declare module INSPECTOR {
     }
     export class CylinderEmitterGridComponent extends React.Component<ICylinderEmitterGridComponentProps> {
         constructor(props: ICylinderEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9579,7 +9845,7 @@ declare module INSPECTOR {
         onPointerUp(): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9591,7 +9857,7 @@ declare module INSPECTOR {
     }
     export class HemisphericEmitterGridComponent extends React.Component<IHemisphericEmitterGridComponentProps> {
         constructor(props: IHemisphericEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9605,7 +9871,7 @@ declare module INSPECTOR {
     }
     export class MeshEmitterGridComponent extends React.Component<IMeshEmitterGridComponentProps> {
         constructor(props: IMeshEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9619,14 +9885,15 @@ declare module INSPECTOR {
     export class ParticleSystemPropertyGridComponent extends React.Component<IParticleSystemPropertyGridComponentProps> {
         private _snippetUrl;
         constructor(props: IParticleSystemPropertyGridComponentProps);
-        renderEmitter(): JSX.Element | null;
+        renderEmitter(): import("react/jsx-runtime").JSX.Element | null;
         raiseOnPropertyChanged(property: string, newValue: any, previousValue: any): void;
-        renderControls(): JSX.Element;
+        renderControls(): import("react/jsx-runtime").JSX.Element;
         saveToFile(): void;
         loadFromFile(file: File): void;
         loadFromSnippet(): void;
         saveToSnippet(): void;
-        render(): JSX.Element;
+        updateTexture(file: File): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9638,7 +9905,7 @@ declare module INSPECTOR {
     }
     export class PointEmitterGridComponent extends React.Component<IPointEmitterGridComponentProps> {
         constructor(props: IPointEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9650,7 +9917,7 @@ declare module INSPECTOR {
     }
     export class SphereEmitterGridComponent extends React.Component<ISphereEmitterGridComponentProps> {
         constructor(props: ISphereEmitterGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9676,7 +9943,7 @@ declare module INSPECTOR {
         addNewStep(): void;
         checkForReOrder(): void;
         updateAndSync(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9688,7 +9955,7 @@ declare module INSPECTOR {
     }
     export class CommonPostProcessPropertyGridComponent extends React.Component<ICommonPostProcessPropertyGridComponentProps> {
         constructor(props: ICommonPostProcessPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9700,7 +9967,7 @@ declare module INSPECTOR {
     }
     export class CommonRenderingPipelinePropertyGridComponent extends React.Component<ICommonRenderingPipelinePropertyGridComponentProps> {
         constructor(props: ICommonRenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9712,7 +9979,7 @@ declare module INSPECTOR {
     }
     export class DefaultRenderingPipelinePropertyGridComponent extends React.Component<IDefaultRenderingPipelinePropertyGridComponentProps> {
         constructor(props: IDefaultRenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9724,7 +9991,7 @@ declare module INSPECTOR {
     }
     export class LensRenderingPipelinePropertyGridComponent extends React.Component<ILenstRenderingPipelinePropertyGridComponentProps> {
         constructor(props: ILenstRenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9737,7 +10004,7 @@ declare module INSPECTOR {
     export class PostProcessPropertyGridComponent extends React.Component<IPostProcessPropertyGridComponentProps> {
         constructor(props: IPostProcessPropertyGridComponentProps);
         edit(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9749,7 +10016,7 @@ declare module INSPECTOR {
     }
     export class RenderingPipelinePropertyGridComponent extends React.Component<IRenderingPipelinePropertyGridComponentProps> {
         constructor(props: IRenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9761,7 +10028,7 @@ declare module INSPECTOR {
     }
     export class SSAO2RenderingPipelinePropertyGridComponent extends React.Component<ISSAO2RenderingPipelinePropertyGridComponentProps> {
         constructor(props: ISSAO2RenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9773,7 +10040,7 @@ declare module INSPECTOR {
     }
     export class SSAORenderingPipelinePropertyGridComponent extends React.Component<ISSAORenderingPipelinePropertyGridComponentProps> {
         constructor(props: ISSAORenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9785,7 +10052,7 @@ declare module INSPECTOR {
     }
     export class SSRRenderingPipelinePropertyGridComponent extends React.Component<ISSRRenderingPipelinePropertyGridComponentProps> {
         constructor(props: ISSRRenderingPipelinePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9800,7 +10067,7 @@ declare module INSPECTOR {
         constructor(props: IRenderGridPropertyGridComponentProps);
         componentDidMount(): void;
         addOrRemoveGrid(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9821,7 +10088,7 @@ declare module INSPECTOR {
         updateGravity(newValue: BABYLON.Vector3): void;
         updateTimeStep(newValue: number): void;
         normalizeScene(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9834,7 +10101,7 @@ declare module INSPECTOR {
     }
     export class SoundPropertyGridComponent extends React.Component<ISoundPropertyGridComponentProps> {
         constructor(props: ISoundPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9854,7 +10121,7 @@ declare module INSPECTOR {
         loadFromFile(file: File): void;
         loadFromSnippet(): void;
         saveToSnippet(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9877,7 +10144,7 @@ declare module INSPECTOR {
         componentDidUpdate(): void;
         shouldComponentUpdate(nextProps: ISpritePropertyGridComponentProps): boolean;
         updatePreview(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -9890,11 +10157,10 @@ declare module INSPECTOR {
     export class VariantsPropertyGridComponent extends React.Component<IVariantsPropertyGridComponentProps> {
         constructor(props: IVariantsPropertyGridComponentProps);
         private _getVariantsExtension;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
-    /// <reference types="react" />
     export class PropertyGridTabComponent extends PaneComponent {
         private _timerIntervalId;
         private _lockObject;
@@ -9902,26 +10168,24 @@ declare module INSPECTOR {
         timerRefresh(): void;
         componentDidMount(): void;
         componentWillUnmount(): void;
-        renderContent(): JSX.Element | null;
-        render(): JSX.Element;
+        renderContent(): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
-    /// <reference types="react" />
     export class SettingsTabComponent extends PaneComponent {
         constructor(props: IPaneComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
-    /// <reference types="react" />
     export class StatisticsTabComponent extends PaneComponent {
         private _sceneInstrumentation;
         private _engineInstrumentation;
         private _timerIntervalId;
         constructor(props: IPaneComponentProps);
         componentWillUnmount(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -9936,12 +10200,11 @@ declare module INSPECTOR {
         prepareText(singularForm: string, count: number): string;
         componentDidMount(): void;
         componentWillUnmount(): void;
-        renderValidation(): JSX.Element | null;
-        render(): JSX.Element;
+        renderValidation(): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
-    /// <reference types="react" />
     export class ToolsTabComponent extends PaneComponent {
         private _lockObject;
         private _videoRecorder;
@@ -9975,7 +10238,7 @@ declare module INSPECTOR {
         startRecording(): void;
         applyDelta(file: File): void;
         connectReflector(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -9987,8 +10250,8 @@ declare module INSPECTOR {
     export class TabsComponent extends React.Component<ITabsComponentProps> {
         constructor(props: ITabsComponentProps);
         onSelect(index: number): void;
-        renderLabel(child: PaneComponent, index: number): JSX.Element;
-        render(): JSX.Element;
+        renderLabel(child: PaneComponent, index: number): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10011,8 +10274,8 @@ declare module INSPECTOR {
         private _bottomPartRef;
         constructor(props: IEmbedHostComponentProps);
         componentDidMount(): void;
-        renderContent(): JSX.Element;
-        render(): JSX.Element;
+        renderContent(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10415,8 +10678,8 @@ declare module INSPECTOR {
         componentDidMount(): void;
         componentWillUnmount(): void;
         goBack(): void;
-        renderLogo(): JSX.Element | null;
-        render(): JSX.Element;
+        renderLogo(): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10477,7 +10740,7 @@ declare module INSPECTOR {
     }
     export class AnimationGroupItemComponent extends React.Component<IAnimationGroupItemComponentProps> {
         constructor(props: IAnimationGroupItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10488,7 +10751,7 @@ declare module INSPECTOR {
     }
     export class BoneTreeItemComponent extends React.Component<IBoneTreeItemComponentProps> {
         constructor(props: IBoneTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10509,7 +10772,7 @@ declare module INSPECTOR {
         componentDidMount(): void;
         componentWillUnmount(): void;
         toggleGizmo(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10520,7 +10783,7 @@ declare module INSPECTOR {
     }
     export class EffectLayerItemComponent extends React.Component<IEffectLayerItemComponenttProps> {
         constructor(props: IEffectLayerItemComponenttProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10537,7 +10800,7 @@ declare module INSPECTOR {
         constructor(props: IAdvancedDynamicTextureTreeItemComponentProps);
         componentWillUnmount(): void;
         onPickingMode(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10553,7 +10816,7 @@ declare module INSPECTOR {
         constructor(props: IControlTreeItemComponentProps);
         highlight(): void;
         switchVisibility(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10573,6 +10836,7 @@ declare module INSPECTOR {
      * If you are in a UMD environment, it will load the package from a URL
      * @param adt
      * @param embed defines whether editor is being opened from the Playground
+     * @returns a promise that resolves when the editor is opened
      */
     export function EditAdvancedDynamicTexture(adt: BABYLON.GUI.AdvancedDynamicTexture, embed?: boolean): Promise<void>;
 
@@ -10591,7 +10855,7 @@ declare module INSPECTOR {
         constructor(props: ILightTreeItemComponentProps);
         switchIsEnabled(): void;
         toggleGizmo(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10602,7 +10866,7 @@ declare module INSPECTOR {
     }
     export class MaterialTreeItemComponent extends React.Component<IMaterialTreeItemComponentProps> {
         constructor(props: IMaterialTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10620,7 +10884,8 @@ declare module INSPECTOR {
         showBoundingBox(): void;
         switchVisibility(): void;
         private _getNameForLabel;
-        render(): JSX.Element;
+        private _editGeometry;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10631,7 +10896,7 @@ declare module INSPECTOR {
     }
     export class ParticleSystemTreeItemComponent extends React.Component<IParticleSystemTreeItemComponentProps> {
         constructor(props: IParticleSystemTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10642,7 +10907,7 @@ declare module INSPECTOR {
     }
     export class PostProcessItemComponent extends React.Component<IPostProcessItemComponentProps> {
         constructor(props: IPostProcessItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10653,7 +10918,7 @@ declare module INSPECTOR {
     }
     export class RenderingPipelineItemComponent extends React.Component<IRenderPipelineItemComponenttProps> {
         constructor(props: IRenderPipelineItemComponenttProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10686,12 +10951,13 @@ declare module INSPECTOR {
         }): boolean;
         updateGizmoAutoPicking(isInPickingMode: boolean): void;
         componentDidMount(): void;
+        private _getMeshFromBone;
         componentWillUnmount(): void;
         onSelect(): void;
         onCoordinatesMode(): void;
         onPickingMode(): void;
         setGizmoMode(mode: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10702,7 +10968,7 @@ declare module INSPECTOR {
     }
     export class SkeletonTreeItemComponent extends React.Component<ISkeletonTreeItemComponentProps> {
         constructor(props: ISkeletonTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10713,7 +10979,7 @@ declare module INSPECTOR {
     }
     export class SoundTreeItemComponent extends React.Component<ISoundTreeItemComponentProps> {
         constructor(props: ISoundTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10724,7 +10990,7 @@ declare module INSPECTOR {
     }
     export class SpriteManagerTreeItemComponent extends React.Component<ISpriteManagerTreeItemComponentProps> {
         constructor(props: ISpriteManagerTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10735,7 +11001,7 @@ declare module INSPECTOR {
     }
     export class SpriteTreeItemComponent extends React.Component<ISpriteTreeItemComponentProps> {
         constructor(props: ISpriteTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10746,7 +11012,7 @@ declare module INSPECTOR {
     }
     export class TargetedAnimationItemComponent extends React.Component<ITargetedAnimationItemComponentProps> {
         constructor(props: ITargetedAnimationItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10757,7 +11023,7 @@ declare module INSPECTOR {
     }
     export class TextureTreeItemComponent extends React.Component<ITextureTreeItemComponentProps> {
         constructor(props: ITextureTreeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10768,7 +11034,7 @@ declare module INSPECTOR {
     }
     export class TransformNodeItemComponent extends React.Component<ITransformNodeItemComponentProps> {
         constructor(props: ITransformNodeItemComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10785,7 +11051,7 @@ declare module INSPECTOR {
         showPopup(): void;
         componentDidMount(): void;
         componentDidUpdate(): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -10794,7 +11060,7 @@ declare module INSPECTOR {
     }
     export class SceneExplorerFilterComponent extends React.Component<ISceneExplorerFilterComponentProps> {
         constructor(props: ISceneExplorerFilterComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
     interface ISceneExplorerComponentProps {
         scene: BABYLON.Scene;
@@ -10841,10 +11107,10 @@ declare module INSPECTOR {
         private _getMaterialsContextMenus;
         private _getSpriteManagersContextMenus;
         private _getParticleSystemsContextMenus;
-        renderContent(allNodes: any[]): JSX.Element | null;
+        renderContent(allNodes: any[]): import("react/jsx-runtime").JSX.Element | null;
         onClose(): void;
         onPopup(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10872,8 +11138,8 @@ declare module INSPECTOR {
             isExpanded: boolean;
         }): boolean;
         expandAll(expand: boolean): void;
-        renderContextMenu(): JSX.Element | null;
-        render(): JSX.Element;
+        renderContextMenu(): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10886,7 +11152,7 @@ declare module INSPECTOR {
     export class TreeItemLabelComponent extends React.Component<ITreeItemLabelComponentProps> {
         constructor(props: ITreeItemLabelComponentProps);
         onClick(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -10915,8 +11181,8 @@ declare module INSPECTOR {
         componentDidMount(): void;
         componentDidUpdate(): void;
         onSelect(): void;
-        renderChildren(): JSX.Element[] | null;
-        render(): JSX.Element | null;
+        renderChildren(): import("react/jsx-runtime").JSX.Element[] | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -10931,8 +11197,11 @@ declare module INSPECTOR {
     export class TreeItemSpecializedComponent extends React.Component<ITreeItemSpecializedComponentProps> {
         constructor(props: ITreeItemSpecializedComponentProps);
         onClick(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
+
+
+    export function setDebugNode(node: any): void;
 
 
 
@@ -10981,20 +11250,6 @@ declare module INSPECTOR {
     }
 
 
-    /** @internal */
-    export var lodPixelShader: {
-        name: string;
-        shader: string;
-    };
-
-
-    /** @internal */
-    export var lodCubePixelShader: {
-        name: string;
-        shader: string;
-    };
-
-
     /**
      * Defines which channels of the texture to retrieve with {@link TextureHelper.GetTextureDataAsync}.
      */
@@ -11028,6 +11283,7 @@ declare module INSPECTOR {
          * @param height the height of the result, which does not have to match the source texture height
          * @param face if the texture has multiple faces, the face index to use for the source
          * @param channels a filter for which of the RGBA channels to return in the result
+         * @param globalState the global state to use for rendering the texture
          * @param lod if the texture has multiple LODs, the lod index to use for the source
          * @returns the 8-bit texture data
          */
@@ -11060,7 +11316,7 @@ declare module INSPECTOR.SharedUIComponents {
         updateValue(valueString: string): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11107,7 +11363,7 @@ declare module INSPECTOR.SharedUIComponents {
         private _evaluateHue;
         componentDidUpdate(): void;
         raiseOnColorChanged(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11133,7 +11389,7 @@ declare module INSPECTOR.SharedUIComponents {
         lock(): void;
         unlock(): void;
         updateHexValue(valueString: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11206,7 +11462,7 @@ declare module INSPECTOR.SharedUIComponents {
         activeState: string;
     }> {
         constructor(props: ICommandDropdownComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11254,12 +11510,12 @@ declare module INSPECTOR.SharedUIComponents {
         disabled?: boolean;
         lockObject: INSPECTOR.SharedUIComponents.LockObject;
     }
-    export class ColorComponentEntry extends React.Component<IColorComponentEntryProps> {
+    export class ColorComponentComponentEntry extends React.Component<IColorComponentEntryProps> {
         constructor(props: IColorComponentEntryProps);
         updateValue(valueString: string): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11272,7 +11528,7 @@ declare module INSPECTOR.SharedUIComponents {
         /**
      * Interface used to specify creation options for color picker
      */
-    export interface IColorPickerProps {
+    export interface IColorPickerComponentProps {
         color: BABYLON.Color3 | BABYLON.Color4;
         linearhint?: boolean;
         debugMode?: boolean;
@@ -11290,13 +11546,13 @@ declare module INSPECTOR.SharedUIComponents {
     /**
      * Class used to create a color picker
      */
-    export class ColorPicker extends React.Component<IColorPickerProps, IColorPickerState> {
+    export class ColorPickerComponent extends React.Component<IColorPickerComponentProps, IColorPickerState> {
         private _saturationRef;
         private _hueRef;
         private _isSaturationPointerDown;
         private _isHuePointerDown;
-        constructor(props: IColorPickerProps);
-        shouldComponentUpdate(nextProps: IColorPickerProps, nextState: IColorPickerState): boolean;
+        constructor(props: IColorPickerComponentProps);
+        shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerState): boolean;
         onSaturationPointerDown(evt: React.PointerEvent<HTMLDivElement>): void;
         onSaturationPointerUp(evt: React.PointerEvent<HTMLDivElement>): void;
         onSaturationPointerMove(evt: React.PointerEvent<HTMLDivElement>): void;
@@ -11307,7 +11563,7 @@ declare module INSPECTOR.SharedUIComponents {
         private _evaluateHue;
         componentDidUpdate(): void;
         raiseOnColorChanged(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11323,7 +11579,7 @@ declare module INSPECTOR.SharedUIComponents {
         onChange: (value: string) => void;
         lockObject: INSPECTOR.SharedUIComponents.LockObject;
     }
-    export class HexColor extends React.Component<IHexColorProps, {
+    export class HexColorComponent extends React.Component<IHexColorProps, {
         hex: string;
     }> {
         constructor(props: IHexColorProps);
@@ -11333,7 +11589,7 @@ declare module INSPECTOR.SharedUIComponents {
         lock(): void;
         unlock(): void;
         updateHexValue(valueString: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11390,6 +11646,8 @@ declare module INSPECTOR.SharedUIComponents {
     }
     /**
      * An icon that can be dragged by the user
+     * @param props properties
+     * @returns draggable icon element
      */
     export var DraggableIcon: React.FC<IDraggableIconProps>;
 
@@ -11439,6 +11697,8 @@ declare module INSPECTOR.SharedUIComponents {
     }
     /**
      * This component receives the drop events and updates the layout accordingly
+     * @param props properties
+     * @returns DragHandler element
      */
     export var FlexibleDragHandler: React.FC<IFlexibleDragHandlerProps>;
 
@@ -11465,6 +11725,8 @@ declare module INSPECTOR.SharedUIComponents {
     /**
      * This component contains the drag and drop zone for the resize bars that
      * allow redefining width and height of layout elements
+     * @param props properties
+     * @returns drop zone element
      */
     export var FlexibleDropZone: React.FC<IFlexibleDropZoneProps>;
 
@@ -11482,6 +11744,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     /**
      * Component responsible for mapping the layout to the actual components
+     * @returns GridContainer element
      */
     export var FlexibleGridContainer: React.FC<IFlexibleGridContainerProps>;
 
@@ -11504,6 +11767,8 @@ declare module INSPECTOR.SharedUIComponents {
     /**
      * This component represents a grid layout that can be resized and rearranged
      * by the user.
+     * @param props properties
+     * @returns layout element
      */
     export var FlexibleGridLayout: React.FC<IFlexibleGridLayoutProps>;
 
@@ -11550,6 +11815,8 @@ declare module INSPECTOR.SharedUIComponents {
     };
     /**
      * A component that renders a bar that the user can drag to resize.
+     * @param props properties
+     * @returns resize bar element
      */
     export var FlexibleResizeBar: React.FC<IFlexibleRowResizerProps>;
 
@@ -11590,6 +11857,8 @@ declare module INSPECTOR.SharedUIComponents {
      * to activate or drag to reorder. It also listens for
      * drop events if the user wants to drop another tab
      * after it.
+     * @param props properties
+     * @returns FlexibleTab element
      */
     export var FlexibleTab: React.FC<IFlexibleTabProps>;
 
@@ -11624,6 +11893,8 @@ declare module INSPECTOR.SharedUIComponents {
     /**
      * This component contains a set of tabs of which only one is visible at a time.
      * The tabs can also be dragged from and to different containers.
+     * @param props properties
+     * @returns tabs container element
      */
     export var FlexibleTabsContainer: React.FC<IFlexibleTabsContainerProps>;
 
@@ -11759,11 +12030,15 @@ declare module INSPECTOR.SharedUIComponents {
     export const removeLayoutRowAndRedistributePercentages: (layout: INSPECTOR.SharedUIComponents.Layout, column: number, row: number) => void;
     /**
      * Add a percentage string to a number
+     * @param p1 the percentage string
+     * @param p2 the number
+     * @returns the sum of the percentage string and the number
      */
     export const addPercentageStringToNumber: (p1: string, p2: number) => number;
     /**
      * Parses a percentage string into a number
      * @param p the percentage string
+     * @returns the parsed number
      */
     export const parsePercentage: (p: string) => number;
 
@@ -11806,7 +12081,7 @@ declare module INSPECTOR.SharedUIComponents {
         copyToClipboard(): void;
         private _convertToColor;
         private _toColor3;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11816,7 +12091,7 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        export interface IColorPickerComponentProps {
+        export interface IColorPickerLineComponentProps {
         value: BABYLON.Color4 | BABYLON.Color3;
         linearHint?: boolean;
         onColorChanged: (newOne: string) => void;
@@ -11831,19 +12106,19 @@ declare module INSPECTOR.SharedUIComponents {
         color: BABYLON.Color3 | BABYLON.Color4;
         hex: string;
     }
-    export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+    export class ColorPickerLineComponent extends React.Component<IColorPickerLineComponentProps, IColorPickerComponentState> {
         private _floatRef;
         private _floatHostRef;
         private _coverRef;
-        constructor(props: IColorPickerComponentProps);
+        constructor(props: IColorPickerLineComponentProps);
         syncPositions(): void;
-        shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-        getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+        shouldComponentUpdate(nextProps: IColorPickerLineComponentProps, nextState: IColorPickerComponentState): boolean;
+        getHexString(props?: Readonly<IColorPickerLineComponentProps> & Readonly<{
             children?: React.ReactNode;
         }>): string;
         componentDidUpdate(): void;
         componentDidMount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11866,7 +12141,7 @@ declare module INSPECTOR.SharedUIComponents {
         private _uploadInputRef;
         constructor(props: IFileButtonLineComponentProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11902,7 +12177,7 @@ declare module INSPECTOR.SharedUIComponents {
         onBlur(): void;
         incrementValue(amount: number): void;
         onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -11912,8 +12187,7 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        /// <reference types="react" />
-    /**
+        /**
      * This components represents an options menu with optional
      * customizable properties. Option IDs should be unique.
      */
@@ -11931,7 +12205,7 @@ declare module INSPECTOR.SharedUIComponents {
         validateNewOptionValue?: (newOptionValue: string) => boolean;
         addOptionText?: string;
     }
-    export const OptionsLineComponent: (props: IOptionsLineComponentProps) => JSX.Element;
+    export const OptionsLineComponent: (props: IOptionsLineComponentProps) => import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -11994,6 +12268,7 @@ declare module INSPECTOR.SharedUIComponents {
     /**
      * This component is used to initiate a connection between two nodes. Simply
      * drag the handle in a node and drop it in another node to create a connection.
+     * @returns connector element
      */
     export var GraphConnectorHandler: React.FC<IGraphConnectorHandlerProps>;
 
@@ -12076,6 +12351,8 @@ declare module INSPECTOR.SharedUIComponents {
     /**
      * This component draws a SVG line between two points, with an optional marker
      * indicating direction
+     * @param props properties
+     * @returns graph line element
      */
     export var GraphLine: React.FC<IGraphLineProps>;
 
@@ -12120,7 +12397,7 @@ declare module INSPECTOR.SharedUIComponents {
         highlighted?: boolean;
         parentContainerId: string;
     }
-    export var GraphNode: React.FC<IGraphNodeProps>;
+    export var SingleGraphNode: React.FC<IGraphNodeProps>;
 
 
 
@@ -12135,6 +12412,8 @@ declare module INSPECTOR.SharedUIComponents {
     }
     /**
      * This component contains all the nodes and handles their dragging
+     * @param props properties
+     * @returns graph node container element
      */
     export var GraphNodesContainer: React.FC<IGraphContainerProps>;
 
@@ -12211,7 +12490,7 @@ declare module INSPECTOR.SharedUIComponents {
      * @param props
      * @returns
      */
-    export const NodeRenderer: (props: INodeRendererProps) => JSX.Element;
+    export const NodeRenderer: (props: INodeRendererProps) => import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -12233,8 +12512,7 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        /// <reference types="react" />
-    export interface ITextInputProps {
+        export interface ITextInputProps {
         label?: string;
         placeholder?: string;
         submitValue: (newValue: string) => void;
@@ -12243,8 +12521,10 @@ declare module INSPECTOR.SharedUIComponents {
     }
     /**
      * This component represents a text input that can be submitted or cancelled on buttons
+     * @param props properties
+     * @returns TextInputWithSubmit element
      */
-    export const TextInputWithSubmit: (props: ITextInputProps) => JSX.Element;
+    export const TextInputWithSubmit: (props: ITextInputProps) => import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -12269,6 +12549,19 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
+        export function copyCommandToClipboard(strCommand: string): void;
+    export function getClassNameWithNamespace(obj: any): {
+        className: string;
+        babylonNamespace: string;
+    };
+
+
+
+}
+declare module INSPECTOR {
+
+}
+declare module INSPECTOR.SharedUIComponents {
         export interface IBooleanLineComponentProps {
         label: string;
         value: boolean;
@@ -12277,7 +12570,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class BooleanLineComponent extends React.Component<IBooleanLineComponentProps> {
         constructor(props: IBooleanLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12296,7 +12589,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ButtonLineComponent extends React.Component<IButtonLineComponentProps> {
         constructor(props: IButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12336,7 +12629,8 @@ declare module INSPECTOR.SharedUIComponents {
             isConflict: boolean;
         }): boolean;
         onChange(): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12358,7 +12652,7 @@ declare module INSPECTOR.SharedUIComponents {
         onChange?: () => void;
     }
     export class Color3LineComponent extends React.Component<IColor3LineComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12380,7 +12674,7 @@ declare module INSPECTOR.SharedUIComponents {
         lockObject: INSPECTOR.SharedUIComponents.LockObject;
     }
     export class Color4LineComponent extends React.Component<IColor4LineComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12390,7 +12684,7 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        export interface IColorLineComponentProps {
+        export interface IColorLineProps {
         label: string;
         target?: any;
         propertyName: string;
@@ -12406,10 +12700,10 @@ declare module INSPECTOR.SharedUIComponents {
         isExpanded: boolean;
         color: BABYLON.Color4;
     }
-    export class ColorLineComponent extends React.Component<IColorLineComponentProps, IColorLineComponentState> {
-        constructor(props: IColorLineComponentProps);
-        shouldComponentUpdate(nextProps: IColorLineComponentProps, nextState: IColorLineComponentState): boolean;
-        getValue(props?: Readonly<IColorLineComponentProps> & Readonly<{
+    export class ColorLine extends React.Component<IColorLineProps, IColorLineComponentState> {
+        constructor(props: IColorLineProps);
+        shouldComponentUpdate(nextProps: IColorLineProps, nextState: IColorLineComponentState): boolean;
+        getValue(props?: Readonly<IColorLineProps> & Readonly<{
             children?: React.ReactNode;
         }>): BABYLON.Color4;
         setColorFromString(colorString: string): void;
@@ -12419,10 +12713,10 @@ declare module INSPECTOR.SharedUIComponents {
         updateStateG(value: number): void;
         updateStateB(value: number): void;
         updateStateA(value: number): void;
-        copyToClipboard(): void;
         private _convertToColor;
         private _toColor3;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12432,7 +12726,7 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        export interface IColorPickerComponentProps {
+        export interface IColorPickerLineProps {
         value: BABYLON.Color4 | BABYLON.Color3;
         linearHint?: boolean;
         onColorChanged: (newOne: string) => void;
@@ -12446,18 +12740,18 @@ declare module INSPECTOR.SharedUIComponents {
         color: BABYLON.Color3 | BABYLON.Color4;
         hex: string;
     }
-    export class ColorPickerLineComponent extends React.Component<IColorPickerComponentProps, IColorPickerComponentState> {
+    export class ColorPickerLine extends React.Component<IColorPickerLineProps, IColorPickerComponentState> {
         private _floatRef;
         private _floatHostRef;
-        constructor(props: IColorPickerComponentProps);
+        constructor(props: IColorPickerLineProps);
         syncPositions(): void;
-        shouldComponentUpdate(nextProps: IColorPickerComponentProps, nextState: IColorPickerComponentState): boolean;
-        getHexString(props?: Readonly<IColorPickerComponentProps> & Readonly<{
+        shouldComponentUpdate(nextProps: IColorPickerLineProps, nextState: IColorPickerComponentState): boolean;
+        getHexString(props?: Readonly<IColorPickerLineProps> & Readonly<{
             children?: React.ReactNode;
         }>): string;
         componentDidUpdate(): void;
         componentDidMount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12473,7 +12767,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class DraggableLineComponent extends React.Component<IButtonLineComponentProps> {
         constructor(props: IButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12483,20 +12777,20 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        interface IFileButtonLineComponentProps {
+        interface IFileButtonLineProps {
         label: string;
         onClick: (file: File) => void;
         accept: string;
         icon?: string;
         iconLabel?: string;
     }
-    export class FileButtonLineComponent extends React.Component<IFileButtonLineComponentProps> {
+    export class FileButtonLine extends React.Component<IFileButtonLineProps> {
         private static _IDGenerator;
         private _id;
         private _uploadInputRef;
-        constructor(props: IFileButtonLineComponentProps);
+        constructor(props: IFileButtonLineProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12519,7 +12813,7 @@ declare module INSPECTOR.SharedUIComponents {
         private _uploadInputRef;
         constructor(props: IFileMultipleButtonLineComponentProps);
         onChange(evt: any): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12552,6 +12846,7 @@ declare module INSPECTOR.SharedUIComponents {
         unit?: React.ReactNode;
         onDragStart?: (newValue: number) => void;
         onDragStop?: (newValue: number) => void;
+        disabled?: boolean;
     }
     export class FloatLineComponent extends React.Component<IFloatLineComponentProps, {
         value: string;
@@ -12572,7 +12867,8 @@ declare module INSPECTOR.SharedUIComponents {
         unlock(): void;
         incrementValue(amount: number, processStep?: boolean): void;
         onKeyDown(event: React.KeyboardEvent<HTMLInputElement>): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12615,7 +12911,7 @@ declare module INSPECTOR.SharedUIComponents {
         updateValue(valueString: string, raisePropertyChanged: boolean): void;
         lock(): void;
         unlock(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12633,7 +12929,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class IconButtonLineComponent extends React.Component<IIconButtonLineComponentProps> {
         constructor(props: IIconButtonLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12648,7 +12944,7 @@ declare module INSPECTOR.SharedUIComponents {
         label?: string;
     }
     export class IconComponent extends React.Component<IIconComponentProps> {
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12669,8 +12965,8 @@ declare module INSPECTOR.SharedUIComponents {
     export class IndentedTextLineComponent extends React.Component<IIndentedTextLineComponentProps> {
         constructor(props: IIndentedTextLineComponentProps);
         onLink(): void;
-        renderContent(): JSX.Element;
-        render(): JSX.Element;
+        renderContent(): import("react/jsx-runtime").JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12689,7 +12985,7 @@ declare module INSPECTOR.SharedUIComponents {
         private _drag;
         private _releaseListener;
         private _lockChangeListener;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12723,9 +13019,9 @@ declare module INSPECTOR.SharedUIComponents {
     }> {
         constructor(props: ILineContainerComponentProps);
         switchExpandedState(): void;
-        renderHeader(): JSX.Element;
+        renderHeader(): import("react/jsx-runtime").JSX.Element;
         componentDidMount(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12746,7 +13042,7 @@ declare module INSPECTOR.SharedUIComponents {
     export class LinkButtonComponent extends React.Component<ILinkButtonComponentProps> {
         constructor(props: ILinkButtonComponentProps);
         onLink(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12783,7 +13079,7 @@ declare module INSPECTOR.SharedUIComponents {
         updateMatrix(): void;
         updateRow(value: BABYLON.Vector4, row: number): void;
         updateBasedOnMode(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12800,7 +13096,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class MessageLineComponent extends React.Component<IMessageLineComponentProps> {
         constructor(props: IMessageLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12810,7 +13106,7 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        interface INumericInputComponentProps {
+        interface INumericInputProps {
         label: string;
         value: number;
         step?: number;
@@ -12820,23 +13116,23 @@ declare module INSPECTOR.SharedUIComponents {
         iconLabel?: string;
         lockObject: INSPECTOR.SharedUIComponents.LockObject;
     }
-    export class NumericInputComponent extends React.Component<INumericInputComponentProps, {
+    export class NumericInput extends React.Component<INumericInputProps, {
         value: string;
     }> {
         static defaultProps: {
             step: number;
         };
         private _localChange;
-        constructor(props: INumericInputComponentProps);
+        constructor(props: INumericInputProps);
         componentWillUnmount(): void;
-        shouldComponentUpdate(nextProps: INumericInputComponentProps, nextState: {
+        shouldComponentUpdate(nextProps: INumericInputProps, nextState: {
             value: string;
         }): boolean;
         updateValue(valueString: string): void;
         onBlur(): void;
         incrementValue(amount: number): void;
         onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12847,7 +13143,7 @@ declare module INSPECTOR {
 }
 declare module INSPECTOR.SharedUIComponents {
         export var Null_Value: number;
-    export interface IOptionsLineComponentProps {
+    export interface IOptionsLineProps {
         label: string;
         target: any;
         propertyName: string;
@@ -12863,21 +13159,22 @@ declare module INSPECTOR.SharedUIComponents {
         valuesAreStrings?: boolean;
         defaultIfNull?: number;
     }
-    export class OptionsLineComponent extends React.Component<IOptionsLineComponentProps, {
+    export class OptionsLine extends React.Component<IOptionsLineProps, {
         value: number | string;
     }> {
         private _localChange;
         private _remapValueIn;
         private _remapValueOut;
         private _getValue;
-        constructor(props: IOptionsLineComponentProps);
-        shouldComponentUpdate(nextProps: IOptionsLineComponentProps, nextState: {
+        constructor(props: IOptionsLineProps);
+        shouldComponentUpdate(nextProps: IOptionsLineProps, nextState: {
             value: number;
         }): boolean;
         raiseOnPropertyChanged(newValue: number, previousValue: number): void;
         setValue(value: string | number): void;
         updateValue(valueString: string): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12915,7 +13212,7 @@ declare module INSPECTOR.SharedUIComponents {
         componentDidMount(): void;
         componentWillUnmount(): void;
         onChange(): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -12955,7 +13252,8 @@ declare module INSPECTOR.SharedUIComponents {
         onChange(newValueString: any): void;
         onInput(newValueString: any): void;
         prepareDataToRead(value: number): number;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13026,7 +13324,7 @@ declare module INSPECTOR.SharedUIComponents {
         updateValue(value: string, valueToValidate?: string): void;
         incrementValue(amount: number): void;
         onKeyDown(event: React.KeyboardEvent): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13052,8 +13350,8 @@ declare module INSPECTOR.SharedUIComponents {
     export class TextLineComponent extends React.Component<ITextLineComponentProps> {
         constructor(props: ITextLineComponentProps);
         onLink(): void;
-        renderContent(): JSX.Element | null;
-        render(): JSX.Element;
+        renderContent(): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13063,13 +13361,12 @@ declare module INSPECTOR {
 
 }
 declare module INSPECTOR.SharedUIComponents {
-        /// <reference types="react" />
-    interface IUnitButtonProps {
+        interface IUnitButtonProps {
         unit: string;
         locked?: boolean;
         onClick?: (unit: string) => void;
     }
-    export function UnitButton(props: IUnitButtonProps): JSX.Element;
+    export function UnitButton(props: IUnitButtonProps): import("react/jsx-runtime").JSX.Element;
 
 
 
@@ -13089,7 +13386,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ValueLineComponent extends React.Component<IValueLineComponentProps> {
         constructor(props: IValueLineComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13127,7 +13424,7 @@ declare module INSPECTOR.SharedUIComponents {
         raiseOnPropertyChanged(previousValue: BABYLON.Vector2): void;
         updateStateX(value: number): void;
         updateStateY(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13170,7 +13467,8 @@ declare module INSPECTOR.SharedUIComponents {
         updateStateX(value: number): void;
         updateStateY(value: number): void;
         updateStateZ(value: number): void;
-        render(): JSX.Element;
+        onCopyClick(): void;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13214,7 +13512,7 @@ declare module INSPECTOR.SharedUIComponents {
         updateStateY(value: number): void;
         updateStateZ(value: number): void;
         updateStateW(value: number): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13369,7 +13667,7 @@ declare module INSPECTOR.SharedUIComponents {
         processEditorData(editorData: INSPECTOR.SharedUIComponents.IEditorData): void;
         reOrganize(editorData?: BABYLON.Nullable<INSPECTOR.SharedUIComponents.IEditorData>, isImportingAFrame?: boolean): void;
         addFrame(frameData: INSPECTOR.SharedUIComponents.IFrameData): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -13882,7 +14180,7 @@ declare module INSPECTOR.SharedUIComponents {
         onFilterChange(evt: React.ChangeEvent<HTMLInputElement>): void;
         onNewNodeRequested(name: string): void;
         onKeyDown(evt: React.KeyboardEvent): void;
-        render(): JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | null;
     }
 
 
@@ -14020,7 +14318,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class CheckboxPropertyGridComponent extends React.Component<ICheckboxPropertyGridComponentProps> {
         constructor(props: ICheckboxPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14037,7 +14335,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ColorPickerPropertyGridComponent extends React.Component<IColorPickerPropertyGridComponentProps> {
         constructor(props: IColorPickerPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14055,8 +14353,8 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class CommonControlPropertyGridComponent extends React.Component<ICommonControlPropertyGridComponentProps> {
         constructor(props: ICommonControlPropertyGridComponentProps);
-        renderGridInformation(control: BABYLON.GUI.Control): JSX.Element | null;
-        render(): JSX.Element | undefined;
+        renderGridInformation(control: BABYLON.GUI.Control): import("react/jsx-runtime").JSX.Element | null;
+        render(): import("react/jsx-runtime").JSX.Element | undefined;
     }
 
 
@@ -14073,7 +14371,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ControlPropertyGridComponent extends React.Component<IControlPropertyGridComponentProps> {
         constructor(props: IControlPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14090,7 +14388,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class EllipsePropertyGridComponent extends React.Component<IEllipsePropertyGridComponentProps> {
         constructor(props: IEllipsePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14107,9 +14405,9 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class GridPropertyGridComponent extends React.Component<IGridPropertyGridComponentProps> {
         constructor(props: IGridPropertyGridComponentProps);
-        renderRows(): JSX.Element[];
-        renderColumns(): JSX.Element[];
-        render(): JSX.Element;
+        renderRows(): import("react/jsx-runtime").JSX.Element[];
+        renderColumns(): import("react/jsx-runtime").JSX.Element[];
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14126,7 +14424,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ImageBasedSliderPropertyGridComponent extends React.Component<IImageBasedSliderPropertyGridComponentProps> {
         constructor(props: IImageBasedSliderPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14143,7 +14441,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ImagePropertyGridComponent extends React.Component<IImagePropertyGridComponentProps> {
         constructor(props: IImagePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14160,7 +14458,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class InputTextPropertyGridComponent extends React.Component<IInputTextPropertyGridComponentProps> {
         constructor(props: IInputTextPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14178,7 +14476,7 @@ declare module INSPECTOR.SharedUIComponents {
     export class LinePropertyGridComponent extends React.Component<ILinePropertyGridComponentProps> {
         constructor(props: ILinePropertyGridComponentProps);
         onDashChange(value: string): void;
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14195,7 +14493,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class RadioButtonPropertyGridComponent extends React.Component<IRadioButtonPropertyGridComponentProps> {
         constructor(props: IRadioButtonPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14212,7 +14510,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class RectanglePropertyGridComponent extends React.Component<IRectanglePropertyGridComponentProps> {
         constructor(props: IRectanglePropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14229,7 +14527,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class ScrollViewerPropertyGridComponent extends React.Component<IScrollViewerPropertyGridComponentProps> {
         constructor(props: IScrollViewerPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14246,7 +14544,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class SliderPropertyGridComponent extends React.Component<ISliderPropertyGridComponentProps> {
         constructor(props: ISliderPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14263,7 +14561,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class StackPanelPropertyGridComponent extends React.Component<IStackPanelPropertyGridComponentProps> {
         constructor(props: IStackPanelPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 
@@ -14280,7 +14578,7 @@ declare module INSPECTOR.SharedUIComponents {
     }
     export class TextBlockPropertyGridComponent extends React.Component<ITextBlockPropertyGridComponentProps> {
         constructor(props: ITextBlockPropertyGridComponentProps);
-        render(): JSX.Element;
+        render(): import("react/jsx-runtime").JSX.Element;
     }
 
 

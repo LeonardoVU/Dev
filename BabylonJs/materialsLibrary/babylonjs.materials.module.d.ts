@@ -6,10 +6,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -24,6 +26,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -34,6 +37,7 @@ import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 /** @internal */
 export const cellVertexShader: {
     name: string;
@@ -92,67 +96,276 @@ import { MaterialDefines } from "babylonjs/Materials/materialDefines";
 import { StandardMaterial } from "babylonjs/Materials/standardMaterial";
 import { Mesh } from "babylonjs/Meshes/mesh";
 import { Scene } from "babylonjs/scene";
+import { Nullable } from "babylonjs/types";
+import { SubMesh } from "babylonjs/Meshes/subMesh";
+/**
+ * Structure of a custom shader
+ */
 export class CustomShaderStructure {
+    /**
+     * Fragment store
+     */
     FragmentStore: string;
+    /**
+     * Vertex store
+     */
     VertexStore: string;
     constructor();
 }
+/**
+ * Parts of a shader
+ */
 export class ShaderSpecialParts {
     constructor();
+    /**
+     * Beginning of the fragment shader
+     */
     Fragment_Begin: string;
+    /**
+     * Variable definitions of the fragment shader
+     */
     Fragment_Definitions: string;
+    /**
+     * Beginning of the fragment main function
+     */
     Fragment_MainBegin: string;
+    /**
+     * End of the fragment main function
+     */
     Fragment_MainEnd: string;
+    /**
+     * Diffuse color calculation
+     */
     Fragment_Custom_Diffuse: string;
+    /**
+     * Before lightning computations
+     */
     Fragment_Before_Lights: string;
+    /**
+     * Before fog computations
+     */
     Fragment_Before_Fog: string;
+    /**
+     * Alpha calculations
+     */
     Fragment_Custom_Alpha: string;
+    /**
+     * Before frag color is assigned
+     */
     Fragment_Before_FragColor: string;
+    /**
+     * Beginning of the vertex shader
+     */
     Vertex_Begin: string;
+    /**
+     * Variable definitions of the vertex shader
+     */
     Vertex_Definitions: string;
+    /**
+     * Start of the main function of the vertex shader
+     */
     Vertex_MainBegin: string;
+    /**
+     * Before the world position computation
+     */
     Vertex_Before_PositionUpdated: string;
+    /**
+     * Before the normal computation
+     */
     Vertex_Before_NormalUpdated: string;
+    /**
+     * After the world position has been computed
+     */
     Vertex_After_WorldPosComputed: string;
+    /**
+     * Main end of the vertex shader
+     */
     Vertex_MainEnd: string;
 }
+/**
+ * Customized material
+ */
 export class CustomMaterial extends StandardMaterial {
+    /**
+     * Index for each created shader
+     */
     static ShaderIndexer: number;
+    /**
+     * Custom shader structure
+     */
     CustomParts: ShaderSpecialParts;
-    _isCreatedShader: boolean;
+    /**
+     * Name of the shader
+     */
     _createdShaderName: string;
+    /**
+     * List of custom uniforms
+     */
     _customUniform: string[];
+    /**
+     * Names of the new uniforms
+     */
     _newUniforms: string[];
+    /**
+     * Instances of the new uniform objects
+     */
     _newUniformInstances: {
         [name: string]: any;
     };
+    /**
+     * Instances of the new sampler objects
+     */
     _newSamplerInstances: {
         [name: string]: Texture;
     };
+    /**
+     * List of the custom attributes
+     */
     _customAttributes: string[];
+    /**
+     * Fragment shader string
+     */
     FragmentShader: string;
+    /**
+     * Vertex shader string
+     */
     VertexShader: string;
+    /**
+     * Runs after the material is bound to a mesh
+     * @param mesh mesh bound
+     * @param effect bound effect used to render
+     */
     AttachAfterBind(mesh: Mesh | undefined, effect: Effect): void;
+    /**
+     * @internal
+     */
     ReviewUniform(name: string, arr: string[]): string[];
+    /**
+     * Builds the material
+     * @param shaderName name of the shader
+     * @param uniforms list of uniforms
+     * @param uniformBuffers list of uniform buffers
+     * @param samplers list of samplers
+     * @param defines list of defines
+     * @param attributes list of attributes
+     * @returns the shader name
+     */
     Builder(shaderName: string, uniforms: string[], uniformBuffers: string[], samplers: string[], defines: MaterialDefines | string[], attributes?: string[]): string;
+    protected _injectCustomCode(code: string, shaderType: string): string;
+    protected _getCustomCode(shaderType: string): {
+        [pointName: string]: string;
+    };
     constructor(name: string, scene?: Scene);
+    protected _afterBind(mesh?: Mesh, effect?: Nullable<Effect>, subMesh?: SubMesh): void;
+    /**
+     * Adds a new uniform to the shader
+     * @param name the name of the uniform to add
+     * @param kind the type of the uniform to add
+     * @param param the value of the uniform to add
+     * @returns the current material
+     */
     AddUniform(name: string, kind: string, param: any): CustomMaterial;
+    /**
+     * Adds a custom attribute
+     * @param name the name of the attribute
+     * @returns the current material
+     */
     AddAttribute(name: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Begin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Begin(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Definitions portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Definitions(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_MainBegin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_MainBegin(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_MainEnd portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_MainEnd(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Custom_Diffuse portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Custom_Diffuse(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Custom_Alpha portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Custom_Alpha(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_Lights portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_Lights(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_Fog portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_Fog(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_FragColor portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_FragColor(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_Begin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Begin(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_Definitions portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Definitions(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_MainBegin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_MainBegin(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_Before_PositionUpdated portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Before_PositionUpdated(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_Before_NormalUpdated portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Before_NormalUpdated(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_After_WorldPosComputed portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_After_WorldPosComputed(shaderPart: string): CustomMaterial;
+    /**
+     * Sets the code on Vertex_MainEnd portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_MainEnd(shaderPart: string): CustomMaterial;
 }
 
@@ -170,26 +383,88 @@ import { PBRMaterial } from "babylonjs/Materials/PBR/pbrMaterial";
 import { Mesh } from "babylonjs/Meshes/mesh";
 import { Scene } from "babylonjs/scene";
 import { ICustomShaderNameResolveOptions } from "babylonjs/Materials/material";
+import { Nullable } from "babylonjs/types";
+import { SubMesh } from "babylonjs/Meshes/subMesh";
+/**
+ * Albedo parts of the shader
+ */
 export class ShaderAlbedoParts {
     constructor();
+    /**
+     * Beginning of the fragment shader
+     */
     Fragment_Begin: string;
+    /**
+     * Fragment definitions
+     */
     Fragment_Definitions: string;
+    /**
+     * Beginning of the main function
+     */
     Fragment_MainBegin: string;
+    /**
+     * End of main function
+     */
     Fragment_MainEnd: string;
+    /**
+     * Albedo color
+     */
     Fragment_Custom_Albedo: string;
+    /**
+     * Lights
+     */
     Fragment_Before_Lights: string;
+    /**
+     * Metallic and roughness
+     */
     Fragment_Custom_MetallicRoughness: string;
+    /**
+     * Microsurface
+     */
     Fragment_Custom_MicroSurface: string;
+    /**
+     * Fog computations
+     */
     Fragment_Before_Fog: string;
+    /**
+     * Alpha
+     */
     Fragment_Custom_Alpha: string;
+    /**
+     * Color composition
+     */
     Fragment_Before_FinalColorComposition: string;
+    /**
+     * Fragment color
+     */
     Fragment_Before_FragColor: string;
+    /**
+     * Beginning of vertex shader
+     */
     Vertex_Begin: string;
+    /**
+     * Vertex definitions
+     */
     Vertex_Definitions: string;
+    /**
+     * Vertex main begin
+     */
     Vertex_MainBegin: string;
+    /**
+     * Vertex before position updated
+     */
     Vertex_Before_PositionUpdated: string;
+    /**
+     * Vertex before normal updated
+     */
     Vertex_Before_NormalUpdated: string;
+    /**
+     * Vertex after world pos computed
+     */
     Vertex_After_WorldPosComputed: string;
+    /**
+     * Vertex main end
+     */
     Vertex_MainEnd: string;
 }
 /**
@@ -197,54 +472,216 @@ export class ShaderAlbedoParts {
  */
 export const ShaderAlebdoParts: typeof ShaderAlbedoParts;
 export class PBRCustomMaterial extends PBRMaterial {
+    /**
+     * Index for each created shader
+     */
     static ShaderIndexer: number;
+    /**
+     * Custom shader structure
+     */
     CustomParts: ShaderAlbedoParts;
-    _isCreatedShader: boolean;
+    /**
+     * Name of the shader
+     */
     _createdShaderName: string;
+    /**
+     * List of custom uniforms
+     */
     _customUniform: string[];
+    /**
+     * Names of the new uniforms
+     */
     _newUniforms: string[];
+    /**
+     * Instances of the new uniform objects
+     */
     _newUniformInstances: {
         [name: string]: any;
     };
+    /**
+     * Instances of the new sampler objects
+     */
     _newSamplerInstances: {
         [name: string]: Texture;
     };
+    /**
+     * List of the custom attributes
+     */
     _customAttributes: string[];
+    /**
+     * Fragment shader string
+     */
     FragmentShader: string;
+    /**
+     * Vertex shader string
+     */
     VertexShader: string;
+    /**
+     * Runs after the material is bound to a mesh
+     * @param mesh mesh bound
+     * @param effect bound effect used to render
+     */
     AttachAfterBind(mesh: Mesh | undefined, effect: Effect): void;
+    /**
+     * @internal
+     */
     ReviewUniform(name: string, arr: string[]): string[];
+    /**
+     * Builds the material
+     * @param shaderName name of the shader
+     * @param uniforms list of uniforms
+     * @param uniformBuffers list of uniform buffers
+     * @param samplers list of samplers
+     * @param defines list of defines
+     * @param attributes list of attributes
+     * @param options options to compile the shader
+     * @returns the shader name
+     */
     Builder(shaderName: string, uniforms: string[], uniformBuffers: string[], samplers: string[], defines: MaterialDefines | string[], attributes?: string[], options?: ICustomShaderNameResolveOptions): string;
+    protected _injectCustomCode(code: string, shaderType: string): string;
+    protected _getCustomCode(shaderType: string): {
+        [pointName: string]: string;
+    };
     constructor(name: string, scene?: Scene);
+    protected _afterBind(mesh?: Mesh, effect?: Nullable<Effect>, subMesh?: SubMesh): void;
+    /**
+     * Adds a new uniform to the shader
+     * @param name the name of the uniform to add
+     * @param kind the type of the uniform to add
+     * @param param the value of the uniform to add
+     * @returns the current material
+     */
     AddUniform(name: string, kind: string, param: any): PBRCustomMaterial;
+    /**
+     * Adds a custom attribute
+     * @param name the name of the attribute
+     * @returns the current material
+     */
     AddAttribute(name: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Begin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Begin(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Definitions portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Definitions(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_MainBegin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_MainBegin(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Custom_Albedo portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Custom_Albedo(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Custom_Alpha portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Custom_Alpha(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_Lights portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_Lights(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Custom_MetallicRoughness portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Custom_MetallicRoughness(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Custom_MicroSurface portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Custom_MicroSurface(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_Fog portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_Fog(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_FinalColorComposition portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_FinalColorComposition(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_Before_FragColor portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_Before_FragColor(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Fragment_MainEnd portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Fragment_MainEnd(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_Begin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Begin(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_Definitions portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Definitions(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_MainBegin portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_MainBegin(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_Before_PositionUpdated portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Before_PositionUpdated(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_Before_NormalUpdated portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_Before_NormalUpdated(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_After_WorldPosComputed portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_After_WorldPosComputed(shaderPart: string): PBRCustomMaterial;
+    /**
+     * Sets the code on Vertex_MainEnd portion
+     * @param shaderPart the code string
+     * @returns the current material
+     */
     Vertex_MainEnd(shaderPart: string): PBRCustomMaterial;
 }
 
 }
 declare module "babylonjs-materials/fire/fire.fragment" {
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -259,11 +696,13 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
 /** @internal */
@@ -322,6 +761,7 @@ declare module "babylonjs-materials/fur/fur.fragment" {
 import "babylonjs/Shaders/ShadersInclude/helperFunctions";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
@@ -329,6 +769,7 @@ import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -343,6 +784,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -350,6 +792,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
@@ -431,10 +874,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -449,6 +894,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -456,6 +902,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
@@ -511,8 +958,10 @@ export * from "babylonjs-materials/gradient/gradientMaterial";
 
 }
 declare module "babylonjs-materials/grid/grid.fragment" {
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
 export const gridPixelShader: {
@@ -523,9 +972,11 @@ export const gridPixelShader: {
 }
 declare module "babylonjs-materials/grid/grid.vertex" {
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 /** @internal */
 export const gridVertexShader: {
     name: string;
@@ -591,6 +1042,9 @@ export class GridMaterial extends PushMaterial {
      */
     useMaxLine: boolean;
     private _opacityTexture;
+    /**
+     * Texture to define opacity of the grid
+     */
     opacityTexture: BaseTexture;
     private _gridControl;
     /**
@@ -600,7 +1054,7 @@ export class GridMaterial extends PushMaterial {
      */
     constructor(name: string, scene?: Scene);
     /**
-     * Returns whether or not the grid requires alpha blending.
+     * @returns whether or not the grid requires alpha blending.
      */
     needAlphaBlending(): boolean;
     needAlphaBlendingForMesh(mesh: AbstractMesh): boolean;
@@ -651,10 +1105,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -669,6 +1125,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -679,6 +1136,7 @@ import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 /** @internal */
 export const lavaVertexShader: {
     name: string;
@@ -745,10 +1203,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -763,6 +1223,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -773,6 +1234,7 @@ import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 /** @internal */
 export const mixVertexShader: {
     name: string;
@@ -859,10 +1321,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -877,6 +1341,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -884,6 +1349,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 /** @internal */
@@ -943,9 +1409,11 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -960,6 +1428,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -967,6 +1436,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 /** @internal */
@@ -1020,10 +1490,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -1038,6 +1510,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -1045,6 +1518,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
@@ -1099,9 +1573,11 @@ export * from "babylonjs-materials/sky/skyMaterial";
 }
 declare module "babylonjs-materials/sky/sky.fragment" {
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/helperFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -1112,9 +1588,11 @@ export const skyPixelShader: {
 
 }
 declare module "babylonjs-materials/sky/sky.vertex" {
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 /** @internal */
 export const skyVertexShader: {
@@ -1288,10 +1766,12 @@ import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -1305,6 +1785,7 @@ declare module "babylonjs-materials/terrain/terrain.vertex" {
 import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
@@ -1313,6 +1794,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
@@ -1384,6 +1866,7 @@ declare module "babylonjs-materials/triPlanar/triplanar.fragment" {
 import "babylonjs/Shaders/ShadersInclude/helperFunctions";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/shadowsFragmentFunctions";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragmentDeclaration";
@@ -1391,6 +1874,7 @@ import "babylonjs/Shaders/ShadersInclude/fogFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneFragment";
 import "babylonjs/Shaders/ShadersInclude/depthPrePass";
 import "babylonjs/Shaders/ShadersInclude/lightFragment";
+import "babylonjs/Shaders/ShadersInclude/logDepthFragment";
 import "babylonjs/Shaders/ShadersInclude/fogFragment";
 import "babylonjs/Shaders/ShadersInclude/imageProcessingCompatibility";
 /** @internal */
@@ -1406,6 +1890,7 @@ import "babylonjs/Shaders/ShadersInclude/bonesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimationDeclaration";
 import "babylonjs/Shaders/ShadersInclude/instancesDeclaration";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertexDeclaration";
+import "babylonjs/Shaders/ShadersInclude/logDepthDeclaration";
 import "babylonjs/Shaders/ShadersInclude/fogVertexDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightFragmentDeclaration";
 import "babylonjs/Shaders/ShadersInclude/lightUboDeclaration";
@@ -1413,6 +1898,7 @@ import "babylonjs/Shaders/ShadersInclude/instancesVertex";
 import "babylonjs/Shaders/ShadersInclude/bonesVertex";
 import "babylonjs/Shaders/ShadersInclude/bakedVertexAnimation";
 import "babylonjs/Shaders/ShadersInclude/clipPlaneVertex";
+import "babylonjs/Shaders/ShadersInclude/logDepthVertex";
 import "babylonjs/Shaders/ShadersInclude/fogVertex";
 import "babylonjs/Shaders/ShadersInclude/shadowsVertex";
 import "babylonjs/Shaders/ShadersInclude/vertexColorMixing";
@@ -1540,6 +2026,7 @@ import { Mesh } from "babylonjs/Meshes/mesh";
 import { Scene } from "babylonjs/scene";
 import "babylonjs-materials/water/water.fragment";
 import "babylonjs-materials/water/water.vertex";
+import "babylonjs/Rendering/boundingBoxRenderer";
 export class WaterMaterial extends PushMaterial {
     renderTargetSize: Vector2;
     private _bumpTexture;
@@ -1629,7 +2116,6 @@ export class WaterMaterial extends PushMaterial {
     private _reflectionTransform;
     private _lastTime;
     private _lastDeltaTime;
-    private _useLogarithmicDepth;
     private _waitingRenderList;
     private _imageProcessingConfiguration;
     private _imageProcessingObserver;
@@ -1644,8 +2130,6 @@ export class WaterMaterial extends PushMaterial {
      * @param renderTargetSize
      */
     constructor(name: string, scene?: Scene, renderTargetSize?: Vector2);
-    get useLogarithmicDepth(): boolean;
-    set useLogarithmicDepth(value: boolean);
     get refractionTexture(): Nullable<RenderTargetTexture>;
     get reflectionTexture(): Nullable<RenderTargetTexture>;
     addToRenderList(node: any): void;
@@ -1785,93 +2269,360 @@ declare module BABYLON {
 
 
 
+    /**
+     * Structure of a custom shader
+     */
     export class CustomShaderStructure {
+        /**
+         * Fragment store
+         */
         FragmentStore: string;
+        /**
+         * Vertex store
+         */
         VertexStore: string;
         constructor();
     }
+    /**
+     * Parts of a shader
+     */
     export class ShaderSpecialParts {
         constructor();
+        /**
+         * Beginning of the fragment shader
+         */
         Fragment_Begin: string;
+        /**
+         * Variable definitions of the fragment shader
+         */
         Fragment_Definitions: string;
+        /**
+         * Beginning of the fragment main function
+         */
         Fragment_MainBegin: string;
+        /**
+         * End of the fragment main function
+         */
         Fragment_MainEnd: string;
+        /**
+         * Diffuse color calculation
+         */
         Fragment_Custom_Diffuse: string;
+        /**
+         * Before lightning computations
+         */
         Fragment_Before_Lights: string;
+        /**
+         * Before fog computations
+         */
         Fragment_Before_Fog: string;
+        /**
+         * Alpha calculations
+         */
         Fragment_Custom_Alpha: string;
+        /**
+         * Before frag color is assigned
+         */
         Fragment_Before_FragColor: string;
+        /**
+         * Beginning of the vertex shader
+         */
         Vertex_Begin: string;
+        /**
+         * Variable definitions of the vertex shader
+         */
         Vertex_Definitions: string;
+        /**
+         * Start of the main function of the vertex shader
+         */
         Vertex_MainBegin: string;
+        /**
+         * Before the world position computation
+         */
         Vertex_Before_PositionUpdated: string;
+        /**
+         * Before the normal computation
+         */
         Vertex_Before_NormalUpdated: string;
+        /**
+         * After the world position has been computed
+         */
         Vertex_After_WorldPosComputed: string;
+        /**
+         * Main end of the vertex shader
+         */
         Vertex_MainEnd: string;
     }
+    /**
+     * Customized material
+     */
     export class CustomMaterial extends StandardMaterial {
+        /**
+         * Index for each created shader
+         */
         static ShaderIndexer: number;
+        /**
+         * Custom shader structure
+         */
         CustomParts: ShaderSpecialParts;
-        _isCreatedShader: boolean;
+        /**
+         * Name of the shader
+         */
         _createdShaderName: string;
+        /**
+         * List of custom uniforms
+         */
         _customUniform: string[];
+        /**
+         * Names of the new uniforms
+         */
         _newUniforms: string[];
+        /**
+         * Instances of the new uniform objects
+         */
         _newUniformInstances: {
             [name: string]: any;
         };
+        /**
+         * Instances of the new sampler objects
+         */
         _newSamplerInstances: {
             [name: string]: Texture;
         };
+        /**
+         * List of the custom attributes
+         */
         _customAttributes: string[];
+        /**
+         * Fragment shader string
+         */
         FragmentShader: string;
+        /**
+         * Vertex shader string
+         */
         VertexShader: string;
+        /**
+         * Runs after the material is bound to a mesh
+         * @param mesh mesh bound
+         * @param effect bound effect used to render
+         */
         AttachAfterBind(mesh: Mesh | undefined, effect: Effect): void;
+        /**
+         * @internal
+         */
         ReviewUniform(name: string, arr: string[]): string[];
+        /**
+         * Builds the material
+         * @param shaderName name of the shader
+         * @param uniforms list of uniforms
+         * @param uniformBuffers list of uniform buffers
+         * @param samplers list of samplers
+         * @param defines list of defines
+         * @param attributes list of attributes
+         * @returns the shader name
+         */
         Builder(shaderName: string, uniforms: string[], uniformBuffers: string[], samplers: string[], defines: MaterialDefines | string[], attributes?: string[]): string;
+        protected _injectCustomCode(code: string, shaderType: string): string;
+        protected _getCustomCode(shaderType: string): {
+            [pointName: string]: string;
+        };
         constructor(name: string, scene?: Scene);
+        protected _afterBind(mesh?: Mesh, effect?: Nullable<Effect>, subMesh?: SubMesh): void;
+        /**
+         * Adds a new uniform to the shader
+         * @param name the name of the uniform to add
+         * @param kind the type of the uniform to add
+         * @param param the value of the uniform to add
+         * @returns the current material
+         */
         AddUniform(name: string, kind: string, param: any): CustomMaterial;
+        /**
+         * Adds a custom attribute
+         * @param name the name of the attribute
+         * @returns the current material
+         */
         AddAttribute(name: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Begin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Begin(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Definitions portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Definitions(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_MainBegin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_MainBegin(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_MainEnd portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_MainEnd(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Custom_Diffuse portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Custom_Diffuse(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Custom_Alpha portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Custom_Alpha(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_Lights portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_Lights(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_Fog portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_Fog(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_FragColor portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_FragColor(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_Begin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Begin(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_Definitions portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Definitions(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_MainBegin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_MainBegin(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_Before_PositionUpdated portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Before_PositionUpdated(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_Before_NormalUpdated portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Before_NormalUpdated(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_After_WorldPosComputed portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_After_WorldPosComputed(shaderPart: string): CustomMaterial;
+        /**
+         * Sets the code on Vertex_MainEnd portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_MainEnd(shaderPart: string): CustomMaterial;
     }
 
 
 
 
+    /**
+     * Albedo parts of the shader
+     */
     export class ShaderAlbedoParts {
         constructor();
+        /**
+         * Beginning of the fragment shader
+         */
         Fragment_Begin: string;
+        /**
+         * Fragment definitions
+         */
         Fragment_Definitions: string;
+        /**
+         * Beginning of the main function
+         */
         Fragment_MainBegin: string;
+        /**
+         * End of main function
+         */
         Fragment_MainEnd: string;
+        /**
+         * Albedo color
+         */
         Fragment_Custom_Albedo: string;
+        /**
+         * Lights
+         */
         Fragment_Before_Lights: string;
+        /**
+         * Metallic and roughness
+         */
         Fragment_Custom_MetallicRoughness: string;
+        /**
+         * Microsurface
+         */
         Fragment_Custom_MicroSurface: string;
+        /**
+         * Fog computations
+         */
         Fragment_Before_Fog: string;
+        /**
+         * Alpha
+         */
         Fragment_Custom_Alpha: string;
+        /**
+         * Color composition
+         */
         Fragment_Before_FinalColorComposition: string;
+        /**
+         * Fragment color
+         */
         Fragment_Before_FragColor: string;
+        /**
+         * Beginning of vertex shader
+         */
         Vertex_Begin: string;
+        /**
+         * Vertex definitions
+         */
         Vertex_Definitions: string;
+        /**
+         * Vertex main begin
+         */
         Vertex_MainBegin: string;
+        /**
+         * Vertex before position updated
+         */
         Vertex_Before_PositionUpdated: string;
+        /**
+         * Vertex before normal updated
+         */
         Vertex_Before_NormalUpdated: string;
+        /**
+         * Vertex after world pos computed
+         */
         Vertex_After_WorldPosComputed: string;
+        /**
+         * Vertex main end
+         */
         Vertex_MainEnd: string;
     }
     /**
@@ -1879,45 +2630,205 @@ declare module BABYLON {
      */
     export var ShaderAlebdoParts: typeof ShaderAlbedoParts;
     export class PBRCustomMaterial extends PBRMaterial {
+        /**
+         * Index for each created shader
+         */
         static ShaderIndexer: number;
+        /**
+         * Custom shader structure
+         */
         CustomParts: ShaderAlbedoParts;
-        _isCreatedShader: boolean;
+        /**
+         * Name of the shader
+         */
         _createdShaderName: string;
+        /**
+         * List of custom uniforms
+         */
         _customUniform: string[];
+        /**
+         * Names of the new uniforms
+         */
         _newUniforms: string[];
+        /**
+         * Instances of the new uniform objects
+         */
         _newUniformInstances: {
             [name: string]: any;
         };
+        /**
+         * Instances of the new sampler objects
+         */
         _newSamplerInstances: {
             [name: string]: Texture;
         };
+        /**
+         * List of the custom attributes
+         */
         _customAttributes: string[];
+        /**
+         * Fragment shader string
+         */
         FragmentShader: string;
+        /**
+         * Vertex shader string
+         */
         VertexShader: string;
+        /**
+         * Runs after the material is bound to a mesh
+         * @param mesh mesh bound
+         * @param effect bound effect used to render
+         */
         AttachAfterBind(mesh: Mesh | undefined, effect: Effect): void;
+        /**
+         * @internal
+         */
         ReviewUniform(name: string, arr: string[]): string[];
+        /**
+         * Builds the material
+         * @param shaderName name of the shader
+         * @param uniforms list of uniforms
+         * @param uniformBuffers list of uniform buffers
+         * @param samplers list of samplers
+         * @param defines list of defines
+         * @param attributes list of attributes
+         * @param options options to compile the shader
+         * @returns the shader name
+         */
         Builder(shaderName: string, uniforms: string[], uniformBuffers: string[], samplers: string[], defines: MaterialDefines | string[], attributes?: string[], options?: ICustomShaderNameResolveOptions): string;
+        protected _injectCustomCode(code: string, shaderType: string): string;
+        protected _getCustomCode(shaderType: string): {
+            [pointName: string]: string;
+        };
         constructor(name: string, scene?: Scene);
+        protected _afterBind(mesh?: Mesh, effect?: Nullable<Effect>, subMesh?: SubMesh): void;
+        /**
+         * Adds a new uniform to the shader
+         * @param name the name of the uniform to add
+         * @param kind the type of the uniform to add
+         * @param param the value of the uniform to add
+         * @returns the current material
+         */
         AddUniform(name: string, kind: string, param: any): PBRCustomMaterial;
+        /**
+         * Adds a custom attribute
+         * @param name the name of the attribute
+         * @returns the current material
+         */
         AddAttribute(name: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Begin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Begin(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Definitions portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Definitions(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_MainBegin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_MainBegin(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Custom_Albedo portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Custom_Albedo(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Custom_Alpha portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Custom_Alpha(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_Lights portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_Lights(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Custom_MetallicRoughness portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Custom_MetallicRoughness(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Custom_MicroSurface portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Custom_MicroSurface(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_Fog portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_Fog(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_FinalColorComposition portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_FinalColorComposition(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_Before_FragColor portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_Before_FragColor(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Fragment_MainEnd portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Fragment_MainEnd(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_Begin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Begin(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_Definitions portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Definitions(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_MainBegin portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_MainBegin(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_Before_PositionUpdated portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Before_PositionUpdated(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_Before_NormalUpdated portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_Before_NormalUpdated(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_After_WorldPosComputed portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_After_WorldPosComputed(shaderPart: string): PBRCustomMaterial;
+        /**
+         * Sets the code on Vertex_MainEnd portion
+         * @param shaderPart the code string
+         * @returns the current material
+         */
         Vertex_MainEnd(shaderPart: string): PBRCustomMaterial;
     }
 
@@ -2130,6 +3041,9 @@ declare module BABYLON {
          */
         useMaxLine: boolean;
         private _opacityTexture;
+        /**
+         * Texture to define opacity of the grid
+         */
         opacityTexture: BaseTexture;
         private _gridControl;
         /**
@@ -2139,7 +3053,7 @@ declare module BABYLON {
          */
         constructor(name: string, scene?: Scene);
         /**
-         * Returns whether or not the grid requires alpha blending.
+         * @returns whether or not the grid requires alpha blending.
          */
         needAlphaBlending(): boolean;
         needAlphaBlendingForMesh(mesh: AbstractMesh): boolean;
@@ -2773,7 +3687,6 @@ declare module BABYLON {
         private _reflectionTransform;
         private _lastTime;
         private _lastDeltaTime;
-        private _useLogarithmicDepth;
         private _waitingRenderList;
         private _imageProcessingConfiguration;
         private _imageProcessingObserver;
@@ -2788,8 +3701,6 @@ declare module BABYLON {
          * @param renderTargetSize
          */
         constructor(name: string, scene?: Scene, renderTargetSize?: Vector2);
-        get useLogarithmicDepth(): boolean;
-        set useLogarithmicDepth(value: boolean);
         get refractionTexture(): Nullable<RenderTargetTexture>;
         get reflectionTexture(): Nullable<RenderTargetTexture>;
         addToRenderList(node: any): void;

@@ -16,6 +16,15 @@ declare module BABYLON {
         dispose(): void;
         /** @internal */
         get wasUsed(): boolean;
+        /**
+         * After node is exported
+         * @param context the GLTF context when loading the asset
+         * @param node the node exported
+         * @param babylonNode the corresponding babylon node
+         * @param nodeMap map from babylon node id to node index
+         * @param binaryWriter binary writer
+         * @returns nullable promise, resolves with the node
+         */
         postExportNodeAsync(context: string, node: Nullable<BABYLON.GLTF2.INode>, babylonNode: Node, nodeMap: {
             [key: number]: number;
         }, binaryWriter: _BinaryWriter): Promise<Nullable<BABYLON.GLTF2.INode>>;
@@ -105,6 +114,74 @@ declare module BABYLON {
 
 
     /**
+     * [Proposed Specification](https://github.com/KhronosGroup/glTF/pull/1825)
+     * !!! Experimental Extension Subject to Changes !!!
+     */
+    export class KHR_materials_diffuse_transmission implements IGLTFExporterExtensionV2 {
+        /** Name of this extension */
+        readonly name = "KHR_materials_diffuse_transmission";
+        /** Defines whether this extension is enabled */
+        enabled: boolean;
+        /** Defines whether this extension is required */
+        required: boolean;
+        private _exporter;
+        private _wasUsed;
+        constructor(exporter: _Exporter);
+        dispose(): void;
+        /** @internal */
+        get wasUsed(): boolean;
+        /**
+         * After exporting a material, deal with additional textures
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns array of additional textures to export
+         */
+        postExportMaterialAdditionalTextures?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): BaseTexture[];
+        private _isExtensionEnabled;
+        private _hasTexturesExtension;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns promise that resolves with the updated node
+         */
+        postExportMaterialAsync?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
+    }
+
+
+    /**
+     * [Specification](https://github.com/KhronosGroup/glTF/blob/87bd64a7f5e23c84b6aef2e6082069583ed0ddb4/extensions/2.0/Khronos/KHR_materials_dispersion/README.md)
+     * @experimental
+     */
+    export class KHR_materials_dispersion implements IGLTFExporterExtensionV2 {
+        /** Name of this extension */
+        readonly name = "KHR_materials_dispersion";
+        /** Defines whether this extension is enabled */
+        enabled: boolean;
+        /** Defines whether this extension is required */
+        required: boolean;
+        private _wasUsed;
+        /** Constructor */
+        constructor();
+        /** Dispose */
+        dispose(): void;
+        /** @internal */
+        get wasUsed(): boolean;
+        private _isExtensionEnabled;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns promise, resolves with the material
+         */
+        postExportMaterialAsync?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
+    }
+
+
+    /**
      * [Specification](https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Khronos/KHR_materials_emissive_strength/README.md)
      */
     export class KHR_materials_emissive_strength implements IGLTFExporterExtensionV2 {
@@ -115,9 +192,17 @@ declare module BABYLON {
         /** Defines whether this extension is required */
         required: boolean;
         private _wasUsed;
+        /** Dispose */
         dispose(): void;
-        /** @interal */
+        /** @internal */
         get wasUsed(): boolean;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns promise, resolves with the material
+         */
         postExportMaterialAsync(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
     }
 
@@ -134,10 +219,18 @@ declare module BABYLON {
         required: boolean;
         private _wasUsed;
         constructor();
+        /** Dispose */
         dispose(): void;
         /** @internal */
         get wasUsed(): boolean;
         private _isExtensionEnabled;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns promise, resolves with the material
+         */
         postExportMaterialAsync?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
     }
 
@@ -197,12 +290,27 @@ declare module BABYLON {
         private _exporter;
         private _wasUsed;
         constructor(exporter: _Exporter);
+        /** Dispose */
         dispose(): void;
         /** @internal */
         get wasUsed(): boolean;
+        /**
+         * After exporting a material, deal with the additional textures
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns array of additional textures to export
+         */
         postExportMaterialAdditionalTextures?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): BaseTexture[];
         private _isExtensionEnabled;
         private _hasTexturesExtension;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns promise, resolves with the material
+         */
         postExportMaterialAsync?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
     }
 
@@ -220,12 +328,27 @@ declare module BABYLON {
         private _exporter;
         private _wasUsed;
         constructor(exporter: _Exporter);
+        /** Dispose */
         dispose(): void;
         /** @internal */
         get wasUsed(): boolean;
+        /**
+         * After exporting a material, deal with additional textures
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns array of additional textures to export
+         */
         postExportMaterialAdditionalTextures?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): BaseTexture[];
         private _isExtensionEnabled;
         private _hasTexturesExtension;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns true if successful
+         */
         postExportMaterialAsync?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
     }
 
@@ -265,9 +388,23 @@ declare module BABYLON {
         dispose(): void;
         /** @internal */
         get wasUsed(): boolean;
+        /**
+         * After exporting a material, deal with additional textures
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns array of additional textures to export
+         */
         postExportMaterialAdditionalTextures?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): BaseTexture[];
         private _isExtensionEnabled;
         private _hasTexturesExtension;
+        /**
+         * After exporting a material
+         * @param context GLTF context of the material
+         * @param node exported GLTF node
+         * @param babylonMaterial corresponding babylon material
+         * @returns promise that resolves with the updated node
+         */
         postExportMaterialAsync?(context: string, node: BABYLON.GLTF2.IMaterial, babylonMaterial: Material): Promise<BABYLON.GLTF2.IMaterial>;
     }
 
@@ -392,7 +529,7 @@ declare module BABYLON {
             [key: number]: number;
         }, nodes: BABYLON.GLTF2.INode[], binaryWriter: _BinaryWriter, bufferViews: BABYLON.GLTF2.IBufferView[], accessors: BABYLON.GLTF2.IAccessor[], animationSampleRate: number, shouldExportAnimation?: (animation: Animation) => boolean): void;
         /**
-         * @ignore
+         * @internal
          * Create node and morph animations from the animation groups
          * @param babylonScene
          * @param glTFAnimations
@@ -441,7 +578,6 @@ declare module BABYLON {
          * @param babylonTransformNode BabylonJS mesh
          * @param animation BabylonJS animation
          * @param animationChannelTargetPath The target animation channel
-         * @param frameDelta The difference between the last and first frame of the animation
          * @param inputs Array to store the key frame times
          * @param outputs Array to store the key frame data
          * @param useQuaternion Specifies if quaternions are used in the animation
@@ -459,6 +595,7 @@ declare module BABYLON {
          */
         private static _AddKeyframeValue;
         /**
+         * @internal
          * Determine the interpolation based on the key frames
          * @param keyFrames
          * @param animationChannelTargetPath
@@ -468,13 +605,11 @@ declare module BABYLON {
         /**
          * Adds an input tangent or output tangent to the output data
          * If an input tangent or output tangent is missing, it uses the zero vector or zero quaternion
-         * @param babylonTransformNode
          * @param tangentType Specifies which type of tangent to handle (inTangent or outTangent)
          * @param outputs The animation data by keyframe
          * @param animationChannelTargetPath The target animation channel
          * @param interpolation The interpolation type
          * @param keyFrame The key frame with the animation data
-         * @param frameDelta Time difference between two frames used to scale the tangent by the frame delta
          * @param useQuaternion Specifies if quaternions are used
          */
         private static _AddSplineTangent;
@@ -705,9 +840,8 @@ declare module BABYLON {
          * Writes mesh attribute data to a data buffer
          * Returns the bytelength of the data
          * @param vertexBufferKind Indicates what kind of vertex data is being passed in
-         * @param attributeComponentKind
-         * @param meshPrimitive
-         * @param morphTarget
+         * @param attributeComponentKind attribute component type
+         * @param meshPrimitive the mesh primitive
          * @param meshAttributeArray Array containing the attribute data
          * @param morphTargetAttributeArray
          * @param stride Specifies the space between data
@@ -773,6 +907,7 @@ declare module BABYLON {
         /**
          * The primitive mode of the Babylon mesh
          * @param babylonMesh The BabylonJS mesh
+         * @returns Unsigned integer of the primitive mode or null
          */
         private _getMeshPrimitiveMode;
         /**
@@ -785,7 +920,6 @@ declare module BABYLON {
          * Sets the vertex attribute accessor based of the glTF mesh primitive
          * @param meshPrimitive glTF mesh primitive
          * @param attributeKind vertex attribute
-         * @returns boolean specifying if uv coordinates are present
          */
         private _setAttributeKind;
         /**
@@ -793,19 +927,19 @@ declare module BABYLON {
          * @param mesh glTF Mesh object to store the primitive attribute information
          * @param babylonTransformNode Babylon mesh to get the primitive attribute data from
          * @param binaryWriter Buffer to write the attribute data to
+         * @returns promise that resolves when done setting the primitive attributes
          */
         private _setPrimitiveAttributesAsync;
         /**
          * Creates a glTF scene based on the array of meshes
          * Returns the total byte offset
-         * @param babylonScene Babylon scene to get the mesh data from
          * @param binaryWriter Buffer to write binary data to
+         * @returns a promise that resolves when done
          */
         private _createSceneAsync;
         /**
          * Getting the nodes and materials that would be exported.
          * @param nodes Babylon transform nodes
-         * @returns Array of nodes which would be exported.
          * @returns Set of materials which would be exported.
          */
         private _getExportNodes;
@@ -825,7 +959,6 @@ declare module BABYLON {
         private _createNodeAsync;
         /**
          * Creates a glTF skin from a Babylon skeleton
-         * @param babylonScene Babylon Scene
          * @param nodeMap Babylon transform nodes
          * @param binaryWriter Buffer to write binary data to
          * @returns Node mapping of unique id to index
@@ -857,7 +990,8 @@ declare module BABYLON {
         constructor(byteLength: number);
         /**
          * Resize the array buffer to the specified byte length
-         * @param byteLength
+         * @param byteLength The new byte length
+         * @returns The resized array buffer
          */
         private _resizeBuffer;
         /**
@@ -885,6 +1019,7 @@ declare module BABYLON {
         /**
          * Gets an UInt32 in the array buffer
          * @param byteOffset If defined, specifies where to set the value as an offset.
+         * @returns entry
          */
         getUInt32(byteOffset: number): number;
         getVector3Float32FromRef(vector3: Vector3, byteOffset: number): void;
@@ -1016,6 +1151,7 @@ declare module BABYLON {
          * @param color1 first color to compare to
          * @param color2 second color to compare to
          * @param epsilon threshold value
+         * @returns boolean specifying if the colors are approximately equal in value
          */
         private static _FuzzyEquals;
         /**
@@ -1023,6 +1159,7 @@ declare module BABYLON {
          * @param exportMaterials
          * @param mimeType texture mime type
          * @param hasTextureCoords specifies if texture coordinates are present on the material
+         * @returns promise that resolves after all materials have been converted
          */
         _convertMaterialsToGLTFAsync(exportMaterials: Set<Material>, mimeType: BABYLON.GLTF2.ImageMimeType, hasTextureCoords: boolean): Promise<void>;
         /**
@@ -1063,6 +1200,7 @@ declare module BABYLON {
          * @param babylonStandardMaterial BJS Standard Material
          * @param mimeType mime type to use for the textures
          * @param hasTextureCoords specifies if texture coordinates are present on the submesh to determine if textures should be applied
+         * @returns promise, resolved with the material
          */
         _convertStandardMaterialAsync(babylonStandardMaterial: StandardMaterial, mimeType: BABYLON.GLTF2.ImageMimeType, hasTextureCoords: boolean): Promise<BABYLON.GLTF2.IMaterial>;
         private _finishMaterial;
@@ -1142,7 +1280,7 @@ declare module BABYLON {
          * Convert a PBRMaterial (Specular/Glossiness) to Metallic Roughness factors
          * @param babylonPBRMaterial BJS PBR Metallic Roughness Material
          * @param mimeType mime type to use for the textures
-         * @param glTFPbrMetallicRoughness glTF PBR Metallic Roughness interface
+         * @param pbrMetallicRoughness glTF PBR Metallic Roughness interface
          * @param hasTextureCoords specifies if texture coordinates are present on the submesh to determine if textures should be applied
          * @returns glTF PBR Metallic Roughness factors
          */
@@ -1152,6 +1290,7 @@ declare module BABYLON {
          * @param babylonPBRMaterial BJS PBR Base Material
          * @param mimeType mime type to use for the textures
          * @param hasTextureCoords specifies if texture coordinates are present on the submesh to determine if textures should be applied
+         * @returns async glTF Material representation
          */
         _convertPBRMaterialAsync(babylonPBRMaterial: PBRBaseMaterial, mimeType: BABYLON.GLTF2.ImageMimeType, hasTextureCoords: boolean): Promise<BABYLON.GLTF2.IMaterial>;
         private _setMetallicRoughnessPbrMaterial;
@@ -1319,13 +1458,13 @@ declare module BABYLON {
     export class OBJExport {
         /**
          * Exports the geometry of a Mesh array in .OBJ file format (text)
-         * @param mesh defines the list of meshes to serialize
+         * @param meshes defines the list of meshes to serialize
          * @param materials defines if materials should be exported
          * @param matlibname defines the name of the associated mtl file
          * @param globalposition defines if the exported positions are globals or local to the exported mesh
          * @returns the OBJ content
          */
-        static OBJ(mesh: Mesh[], materials?: boolean, matlibname?: string, globalposition?: boolean): string;
+        static OBJ(meshes: Mesh[], materials?: boolean, matlibname?: string, globalposition?: boolean): string;
         /**
          * Exports the material(s) of a mesh in .MTL file format (text)
          * @param mesh defines the mesh to extract the material from

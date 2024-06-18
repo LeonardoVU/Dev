@@ -85,6 +85,7 @@ declare module BABYLON.GLTF1 {
          * @param rootUrl
          * @param onSuccess
          * @param onError
+         * @returns true to stop further extensions from loading the runtime
          */
         loadRuntimeAsync(scene: Scene, data: IGLTFLoaderData, rootUrl: string, onSuccess?: (gltfRuntime: BABYLON.GLTF1.IGLTFRuntime) => void, onError?: (message: string) => void): boolean;
         /**
@@ -93,6 +94,7 @@ declare module BABYLON.GLTF1 {
          * @param gltfRuntime
          * @param onSuccess
          * @param onError
+         * @returns true to stop further extensions from creating the runtime
          */
         loadRuntimeExtensionsAsync(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, onSuccess: () => void, onError?: (message: string) => void): boolean;
         /**
@@ -103,6 +105,7 @@ declare module BABYLON.GLTF1 {
          * @param onSuccess
          * @param onError
          * @param onProgress
+         * @returns true to stop further extensions from loading this buffer
          */
         loadBufferAsync(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, id: string, onSuccess: (buffer: ArrayBufferView) => void, onError: (message: string) => void, onProgress?: () => void): boolean;
         /**
@@ -112,6 +115,7 @@ declare module BABYLON.GLTF1 {
          * @param id
          * @param onSuccess
          * @param onError
+         * @returns true to stop further extensions from loading this texture data
          */
         loadTextureBufferAsync(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, id: string, onSuccess: (buffer: ArrayBufferView) => void, onError: (message: string) => void): boolean;
         /**
@@ -122,6 +126,7 @@ declare module BABYLON.GLTF1 {
          * @param buffer
          * @param onSuccess
          * @param onError
+         * @returns true to stop further extensions from loading this texture
          */
         createTextureAsync(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, id: string, buffer: ArrayBufferView, onSuccess: (texture: Texture) => void, onError: (message: string) => void): boolean;
         /**
@@ -131,6 +136,7 @@ declare module BABYLON.GLTF1 {
          * @param id
          * @param onSuccess
          * @param onError
+         * @returns true to stop further extensions from loading this shader data
          */
         loadShaderStringAsync(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, id: string, onSuccess: (shaderString: string) => void, onError: (message: string) => void): boolean;
         /**
@@ -140,6 +146,7 @@ declare module BABYLON.GLTF1 {
          * @param id
          * @param onSuccess
          * @param onError
+         * @returns true to stop further extensions from loading this material
          */
         loadMaterialAsync(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, id: string, onSuccess: (material: Material) => void, onError: (message: string) => void): boolean;
         static LoadRuntimeAsync(scene: Scene, data: IGLTFLoaderData, rootUrl: string, onSuccess?: (gltfRuntime: BABYLON.GLTF1.IGLTFRuntime) => void, onError?: (message: string) => void): void;
@@ -594,16 +601,19 @@ declare module BABYLON.GLTF1 {
          * @param uniform the name of the shader's uniform
          * @param value the value of the uniform
          * @param type the uniform's type (EParameterType FLOAT, VEC2, VEC3 or VEC4)
+         * @returns true if set, else false
          */
         static SetUniform(shaderMaterial: ShaderMaterial | Effect, uniform: string, value: any, type: number): boolean;
         /**
          * Returns the wrap mode of the texture
          * @param mode the mode value
+         * @returns the wrap mode (TEXTURE_WRAP_ADDRESSMODE, MIRROR_ADDRESSMODE or CLAMP_ADDRESSMODE)
          */
         static GetWrapMode(mode: number): number;
         /**
          * Returns the byte stride giving an accessor
          * @param accessor the GLTF accessor objet
+         * @returns the byte stride
          */
         static GetByteStrideFromType(accessor: BABYLON.GLTF1.IGLTFAccessor): number;
         /**
@@ -617,17 +627,20 @@ declare module BABYLON.GLTF1 {
          * Returns a buffer from its accessor
          * @param gltfRuntime the GLTF runtime
          * @param accessor the GLTF accessor
+         * @returns an array buffer view
          */
         static GetBufferFromAccessor(gltfRuntime: BABYLON.GLTF1.IGLTFRuntime, accessor: BABYLON.GLTF1.IGLTFAccessor): any;
         /**
          * Decodes a buffer view into a string
          * @param view the buffer view
+         * @returns a string
          */
         static DecodeBufferToText(view: ArrayBufferView): string;
         /**
          * Returns the default material of gltf. Related to
          * https://github.com/KhronosGroup/glTF/tree/master/specification/1.0#appendix-a-default-material
          * @param scene the Babylon.js scene
+         * @returns the default Babylon material
          */
         static GetDefaultMaterial(scene: Scene): ShaderMaterial;
         private static _DefaultMaterial;
@@ -776,6 +789,35 @@ declare module BABYLON {
 }
 declare module BABYLON.GLTF2.Loader.Extensions {
         /**
+     * [glTF PR](https://github.com/KhronosGroup/glTF/pull/2235)
+     * [Specification](https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Vendor/EXT_texture_avif/README.md)
+     */
+    export class EXT_texture_avif implements BABYLON.GLTF2.IGLTFLoaderExtension {
+        /** The name of this extension. */
+        readonly name = "EXT_texture_avif";
+        /** Defines whether this extension is enabled. */
+        enabled: boolean;
+        private _loader;
+        /**
+         * @internal
+         */
+        constructor(loader: BABYLON.GLTF2.GLTFLoader);
+        /** @internal */
+        dispose(): void;
+        /**
+         * @internal
+         */
+        _loadTextureAsync(context: string, texture: BABYLON.GLTF2.Loader.ITexture, assign: (babylonTexture: BaseTexture) => void): Nullable<Promise<BaseTexture>>;
+    }
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
      * [Specification](https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Vendor/EXT_texture_webp/README.md)
      */
     export class EXT_texture_webp implements BABYLON.GLTF2.IGLTFLoaderExtension {
@@ -844,7 +886,88 @@ declare module BABYLON {
 
 }
 declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
+     * A converter that takes a glTF Object Model JSON Pointer
+     * and transforms it into an ObjectAccessorContainer, allowing
+     * objects referenced in the glTF to be associated with their
+     * respective Babylon.js objects.
+     */
+    export class GLTFPathToObjectConverter<T> implements IPathToObjectConverter<T> {
+        private _gltf;
+        private _infoTree;
+        constructor(_gltf: BABYLON.GLTF2.Loader.IGLTF, _infoTree: any);
+        /**
+         * The pointer string is represented by a [JSON pointer](https://datatracker.ietf.org/doc/html/rfc6901).
+         * <animationPointer> := /<rootNode>/<assetIndex>/<propertyPath>
+         * <rootNode> := "nodes" | "materials" | "meshes" | "cameras" | "extensions"
+         * <assetIndex> := <digit> | <name>
+         * <propertyPath> := <extensionPath> | <standardPath>
+         * <extensionPath> := "extensions"/<name>/<standardPath>
+         * <standardPath> := <name> | <name>/<standardPath>
+         * <name> := W+
+         * <digit> := D+
+         *
+         * Examples:
+         *  - "/nodes/0/rotation"
+         *  - "/materials/2/emissiveFactor"
+         *  - "/materials/2/pbrMetallicRoughness/baseColorFactor"
+         *  - "/materials/2/extensions/KHR_materials_emissive_strength/emissiveStrength"
+         *
+         * @param path The path to convert
+         * @returns The object and info associated with the path
+         */
+        convert(path: string): IObjectInfo<T>;
+    }
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
     
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
+     * @internal
+     * Converts a glTF Interactivity Extension to a serialized flow graph.
+     * @param gltf the interactivity data
+     * @returns a serialized flow graph
+     */
+    export function convertGLTFToSerializedFlowGraph(gltf: BABYLON.GLTF2.IKHRInteractivity): ISerializedFlowGraph;
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
+     * Class to convert an interactivity pointer path to a smart object
+     */
+    export class InteractivityPathToObjectConverter extends BABYLON.GLTF2.Loader.Extensions.GLTFPathToObjectConverter<IObjectAccessor> {
+        constructor(gltf: BABYLON.GLTF2.Loader.IGLTF);
+    }
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        export var gltfToFlowGraphTypeMap: {
+        [key: string]: string;
+    };
+    export var gltfTypeToBabylonType: any;
+
 
 
 }
@@ -862,6 +985,7 @@ declare module BABYLON.GLTF2.Loader.Extensions {
          */
         readonly name = "KHR_animation_pointer";
         private _loader;
+        private _pathToObjectConverter?;
         /**
          * @internal
          */
@@ -882,24 +1006,6 @@ declare module BABYLON.GLTF2.Loader.Extensions {
          * @returns A void promise that resolves when the load is complete or null if not handled
          */
         _loadAnimationChannelAsync(context: string, animationContext: string, animation: BABYLON.GLTF2.Loader.IAnimation, channel: BABYLON.GLTF2.Loader.IAnimationChannel, onLoad: (babylonAnimatable: IAnimatable, babylonAnimation: Animation) => void): Nullable<Promise<void>>;
-        /**
-         * The pointer string is represented by a [JSON pointer](https://datatracker.ietf.org/doc/html/rfc6901).
-         * <animationPointer> := /<rootNode>/<assetIndex>/<propertyPath>
-         * <rootNode> := "nodes" | "materials" | "meshes" | "cameras" | "extensions"
-         * <assetIndex> := <digit> | <name>
-         * <propertyPath> := <extensionPath> | <standardPath>
-         * <extensionPath> := "extensions"/<name>/<standardPath>
-         * <standardPath> := <name> | <name>/<standardPath>
-         * <name> := W+
-         * <digit> := D+
-         *
-         * Examples:
-         *  - "/nodes/0/rotation"
-         *  - "/materials/2/emissiveFactor"
-         *  - "/materials/2/pbrMetallicRoughness/baseColorFactor"
-         *  - "/materials/2/extensions/KHR_materials_emissive_strength/emissiveStrength"
-         */
-        private _parseAnimationPointer;
     }
 
 
@@ -948,10 +1054,26 @@ declare module BABYLON.GLTF2.Loader.Extensions {
                             };
                         };
                     };
+                    metallicRoughnessTexture: {
+                        extensions: {
+                            KHR_texture_transform: {
+                                scale: MaterialAnimationPropertyInfo[];
+                                offset: MaterialAnimationPropertyInfo[];
+                                rotation: MaterialAnimationPropertyInfo[];
+                            };
+                        };
+                    };
                 };
                 emissiveFactor: MaterialAnimationPropertyInfo[];
                 normalTexture: {
                     scale: MaterialAnimationPropertyInfo[];
+                    extensions: {
+                        KHR_texture_transform: {
+                            scale: MaterialAnimationPropertyInfo[];
+                            offset: MaterialAnimationPropertyInfo[];
+                            rotation: MaterialAnimationPropertyInfo[];
+                        };
+                    };
                 };
                 occlusionTexture: {
                     strength: MaterialAnimationPropertyInfo[];
@@ -973,41 +1095,175 @@ declare module BABYLON.GLTF2.Loader.Extensions {
                     };
                 };
                 extensions: {
-                    KHR_materials_ior: {
-                        ior: MaterialAnimationPropertyInfo[];
+                    KHR_materials_anisotropy: {
+                        anisotropyStrength: MaterialAnimationPropertyInfo[];
+                        anisotropyRotation: MaterialAnimationPropertyInfo[];
+                        anisotropyTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
                     };
                     KHR_materials_clearcoat: {
                         clearcoatFactor: MaterialAnimationPropertyInfo[];
                         clearcoatRoughnessFactor: MaterialAnimationPropertyInfo[];
+                        clearcoatTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                        clearcoatNormalTexture: {
+                            scale: MaterialAnimationPropertyInfo[];
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                        clearcoatRoughnessTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
                     };
-                    KHR_materials_sheen: {
-                        sheenColorFactor: MaterialAnimationPropertyInfo[];
-                        sheenRoughnessFactor: MaterialAnimationPropertyInfo[];
-                    };
-                    KHR_materials_specular: {
-                        specularFactor: MaterialAnimationPropertyInfo[];
-                        specularColorFactor: MaterialAnimationPropertyInfo[];
+                    KHR_materials_dispersion: {
+                        dispersion: MaterialAnimationPropertyInfo[];
                     };
                     KHR_materials_emissive_strength: {
                         emissiveStrength: MaterialAnimationPropertyInfo[];
                     };
-                    KHR_materials_transmission: {
-                        transmissionFactor: MaterialAnimationPropertyInfo[];
-                    };
-                    KHR_materials_volume: {
-                        attenuationColor: MaterialAnimationPropertyInfo[];
-                        attenuationDistance: MaterialAnimationPropertyInfo[];
-                        thicknessFactor: MaterialAnimationPropertyInfo[];
+                    KHR_materials_ior: {
+                        ior: MaterialAnimationPropertyInfo[];
                     };
                     KHR_materials_iridescence: {
                         iridescenceFactor: MaterialAnimationPropertyInfo[];
                         iridescenceIor: MaterialAnimationPropertyInfo[];
                         iridescenceThicknessMinimum: MaterialAnimationPropertyInfo[];
                         iridescenceThicknessMaximum: MaterialAnimationPropertyInfo[];
+                        iridescenceTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                        iridescenceThicknessTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
                     };
-                    KHR_materials_anisotropy: {
-                        anisotropyStrength: MaterialAnimationPropertyInfo[];
-                        anisotropyRotation: MaterialAnimationPropertyInfo[];
+                    KHR_materials_sheen: {
+                        sheenColorFactor: MaterialAnimationPropertyInfo[];
+                        sheenRoughnessFactor: MaterialAnimationPropertyInfo[];
+                        sheenColorTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                        sheenRoughnessTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                    };
+                    KHR_materials_specular: {
+                        specularFactor: MaterialAnimationPropertyInfo[];
+                        specularColorFactor: MaterialAnimationPropertyInfo[];
+                        specularTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                        specularColorTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                    };
+                    KHR_materials_transmission: {
+                        transmissionFactor: MaterialAnimationPropertyInfo[];
+                        transmissionTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                    };
+                    KHR_materials_volume: {
+                        attenuationColor: MaterialAnimationPropertyInfo[];
+                        attenuationDistance: MaterialAnimationPropertyInfo[];
+                        thicknessFactor: MaterialAnimationPropertyInfo[];
+                        thicknessTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                    };
+                    KHR_materials_diffuse_transmission: {
+                        diffuseTransmissionFactor: MaterialAnimationPropertyInfo[];
+                        diffuseTransmissionTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
+                        diffuseTransmissionColorFactor: MaterialAnimationPropertyInfo[];
+                        diffuseTransmissionColorTexture: {
+                            extensions: {
+                                KHR_texture_transform: {
+                                    scale: MaterialAnimationPropertyInfo[];
+                                    offset: MaterialAnimationPropertyInfo[];
+                                    rotation: MaterialAnimationPropertyInfo[];
+                                };
+                            };
+                        };
                     };
                 };
             };
@@ -1084,6 +1340,36 @@ declare module BABYLON.GLTF2.Loader.Extensions {
          * @internal
          */
         _loadVertexDataAsync(context: string, primitive: BABYLON.GLTF2.Loader.IMeshPrimitive, babylonMesh: Mesh): Nullable<Promise<Geometry>>;
+    }
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
+     * Loader extension for KHR_interactivity
+     */
+    export class KHR_interactivity implements BABYLON.GLTF2.IGLTFLoaderExtension {
+        private _loader;
+        /**
+         * The name of this extension.
+         */
+        readonly name = "KHR_interactivity";
+        /**
+         * Defines whether this extension is enabled.
+         */
+        enabled: boolean;
+        private _pathConverter?;
+        /**
+         * @internal
+         * @param _loader
+         */
+        constructor(_loader: BABYLON.GLTF2.GLTFLoader);
+        dispose(): void;
+        onReady(): void;
     }
 
 
@@ -1195,6 +1481,82 @@ declare module BABYLON.GLTF2.Loader.Extensions {
          */
         loadMaterialPropertiesAsync(context: string, material: BABYLON.GLTF2.Loader.IMaterial, babylonMaterial: Material): Nullable<Promise<void>>;
         private _loadClearCoatPropertiesAsync;
+    }
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
+     * [Proposed Specification](https://github.com/KhronosGroup/glTF/pull/1825)
+     * !!! Experimental Extension Subject to Changes !!!
+     */
+    export class KHR_materials_diffuse_transmission implements BABYLON.GLTF2.IGLTFLoaderExtension {
+        /**
+         * The name of this extension.
+         */
+        readonly name = "KHR_materials_diffuse_transmission";
+        /**
+         * Defines whether this extension is enabled.
+         */
+        enabled: boolean;
+        /**
+         * Defines a number that determines the order the extensions are applied.
+         */
+        order: number;
+        private _loader;
+        /**
+         * @internal
+         */
+        constructor(loader: BABYLON.GLTF2.GLTFLoader);
+        /** @internal */
+        dispose(): void;
+        /**
+         * @internal
+         */
+        loadMaterialPropertiesAsync(context: string, material: BABYLON.GLTF2.Loader.IMaterial, babylonMaterial: Material): Nullable<Promise<void>>;
+        private _loadTranslucentPropertiesAsync;
+    }
+
+
+
+}
+declare module BABYLON {
+
+}
+declare module BABYLON.GLTF2.Loader.Extensions {
+        /**
+     * [Specification](https://github.com/KhronosGroup/glTF/blob/87bd64a7f5e23c84b6aef2e6082069583ed0ddb4/extensions/2.0/Khronos/KHR_materials_dispersion/README.md)
+     * @experimental
+     */
+    export class KHR_materials_dispersion implements BABYLON.GLTF2.IGLTFLoaderExtension {
+        /**
+         * The name of this extension.
+         */
+        readonly name = "KHR_materials_dispersion";
+        /**
+         * Defines whether this extension is enabled.
+         */
+        enabled: boolean;
+        /**
+         * Defines a number that determines the order the extensions are applied.
+         */
+        order: number;
+        private _loader;
+        /**
+         * @internal
+         */
+        constructor(loader: BABYLON.GLTF2.GLTFLoader);
+        /** @internal */
+        dispose(): void;
+        /**
+         * @internal
+         */
+        loadMaterialPropertiesAsync(context: string, material: BABYLON.GLTF2.Loader.IMaterial, babylonMaterial: Material): Nullable<Promise<void>>;
+        private _loadDispersionPropertiesAsync;
     }
 
 
@@ -1422,44 +1784,6 @@ declare module BABYLON.GLTF2.Loader.Extensions {
          */
         loadMaterialPropertiesAsync(context: string, material: BABYLON.GLTF2.Loader.IMaterial, babylonMaterial: Material): Nullable<Promise<void>>;
         private _loadSpecularPropertiesAsync;
-    }
-
-
-
-}
-declare module BABYLON {
-
-}
-declare module BABYLON.GLTF2.Loader.Extensions {
-        /**
-     * [Proposed Specification](https://github.com/KhronosGroup/glTF/pull/1825)
-     * !!! Experimental Extension Subject to Changes !!!
-     */
-    export class KHR_materials_translucency implements BABYLON.GLTF2.IGLTFLoaderExtension {
-        /**
-         * The name of this extension.
-         */
-        readonly name = "KHR_materials_translucency";
-        /**
-         * Defines whether this extension is enabled.
-         */
-        enabled: boolean;
-        /**
-         * Defines a number that determines the order the extensions are applied.
-         */
-        order: number;
-        private _loader;
-        /**
-         * @internal
-         */
-        constructor(loader: BABYLON.GLTF2.GLTFLoader);
-        /** @internal */
-        dispose(): void;
-        /**
-         * @internal
-         */
-        loadMaterialPropertiesAsync(context: string, material: BABYLON.GLTF2.Loader.IMaterial, babylonMaterial: Material): Nullable<Promise<void>>;
-        private _loadTranslucentPropertiesAsync;
     }
 
 
@@ -1908,7 +2232,7 @@ declare module BABYLON.GLTF2.Loader.Extensions {
         loadBufferAsync(context: string, buffer: BABYLON.GLTF2.Loader.IBuffer, byteOffset: number, byteLength: number): Nullable<Promise<ArrayBufferView>>;
         private _loadBufferLOD;
         /**
-         * Gets an array of LOD properties from lowest to highest.
+         * @returns an array of LOD properties from lowest to highest.
          * @param context
          * @param property
          * @param array
@@ -2002,7 +2326,7 @@ declare module BABYLON.GLTF2 {
     /** @internal */
     export interface IAnimationTargetInfo {
         /** @internal */
-        target: any;
+        target: unknown;
         /** @internal */
         properties: Array<BABYLON.GLTF2.AnimationPropertyInfo>;
     }
@@ -2011,7 +2335,7 @@ declare module BABYLON.GLTF2 {
      */
     export class GLTFLoader implements IGLTFLoader {
         /** @internal */
-        readonly _completePromises: Promise<any>[];
+        readonly _completePromises: Promise<unknown>[];
         /** @internal */
         _assetContainer: Nullable<AssetContainer>;
         /** Storage */
@@ -2066,9 +2390,13 @@ declare module BABYLON.GLTF2 {
          */
         get babylonScene(): Scene;
         /**
-         * The root Babylon mesh when loading the asset.
+         * The root Babylon node when loading the asset.
          */
-        get rootBabylonMesh(): Nullable<Mesh>;
+        get rootBabylonMesh(): Nullable<TransformNode>;
+        /**
+         * The root url when loading the asset.
+         */
+        get rootUrl(): Nullable<string>;
         /**
          * @internal
          */
@@ -2078,7 +2406,7 @@ declare module BABYLON.GLTF2 {
         /**
          * @internal
          */
-        importMeshAsync(meshesNames: any, scene: Scene, container: Nullable<AssetContainer>, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<ISceneLoaderAsyncResult>;
+        importMeshAsync(meshesNames: string | readonly string[] | null | undefined, scene: Scene, container: Nullable<AssetContainer>, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<ISceneLoaderAsyncResult>;
         /**
          * @internal
          */
@@ -2173,7 +2501,7 @@ declare module BABYLON.GLTF2 {
          * @param onLoad Called for each animation loaded
          * @returns A void promise that resolves when the load is complete
          */
-        _loadAnimationChannelFromTargetInfoAsync(context: string, animationContext: string, animation: BABYLON.GLTF2.Loader.IAnimation, channel: BABYLON.GLTF2.Loader.IAnimationChannel, targetInfo: IAnimationTargetInfo, onLoad: (babylonAnimatable: IAnimatable, babylonAnimation: Animation) => void): Promise<void>;
+        _loadAnimationChannelFromTargetInfoAsync(context: string, animationContext: string, animation: BABYLON.GLTF2.Loader.IAnimation, channel: BABYLON.GLTF2.Loader.IAnimationChannel, targetInfo: IObjectInfo<BABYLON.GLTF2.AnimationPropertyInfo[]>, onLoad: (babylonAnimatable: IAnimatable, babylonAnimation: Animation) => void): Promise<void>;
         private _loadAnimationSamplerAsync;
         /**
          * Loads a glTF buffer.
@@ -2261,7 +2589,7 @@ declare module BABYLON.GLTF2 {
         /**
          * @internal
          */
-        _createTextureAsync(context: string, sampler: BABYLON.GLTF2.Loader.ISampler, image: BABYLON.GLTF2.Loader.IImage, assign?: (babylonTexture: BaseTexture) => void, textureLoaderOptions?: any, useSRGBBuffer?: boolean): Promise<BaseTexture>;
+        _createTextureAsync(context: string, sampler: BABYLON.GLTF2.Loader.ISampler, image: BABYLON.GLTF2.Loader.IImage, assign?: (babylonTexture: BaseTexture) => void, textureLoaderOptions?: unknown, useSRGBBuffer?: boolean): Promise<BaseTexture>;
         private _loadSampler;
         /**
          * Loads a glTF image.
@@ -2324,7 +2652,7 @@ declare module BABYLON.GLTF2 {
          * @param actionAsync The action to run
          * @returns The promise returned by actionAsync or null if the extension does not exist
          */
-        static LoadExtensionAsync<TExtension = any, TResult = void>(context: string, property: BABYLON.GLTF2.IProperty, extensionName: string, actionAsync: (extensionContext: string, extension: TExtension) => Nullable<Promise<TResult>>): Nullable<Promise<TResult>>;
+        static LoadExtensionAsync<TExtension = unknown, TResult = void>(context: string, property: BABYLON.GLTF2.IProperty, extensionName: string, actionAsync: (extensionContext: string, extension: TExtension) => Nullable<Promise<TResult>>): Nullable<Promise<TResult>>;
         /**
          * Helper method called by a loader extension to load a glTF extra.
          * @param context The context when loading the asset
@@ -2333,7 +2661,7 @@ declare module BABYLON.GLTF2 {
          * @param actionAsync The action to run
          * @returns The promise returned by actionAsync or null if the extra does not exist
          */
-        static LoadExtraAsync<TExtra = any, TResult = void>(context: string, property: BABYLON.GLTF2.IProperty, extensionName: string, actionAsync: (extraContext: string, extra: TExtra) => Nullable<Promise<TResult>>): Nullable<Promise<TResult>>;
+        static LoadExtraAsync<TExtra = unknown, TResult = void>(context: string, property: BABYLON.GLTF2.IProperty, extensionName: string, actionAsync: (extraContext: string, extra: TExtra) => Nullable<Promise<TResult>>): Nullable<Promise<TResult>>;
         /**
          * Checks for presence of an extension.
          * @param name The name of the extension to check
@@ -2907,7 +3235,7 @@ declare module BABYLON {
     }
     /** @internal */
     export interface IGLTFLoader extends IDisposable {
-        importMeshAsync: (meshesNames: any, scene: Scene, container: Nullable<AssetContainer>, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string) => Promise<ISceneLoaderAsyncResult>;
+        importMeshAsync: (meshesNames: string | readonly string[] | null | undefined, scene: Scene, container: Nullable<AssetContainer>, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string) => Promise<ISceneLoaderAsyncResult>;
         loadAsync: (scene: Scene, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string) => Promise<void>;
     }
     /**
@@ -3007,9 +3335,15 @@ declare module BABYLON {
         alwaysComputeSkeletonRootNode: boolean;
         /**
          * Function called before loading a url referenced by the asset.
-         * @param url
+         * @param url url referenced by the asset
+         * @returns Async url to load
          */
         preprocessUrlAsync: (url: string) => Promise<string>;
+        /**
+         * Defines the node to use as the root of the hierarchy when loading the scene (default: undefined). If not defined, a root node will be automatically created.
+         * You can also pass null if you don't want a root node to be created.
+         */
+        customRootNode?: Nullable<TransformNode>;
         /**
          * Observable raised when the loader creates a mesh after parsing the glTF properties of the mesh.
          * Note that the observable is raised as soon as the mesh object is created, meaning some data may not have been setup yet for this mesh (vertex data, morph targets, material, ...)
@@ -3140,23 +3474,20 @@ declare module BABYLON {
         /**
          * @internal
          */
-        loadFile(scene: Scene, fileOrUrl: File | string | ArrayBufferView, rootUrl: string, onSuccess: (data: any, responseURL?: string) => void, onProgress?: (ev: ISceneLoaderProgressEvent) => void, useArrayBuffer?: boolean, onError?: (request?: WebRequest, exception?: LoadFileError) => void, name?: string): Nullable<IFileRequest>;
+        loadFile(scene: Scene, fileOrUrl: File | string | ArrayBufferView, rootUrl: string, onSuccess: (data: unknown, responseURL?: string) => void, onProgress?: (ev: ISceneLoaderProgressEvent) => void, useArrayBuffer?: boolean, onError?: (request?: WebRequest, exception?: LoadFileError) => void, name?: string): Nullable<IFileRequest>;
+        private _loadBinary;
         /**
          * @internal
          */
-        _loadBinary(scene: Scene, data: ArrayBufferView, rootUrl: string, onSuccess: (data: any, responseURL?: string) => void, onError?: (request?: WebRequest, exception?: LoadFileError) => void, fileName?: string): void;
+        importMeshAsync(meshesNames: string | readonly string[] | null | undefined, scene: Scene, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<ISceneLoaderAsyncResult>;
         /**
          * @internal
          */
-        importMeshAsync(meshesNames: any, scene: Scene, data: any, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<ISceneLoaderAsyncResult>;
+        loadAsync(scene: Scene, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<void>;
         /**
          * @internal
          */
-        loadAsync(scene: Scene, data: any, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<void>;
-        /**
-         * @internal
-         */
-        loadAssetContainerAsync(scene: Scene, data: any, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<AssetContainer>;
+        loadAssetContainerAsync(scene: Scene, data: IGLTFLoaderData, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<AssetContainer>;
         /**
          * @internal
          */
@@ -3164,7 +3495,7 @@ declare module BABYLON {
         /**
          * @internal
          */
-        directLoad(scene: Scene, data: string): Promise<any>;
+        directLoad(scene: Scene, data: string): Promise<Object>;
         /**
          * The callback that allows custom handling of the root url based on the response url.
          * @param rootUrl the original root url
@@ -3173,7 +3504,7 @@ declare module BABYLON {
          */
         rewriteRootURL?(rootUrl: string, responseURL?: string): string;
         /** @internal */
-        createPlugin(): ISceneLoaderPlugin | ISceneLoaderPluginAsync;
+        createPlugin(): ISceneLoaderPluginAsync;
         /**
          * The loader state or null if the loader is not active.
          */
@@ -3255,7 +3586,7 @@ declare module BABYLON {
          * @param getExternalResource The callback to get external resources for the glTF validator
          * @returns A promise that resolves with the glTF validation results once complete
          */
-        static ValidateAsync(data: string | ArrayBufferView, rootUrl: string, fileName: string, getExternalResource: (uri: string) => Promise<ArrayBuffer>): Promise<GLTF2.IGLTFValidationResults>;
+        static ValidateAsync(data: string | Uint8Array, rootUrl: string, fileName: string, getExternalResource: (uri: string) => Promise<Uint8Array>): Promise<GLTF2.IGLTFValidationResults>;
     }
 
 
@@ -3349,6 +3680,10 @@ declare module BABYLON {
          * Defaults to true for backwards compatibility.
          */
         static MATERIAL_LOADING_FAILS_SILENTLY: boolean;
+        /**
+         * Loads assets without handedness conversions. This flag is for compatibility. Use it only if absolutely required. Defaults to false.
+         */
+        static USE_LEGACY_BEHAVIOR: boolean;
         /**
          * Defines the name of the plugin.
          */
@@ -3468,6 +3803,10 @@ declare module BABYLON {
          * When a material fails to load OBJ loader will silently fail and onSuccess() callback will be triggered.
          */
         materialLoadingFailsSilently: boolean;
+        /**
+         * Loads assets without handedness conversions. This flag is for compatibility. Use it only if absolutely required. Defaults to false.
+         */
+        useLegacyBehavior: boolean;
     };
 
 
@@ -3534,6 +3873,9 @@ declare module BABYLON {
         private _grayColor;
         private _materialToUse;
         private _babylonMeshesArray;
+        private _pushTriangle;
+        private _handednessSign;
+        private _hasLineData;
         /**
          * Creates a new SolidParser
          * @param materialToUse defines the array to fill with the list of materials to use (it will be filled by the parse function)
@@ -3625,6 +3967,67 @@ declare module BABYLON {
          * @param onFileToLoadFound defines a callback that will be called if a MTL file is found
          */
         parse(meshesNames: any, data: string, scene: Scene, assetContainer: Nullable<AssetContainer>, onFileToLoadFound: (fileToLoad: string) => void): void;
+    }
+
+
+
+
+    /**
+     * @experimental
+     * SPLAT file type loader.
+     * This is a babylon scene loader plugin.
+     */
+    export class SPLATFileLoader implements ISceneLoaderPluginAsync, ISceneLoaderPluginFactory {
+        /**
+         * Defines the name of the plugin.
+         */
+        name: string;
+        /**
+         * Defines the extensions the splat loader is able to load.
+         * force data to come in as an ArrayBuffer
+         */
+        extensions: ISceneLoaderPluginExtensions;
+        /**
+         * Creates loader for gaussian splatting files
+         */
+        constructor();
+        /**
+         * Instantiates a gaussian splatting file loader plugin.
+         * @returns the created plugin
+         */
+        createPlugin(): ISceneLoaderPluginAsync | ISceneLoaderPlugin;
+        /**
+         * If the data string can be loaded directly.
+         * @returns if the data can be loaded directly
+         */
+        canDirectLoad(): boolean;
+        /**
+         * Imports  from the loaded gaussian splatting data and adds them to the scene
+         * @param _meshesNames a string or array of strings of the mesh names that should be loaded from the file
+         * @param scene the scene the meshes should be added to
+         * @param data the gaussian splatting data to load
+         * @param rootUrl root url to load from
+         * @param onProgress callback called while file is loading
+         * @param fileName Defines the name of the file to load
+         * @returns a promise containing the loaded meshes, particles, skeletons and animations
+         */
+        importMeshAsync(_meshesNames: any, scene: Scene, data: any, rootUrl: string, onProgress?: (event: ISceneLoaderProgressEvent) => void, fileName?: string): Promise<ISceneLoaderAsyncResult>;
+        /**
+         * Imports all objects from the loaded gaussian splatting data and adds them to the scene
+         * @param scene the scene the objects should be added to
+         * @param data the gaussian splatting data to load
+         * @param _rootUrl root url to load from
+         * @returns a promise which completes when objects have been loaded to the scene
+         */
+        loadAsync(scene: Scene, data: any, _rootUrl: string): Promise<void>;
+        /**
+         * Load into an asset container.
+         * @param _scene The scene to load into
+         * @param _data The data to import
+         * @param _rootUrl The root url for scene and resources
+         * @returns The loaded asset container
+         */
+        loadAssetContainerAsync(_scene: Scene, _data: string, _rootUrl: string): Promise<AssetContainer>;
     }
 
 

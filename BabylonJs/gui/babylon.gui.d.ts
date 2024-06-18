@@ -56,7 +56,7 @@ declare module BABYLON.GUI {
      * @see https://doc.babylonjs.com/features/featuresDeepDive/gui/gui
      */
     export class AdvancedDynamicTexture extends BABYLON.DynamicTexture {
-        /** Define the Uurl to load snippets */
+        /** Define the url to load snippets */
         static SnippetUrl: string;
         /** Indicates if some optimizations can be performed in GUI GPU management (the downside is additional memory/GPU texture memory used) */
         static AllowGPUOptimizations: boolean;
@@ -432,51 +432,58 @@ declare module BABYLON.GUI {
          * Recreate the content of the ADT from a JSON object
          * @param serializedObject define the JSON serialized object to restore from
          * @param scaleToSize defines whether to scale to texture to the saved size
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          */
-        parseSerializedObject(serializedObject: any, scaleToSize?: boolean): void;
+        parseSerializedObject(serializedObject: any, scaleToSize?: boolean, urlRewriter?: (url: string) => string): void;
         /**
-         * Clones the ADT
+         * Clones the ADT. If no mesh is defined, the GUI will be considered as a fullscreen GUI
          * @param newName defines the name of the new ADT
+         * @param attachToMesh defines if the new ADT should be attached to a mesh
          * @returns the clone of the ADT
          */
-        clone(newName?: string): AdvancedDynamicTexture;
+        clone(newName?: string, attachToMesh?: BABYLON.AbstractMesh): AdvancedDynamicTexture;
         /**
          * Recreate the content of the ADT from a JSON object
          * @param serializedObject define the JSON serialized object to restore from
          * @param scaleToSize defines whether to scale to texture to the saved size
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @deprecated Please use parseSerializedObject instead
          */
-        parseContent: (serializedObject: any, scaleToSize?: boolean) => void;
+        parseContent: (serializedObject: any, scaleToSize?: boolean, urlRewriter?: ((url: string) => string) | undefined) => void;
         /**
          * Recreate the content of the ADT from a snippet saved by the GUI editor
          * @param snippetId defines the snippet to load
          * @param scaleToSize defines whether to scale to texture to the saved size
          * @param appendToAdt if provided the snippet will be appended to the adt. Otherwise a fullscreen ADT will be created.
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @returns a promise that will resolve on success
          */
-        static ParseFromSnippetAsync(snippetId: string, scaleToSize?: boolean, appendToAdt?: AdvancedDynamicTexture): Promise<AdvancedDynamicTexture>;
+        static ParseFromSnippetAsync(snippetId: string, scaleToSize?: boolean, appendToAdt?: AdvancedDynamicTexture, urlRewriter?: (url: string) => string): Promise<AdvancedDynamicTexture>;
         /**
          * Recreate the content of the ADT from a snippet saved by the GUI editor
          * @param snippetId defines the snippet to load
          * @param scaleToSize defines whether to scale to texture to the saved size
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @returns a promise that will resolve on success
          */
-        parseFromSnippetAsync(snippetId: string, scaleToSize?: boolean): Promise<AdvancedDynamicTexture>;
+        parseFromSnippetAsync(snippetId: string, scaleToSize?: boolean, urlRewriter?: (url: string) => string): Promise<AdvancedDynamicTexture>;
         /**
          * Recreate the content of the ADT from a url json
          * @param url defines the url to load
          * @param scaleToSize defines whether to scale to texture to the saved size
          * @param appendToAdt if provided the snippet will be appended to the adt. Otherwise a fullscreen ADT will be created.
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @returns a promise that will resolve on success
          */
-        static ParseFromFileAsync(url: string, scaleToSize?: boolean, appendToAdt?: AdvancedDynamicTexture): Promise<AdvancedDynamicTexture>;
+        static ParseFromFileAsync(url: string, scaleToSize?: boolean, appendToAdt?: AdvancedDynamicTexture, urlRewriter?: (url: string) => string): Promise<AdvancedDynamicTexture>;
         /**
          * Recreate the content of the ADT from a url json
          * @param url defines the url to load
          * @param scaleToSize defines whether to scale to texture to the saved size
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @returns a promise that will resolve on success
          */
-        parseFromURLAsync(url: string, scaleToSize?: boolean): Promise<AdvancedDynamicTexture>;
+        parseFromURLAsync(url: string, scaleToSize?: boolean, urlRewriter?: (url: string) => string): Promise<AdvancedDynamicTexture>;
         private static _LoadURLContentAsync;
         /**
          * Compares two rectangle based controls for pixel overlap
@@ -494,9 +501,10 @@ declare module BABYLON.GUI {
          * @param onlyAlphaTesting defines a boolean indicating that alpha blending will not be used (only alpha testing) (false by default)
          * @param invertY defines if the texture needs to be inverted on the y axis during loading (true by default)
          * @param materialSetupCallback defines a custom way of creating and setting up the material on the mesh
+         * @param sampling defines the texture sampling mode (Texture.TRILINEAR_SAMPLINGMODE by default)
          * @returns a new AdvancedDynamicTexture
          */
-        static CreateForMesh(mesh: BABYLON.AbstractMesh, width?: number, height?: number, supportPointerMove?: boolean, onlyAlphaTesting?: boolean, invertY?: boolean, materialSetupCallback?: (mesh: BABYLON.AbstractMesh, uniqueId: string, texture: AdvancedDynamicTexture, onlyAlphaTesting: boolean) => void): AdvancedDynamicTexture;
+        static CreateForMesh(mesh: BABYLON.AbstractMesh, width?: number, height?: number, supportPointerMove?: boolean, onlyAlphaTesting?: boolean, invertY?: boolean, materialSetupCallback?: (mesh: BABYLON.AbstractMesh, uniqueId: string, texture: AdvancedDynamicTexture, onlyAlphaTesting: boolean) => void, sampling?: number): AdvancedDynamicTexture;
         private static _CreateMaterial;
         /**
          * Creates a new AdvancedDynamicTexture in projected mode (ie. attached to a mesh) BUT do not create a new material for the mesh. You will be responsible for connecting the texture
@@ -505,9 +513,10 @@ declare module BABYLON.GUI {
          * @param height defines the texture height (1024 by default)
          * @param supportPointerMove defines a boolean indicating if the texture must capture move events (true by default)
          * @param invertY defines if the texture needs to be inverted on the y axis during loading (true by default)
+         * @param sampling defines the texture sampling mode (Texture.TRILINEAR_SAMPLINGMODE by default)
          * @returns a new AdvancedDynamicTexture
          */
-        static CreateForMeshTexture(mesh: BABYLON.AbstractMesh, width?: number, height?: number, supportPointerMove?: boolean, invertY?: boolean): AdvancedDynamicTexture;
+        static CreateForMeshTexture(mesh: BABYLON.AbstractMesh, width?: number, height?: number, supportPointerMove?: boolean, invertY?: boolean, sampling?: number): AdvancedDynamicTexture;
         /**
          * Creates a new AdvancedDynamicTexture in fullscreen mode.
          * In this mode the texture will rely on a layer for its rendering.
@@ -535,7 +544,7 @@ declare module BABYLON.GUI {
         scaleTo(width: number, height: number): void;
         private _checkGuiIsReady;
         /**
-         * Returns true if all the GUI components are ready to render
+         * @returns true if all the GUI components are ready to render
          */
         guiIsReady(): boolean;
     }
@@ -562,10 +571,6 @@ declare module BABYLON.GUI {
          * Function called to generate a pointer up animation
          */
         pointerUpAnimation: () => void;
-        /**
-         * Gets or sets a boolean indicating that the button will let internal controls handle picking instead of doing it directly using its bounding info
-         */
-        delegatePickingToChildren: boolean;
         private _image;
         /**
          * Returns the image part of the button (if any)
@@ -606,8 +611,9 @@ declare module BABYLON.GUI {
         /**
          * Serializes the current button
          * @param serializationObject defines the JSON serialized object
+         * @param force force serialization even if isSerializable === false
          */
-        serialize(serializationObject: any): void;
+        serialize(serializationObject: any, force: boolean): void;
         /**
          * @internal
          */
@@ -811,6 +817,10 @@ declare module BABYLON.GUI {
         protected _renderToIntermediateTexture: boolean;
         /** @internal */
         protected _intermediateTexture: BABYLON.Nullable<BABYLON.DynamicTexture>;
+        /**
+         * Gets or sets a boolean indicating that the container will let internal controls handle picking instead of doing it directly using its bounding info
+         */
+        delegatePickingToChildren: boolean;
         /** Gets or sets boolean indicating if children should be rendered to an intermediate texture rather than directly to host, useful for alpha blending */
         get renderToIntermediateTexture(): boolean;
         set renderToIntermediateTexture(value: boolean);
@@ -938,17 +948,21 @@ declare module BABYLON.GUI {
          * @internal
          */
         protected _additionalProcessing(parentMeasure: Measure, context: BABYLON.ICanvasRenderingContext): void;
+        protected _getAdaptDimTo(dim: "width" | "height"): boolean;
+        isDimensionFullyDefined(dim: "width" | "height"): boolean;
         /**
          * Serializes the current control
          * @param serializationObject defined the JSON serialized object
+         * @param force force serialization even if isSerializable === false
+         * @param allowCanvas defines if the control is allowed to use a Canvas2D object to serialize (true by default)
          */
-        serialize(serializationObject: any): void;
+        serialize(serializationObject: any, force?: boolean, allowCanvas?: boolean): void;
         /** Releases associated resources */
         dispose(): void;
         /**
          * @internal
          */
-        _parseFromContent(serializedObject: any, host: AdvancedDynamicTexture): void;
+        _parseFromContent(serializedObject: any, host: AdvancedDynamicTexture, urlRewriter?: (url: string) => string): void;
         isReady(): boolean;
     }
 
@@ -1051,6 +1065,8 @@ declare module BABYLON.GUI {
         private _gradient;
         /** @internal */
         protected _rebuildLayout: boolean;
+        /** @internal */
+        protected _urlRewriter?: (url: string) => string;
         /**
          * BABYLON.Observable that fires when the control's enabled state changes
          */
@@ -1149,6 +1165,9 @@ declare module BABYLON.GUI {
         set accessibilityTag(value: BABYLON.Nullable<BABYLON.IAccessibilityTag>);
         get accessibilityTag(): BABYLON.Nullable<BABYLON.IAccessibilityTag>;
         protected _accessibilityTag: BABYLON.Nullable<BABYLON.IAccessibilityTag>;
+        /**
+         * BABYLON.Observable that fires whenever the accessibility event of the control has changed
+         */
         onAccessibilityTagChangedObservable: BABYLON.Observable<BABYLON.Nullable<BABYLON.IAccessibilityTag>>;
         /**
          * An event triggered when pointer wheel is scrolled
@@ -1226,6 +1245,10 @@ declare module BABYLON.GUI {
          */
         get isHighlighted(): boolean;
         set isHighlighted(value: boolean);
+        /**
+         * Indicates if the control should be serialized. Defaults to true.
+         */
+        isSerializable: boolean;
         /**
          * Gets or sets a string defining the color to use for highlighting this control
          */
@@ -1728,6 +1751,19 @@ declare module BABYLON.GUI {
         private _getStyleProperty;
         private _prepareFont;
         /**
+         * A control has a dimension fully defined if that dimension doesn't depend on the parent's dimension.
+         * As an example, a control that has dimensions in pixels is fully defined, while in percentage is not fully defined.
+         * @param dim the dimension to check (width or height)
+         * @returns if the dimension is fully defined
+         */
+        isDimensionFullyDefined(dim: "width" | "height"): boolean;
+        /**
+         * Gets the dimension of the control along a specified axis
+         * @param dim the dimension to retrieve (width or height)
+         * @returns the dimension value along the specified axis
+         */
+        getDimension(dim: "width" | "height"): ValueAndUnit;
+        /**
          * Clones a control and its descendants
          * @param host the texture where the control will be instantiated. Can be empty, in which case the control will be created on the same texture
          * @returns the cloned control
@@ -1737,18 +1773,21 @@ declare module BABYLON.GUI {
          * Parses a serialized object into this control
          * @param serializedObject the object with the serialized properties
          * @param host the texture where the control will be instantiated. Can be empty, in which case the control will be created on the same texture
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @returns this control
          */
-        parse(serializedObject: any, host?: AdvancedDynamicTexture): Control;
+        parse(serializedObject: any, host?: AdvancedDynamicTexture, urlRewriter?: (url: string) => string): Control;
         /**
          * Serializes the current control
          * @param serializationObject defined the JSON serialized object
+         * @param force if the control should be serialized even if the isSerializable flag is set to false (default false)
+         * @param allowCanvas defines if the control is allowed to use a Canvas2D object to serialize (true by default)
          */
-        serialize(serializationObject: any): void;
+        serialize(serializationObject: any, force?: boolean, allowCanvas?: boolean): void;
         /**
          * @internal
          */
-        _parseFromContent(serializedObject: any, host: AdvancedDynamicTexture): void;
+        _parseFromContent(serializedObject: any, host: AdvancedDynamicTexture, urlRewriter?: (url: string) => string): void;
         /** Releases associated resources */
         dispose(): void;
         private static _HORIZONTAL_ALIGNMENT_LEFT;
@@ -1773,7 +1812,7 @@ declare module BABYLON.GUI {
         /**
          * @internal
          */
-        static _GetFontOffset(font: string): {
+        static _GetFontOffset(font: string, engineToUse?: BABYLON.AbstractEngine): {
             ascent: number;
             height: number;
             descent: number;
@@ -1782,9 +1821,10 @@ declare module BABYLON.GUI {
          * Creates a Control from parsed data
          * @param serializedObject defines parsed data
          * @param host defines the hosting AdvancedDynamicTexture
+         * @param urlRewriter defines an url rewriter to update urls before sending them to the controls
          * @returns a new Control
          */
-        static Parse(serializedObject: any, host: AdvancedDynamicTexture): Control;
+        static Parse(serializedObject: any, host: AdvancedDynamicTexture, urlRewriter?: (url: string) => string): Control;
         static AddHeader: (control: Control, text: string, size: string | number, options: {
             isHorizontal: boolean;
             controlFirst: boolean;
@@ -1792,7 +1832,7 @@ declare module BABYLON.GUI {
         /**
          * @internal
          */
-        protected static drawEllipse(x: number, y: number, width: number, height: number, context: BABYLON.ICanvasRenderingContext): void;
+        protected static drawEllipse(x: number, y: number, width: number, height: number, arc: number, context: BABYLON.ICanvasRenderingContext): void;
         /**
          * Returns true if the control is ready to be used
          * @returns
@@ -1861,6 +1901,10 @@ declare module BABYLON.GUI {
         /** Gets or sets border thickness */
         get thickness(): number;
         set thickness(value: number);
+        private _arc;
+        /** Gets or sets arcing of the ellipse (ratio of the circumference between 0 and 1) */
+        get arc(): number;
+        set arc(value: number);
         /**
          * Creates a new Ellipse
          * @param name defines the control name
@@ -1918,7 +1962,7 @@ declare module BABYLON.GUI {
          */
         _onPointerDown(target: Control, coordinates: BABYLON.Vector2, pointerId: number, buttonIndex: number, pi: BABYLON.PointerInfoBase): boolean;
         /** @internal */
-        displose(): void;
+        dispose(): void;
     }
 
 
@@ -1985,7 +2029,9 @@ declare module BABYLON.GUI {
         /**
          * If there are any changes or the context changed, regenerate the canvas gradient object. Else,
          * reuse the existing gradient.
-         **/
+         * @param context the context to create the gradient from
+         * @returns the canvas gradient
+         */
         getCanvasGradient(context: BABYLON.ICanvasRenderingContext): CanvasGradient;
         /**
          * Adds a new color stop to the gradient.
@@ -2002,13 +2048,23 @@ declare module BABYLON.GUI {
          * Removes all color stops from the gradient
          */
         clearColorStops(): void;
-        /** Color stops of the gradient */
+        /**
+         * Color stops of the gradient
+         */
         get colorStops(): GradientColorStop[];
-        /** Type of the gradient */
+        /**
+         * @returns Type of the gradient
+         */
         getClassName(): string;
-        /** Serialize into a json object */
+        /**
+         * Serialize into a json object
+         * @param serializationObject object to serialize into
+         */
         serialize(serializationObject: any): void;
-        /** Parse from json object */
+        /**
+         * Parse from json object
+         * @param serializationObject object to parse from
+         */
         parse(serializationObject: any): void;
     }
 
@@ -2246,8 +2302,9 @@ declare module BABYLON.GUI {
         /**
          * Serializes the current control
          * @param serializationObject defined the JSON serialized object
+         * @param force force serialization even if isSerializable === false
          */
-        serialize(serializationObject: any): void;
+        serialize(serializationObject: any, force: boolean): void;
         /**
          * @internal
          */
@@ -2415,7 +2472,8 @@ declare module BABYLON.GUI {
         set source(value: BABYLON.Nullable<string>);
         /**
          * Checks for svg document with icon id present
-         * @param value
+         * @param value the source svg
+         * @returns the svg
          */
         private _svgCheck;
         /**
@@ -2523,6 +2581,8 @@ declare module BABYLON.GUI {
         private _startHighlightIndex;
         private _endHighlightIndex;
         private _cursorIndex;
+        private _outlineWidth;
+        private _outlineColor;
         protected _onFocusSelectAll: boolean;
         protected _isPointerDown: boolean;
         protected _onClipboardObserver: BABYLON.Nullable<BABYLON.Observer<BABYLON.ClipboardInfo>>;
@@ -2533,6 +2593,16 @@ declare module BABYLON.GUI {
         promptMessage: string;
         /** Force disable prompt on mobile device */
         disableMobilePrompt: boolean;
+        /**
+         * Gets or sets outlineWidth of the text to display
+         */
+        get outlineWidth(): number;
+        set outlineWidth(value: number);
+        /**
+         * Gets or sets outlineColor of the text to display
+         */
+        get outlineColor(): string;
+        set outlineColor(value: string);
         /** BABYLON.Observable raised when the text changes */
         onTextChangedObservable: BABYLON.Observable<InputText>;
         /** BABYLON.Observable raised just before an entered character is to be added */
@@ -2541,9 +2611,9 @@ declare module BABYLON.GUI {
         onFocusObservable: BABYLON.Observable<InputText>;
         /** BABYLON.Observable raised when the control loses the focus */
         onBlurObservable: BABYLON.Observable<InputText>;
-        /**Observable raised when the text is highlighted */
+        /** BABYLON.Observable raised when the text is highlighted */
         onTextHighlightObservable: BABYLON.Observable<InputText>;
-        /**Observable raised when copy event is triggered */
+        /** BABYLON.Observable raised when copy event is triggered */
         onTextCopyObservable: BABYLON.Observable<InputText>;
         /** BABYLON.Observable raised when cut event is triggered */
         onTextCutObservable: BABYLON.Observable<InputText>;
@@ -2607,6 +2677,7 @@ declare module BABYLON.GUI {
         get text(): string;
         set text(value: string);
         protected _textHasChanged(): void;
+        protected _applyStates(context: BABYLON.ICanvasRenderingContext): void;
         /** Gets or sets control width */
         get width(): string | number;
         set width(value: string | number);
@@ -2685,10 +2756,9 @@ declare module BABYLON.GUI {
         name?: string | undefined;
         private _textHorizontalAlignment;
         private _textVerticalAlignment;
+        private _prevText;
         private _lines;
         private _lineSpacing;
-        private _outlineWidth;
-        private _outlineColor;
         private _maxHeight;
         private _clipTextTop;
         private _clipTextLeft;
@@ -2707,22 +2777,6 @@ declare module BABYLON.GUI {
         private _availableHeight;
         private _scrollTop;
         private _autoStretchHeight;
-        /**
-         * Gets or sets outlineWidth of the text to display
-         */
-        get outlineWidth(): number;
-        /**
-         * Gets or sets outlineWidth of the text to display
-         */
-        set outlineWidth(value: number);
-        /**
-         * Gets or sets outlineColor of the text to display
-         */
-        get outlineColor(): string;
-        /**
-         * Gets or sets outlineColor of the text to display
-         */
-        set outlineColor(value: string);
         /** Gets or sets a boolean indicating if the control can auto stretch its height to adapt to the text */
         get autoStretchHeight(): boolean;
         set autoStretchHeight(value: boolean);
@@ -2771,6 +2825,7 @@ declare module BABYLON.GUI {
          * @internal
          */
         protected _preMeasure(parentMeasure: Measure, context: BABYLON.ICanvasRenderingContext): void;
+        protected _textHasChanged(): void;
         private _computeScroll;
         /**
          * Processing of child after the parent measurement update
@@ -2802,7 +2857,6 @@ declare module BABYLON.GUI {
         protected _onPasteText(ev: ClipboardEvent): void;
         _draw(context: BABYLON.ICanvasRenderingContext): void;
         private _resetBlinking;
-        protected _applyStates(context: BABYLON.ICanvasRenderingContext): void;
         _onPointerDown(target: Control, coordinates: BABYLON.Vector2, pointerId: number, buttonIndex: number, pi: BABYLON.PointerInfoBase): boolean;
         _onPointerMove(target: Control, coordinates: BABYLON.Vector2, pointerId: number, pi: BABYLON.PointerInfoBase): void;
         /**
@@ -3833,11 +3887,14 @@ declare module BABYLON.GUI {
         protected _preMeasure(parentMeasure: Measure, context: BABYLON.ICanvasRenderingContext): void;
         protected _additionalProcessing(parentMeasure: Measure, context: BABYLON.ICanvasRenderingContext): void;
         protected _postMeasure(): void;
+        private _getManualDim;
+        isDimensionFullyDefined(dim: "width" | "height"): boolean;
         /**
          * Serializes the current control
          * @param serializationObject defined the JSON serialized object
+         * @param force force serialization even if isSerializable === false
          */
-        serialize(serializationObject: any): void;
+        serialize(serializationObject: any, force: boolean): void;
         /**
          * @internal
          */
@@ -4040,6 +4097,7 @@ declare module BABYLON.GUI {
         protected _parseLineWordWrapEllipsis(line: string | undefined, width: number, height: number, context: BABYLON.ICanvasRenderingContext): object[];
         protected _renderLines(context: BABYLON.ICanvasRenderingContext): void;
         private _computeHeightForLinesOf;
+        isDimensionFullyDefined(dim: "width" | "height"): boolean;
         /**
          * Given a width constraint applied on the text block, find the expected height
          * @returns expected height
@@ -4817,6 +4875,7 @@ declare module BABYLON.GUI {
         /**
          * Creates a new button
          * @param name defines the control name
+         * @param options defines the options used to create the button
          */
         constructor(name?: string, options?: IButton3DCreationOptions);
         /**
@@ -5054,7 +5113,7 @@ declare module BABYLON.GUI {
          */
         linkToTransformNode(node: BABYLON.Nullable<BABYLON.TransformNode>): Control3D;
         /**
-         * @internal*
+         * @internal
          */
         _prepareNode(scene: BABYLON.Scene): void;
         protected _injectGUI3DReservedDataStore(node: BABYLON.TransformNode): any;
@@ -5378,7 +5437,7 @@ declare module BABYLON.GUI {
         private _attachContentPlateBehavior;
         protected _affectMaterial(mesh: BABYLON.AbstractMesh): void;
         /**
-         * @internal*
+         * @internal
          */
         _prepareNode(scene: BABYLON.Scene): void;
         /**
@@ -5749,6 +5808,18 @@ declare module BABYLON.GUI {
          * Gets the slider backplate material used by this control
          */
         get sliderBackplateMaterial(): MRDLBackplateMaterial;
+        /**
+         * Gets the slider bar mesh used by this control
+         */
+        get sliderBar(): BABYLON.AbstractMesh;
+        /**
+         * Gets the slider thumb mesh used by this control
+         */
+        get sliderThumb(): BABYLON.AbstractMesh;
+        /**
+         * Gets the slider backplate mesh used by this control
+         */
+        get sliderBackplate(): BABYLON.AbstractMesh;
         /** Sets a boolean indicating if the control is visible */
         set isVisible(value: boolean);
         protected _createNode(scene: BABYLON.Scene): BABYLON.TransformNode;
@@ -6018,8 +6089,8 @@ declare module BABYLON.GUI {
         /**
          * This method should not be used directly. It is inherited from `Container3D`.
          * Please use `addButton` instead.
-         * @param _control
-         * @returns
+         * @param _control the control to add
+         * @returns the current container
          */
         addControl(_control: Control3D): Container3D;
         /**
