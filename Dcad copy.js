@@ -1,9 +1,9 @@
 
-/* (async function () {
+(async function () {
     if (!navigator.gpu) {
         alert("Web GPU is not supported on your platform so far.");
         return;
-    } */
+    }
 
     class Nvl {
         constructor(nmr, lbl, bln, sbl) {
@@ -498,10 +498,10 @@
 
 
     const canvas = document.getElementById("Vue0");
-    const engine = new BABYLON.Engine(canvas, true);
-    //const engine = new BABYLON.WebGPUEngine(canvas);
-    //await engine.initAsync();
-    const createScene =  function () {
+    //const engine = new BABYLON.Engine(canvas, true);
+    const engine = new BABYLON.WebGPUEngine(canvas);
+    await engine.initAsync();
+    const createScene = async function () {
         
         const scene = new BABYLON.Scene(engine);
         var camera = new BABYLON.ArcRotateCamera("camera", ca, 16 * PI / 32, cz, new BABYLON.Vector3(0, 5, 0), scene);
@@ -929,7 +929,7 @@
 
         return scene;
     };
-    const scene =  createScene();
+    const scene = await createScene();
 
 
 
@@ -952,7 +952,7 @@
         //console.log(this.outerWidth);
         //console.log(this.outerHeight);
     });
-//})();
+})();
 window.addEventListener("focusin", (event) => {
     fcs = 1;
     //console.log(fcs);
